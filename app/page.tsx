@@ -38,6 +38,7 @@ const projects = [
     tags: ['Regressão', 'VIF'],
     icon: Sparkles,
     accent: 'violet',
+    href: '/e-xplainenade',
   },
   {
     name: 'EduCluster',
