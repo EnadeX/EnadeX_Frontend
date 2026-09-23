@@ -86,6 +86,30 @@ export function getRelatorioAssociacao() {
   return fetchJson<AssociacaoRow[]>('/api/multienade/relatorio-associacao')
 }
 
+export interface ShapRow {
+  feature: string
+  importancia_media: number
+}
+
+// Endpoint novo — só existe depois que o backend rodar a persistência de SHAP
+// (ver instruções da conversa). Falha graciosamente se a tabela ainda não existir.
+export function getRelatorioShap() {
+  return fetchJson<ShapRow[]>('/api/multienade/relatorio-shap')
+}
+
+// Nomes legíveis para as colunas técnicas do modelo, na mesma ordem de importância do SHAP.
+export const LABELS_FEATURE: Record<string, string> = {
+  QE_I23_ordinal: 'Dedicação aos estudos (QE_I23)',
+  QE_I15_A: 'Não cotista (QE_I15_A)',
+  QE_I15_B: 'Cota étnico-racial (QE_I15_B)',
+  QE_I15_C: 'Cota por renda (QE_I15_C)',
+  QE_I15_D: 'Cota escola pública/bolsa (QE_I15_D)',
+  QE_I15_E: 'Cota combinada (QE_I15_E)',
+  QE_I15_F: 'Outro sistema de cotas (QE_I15_F)',
+  QE_I57: 'Domínio docente (QE_I57)',
+  QE_I63: 'Infraestrutura prática (QE_I63)',
+}
+
 // ---------- Métricas de regressão calculadas no cliente ----------
 // Não existem colunas de R²/MAE/RMSE nas tabelas; calculamos a partir
 // de NT_GER (real) vs NT_GER_PREVISTA (previsto pelo modelo).

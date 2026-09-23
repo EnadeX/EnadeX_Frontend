@@ -2,35 +2,47 @@
 
 import {
   BarChart3,
-  ChevronDown,
   Database,
   Download,
-  Filter,
-  Info,
   Network,
   Play,
   RotateCcw,
   Sparkles,
   TrendingUp,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   type RegressaoRow,
   type ClusterRow,
   type AssociacaoRow,
+  type ShapRow,
   getRelatorioRegressao,
   getRelatorioCluster,
   getRelatorioAssociacao,
+  getRelatorioShap,
   calcularMetricasRegressao,
+  LABELS_FEATURE,
 } from '@/lib/multienade/api'
 
 type Tab = 'Supervisionada' | 'Clusters' | 'Regras de associação' | 'Evolução temporal'
+type VariavelCor = 'infraestrutura' | 'cotas'
 
-const CLUSTER_COLORS = ['#155eef', '#00a56e', '#f59e0b']
+const CLUSTER_PALETTE = ['#155eef', '#00a56e', '#f59e0b', '#a855f7', '#ef4444', '#14b8a6']
+
+const CORES_CATEGORIA: Record<VariavelCor, Record<string, string>> = {
+  infraestrutura: {
+    'Adequada/Excelente': '#023e8a',
+    'Regular/Insuficiente': '#f77f00',
+  },
+  cotas: {
+    'Maioria Ampla Concorr.': '#2a9d8f',
+    'Maioria Cotistas': '#e76f51',
+  },
+}
 
 export default function MultiEnadePage() {
   const [activeTab, setActiveTab] = useState<Tab>('Supervisionada')
-  const [year, setYear] = useState('2021')
+  const [variavelCor, setVariavelCor] = useState<VariavelCor>('infraestrutura')
 
   const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'ready'>('idle')
   const [erro, setErro] = useState<string | null>(null)
@@ -38,6 +50,8 @@ export default function MultiEnadePage() {
   const [regressao, setRegressao] = useState<RegressaoRow[]>([])
   const [clusters, setClusters] = useState<ClusterRow[]>([])
   const [associacao, setAssociacao] = useState<AssociacaoRow[]>([])
+  const [shap, setShap] = useState<ShapRow[] | null>(null)
+  const [shapDisponivel, setShapDisponivel] = useState(true)
 
   async function carregarBase() {
     setStatus('loading')
@@ -55,22 +69,45 @@ export default function MultiEnadePage() {
     } catch (e) {
       setErro(e instanceof Error ? e.message : 'Erro desconhecido ao consultar a API.')
       setStatus('error')
+      return
+    }
+
+    // Busca do SHAP é isolada: se a tabela ainda não existir no backend, o resto da
+    // página continua funcionando normalmente e só o painel de SHAP fica com aviso.
+    try {
+      setShap(await getRelatorioShap())
+    } catch {
+      setShapDisponivel(false)
     }
   }
 
-  // Carrega automaticamente na primeira visita; o botão na sidebar permite recarregar.
   useEffect(() => {
     carregarBase()
   }, [])
 
   const metricas = calcularMetricasRegressao(regressao)
 
-  // Amostra os pontos do scatter para não desenhar milhares de círculos.
-  const pontosScatter = amostrar(regressao, 60)
-  const notaMin = 0
-  const notaMax = 100
-  const horasMin = 1
-  const horasMax = 4
+  const pontosClassificados = useMemo(
+    () => regressao.map((d) => ({ dados: d, ...classificar(d, variavelCor) })),
+    [regressao, variavelCor],
+  )
+  const pontosScatter = amostrar(pontosClassificados, 400)
+
+  // Domínio dos eixos: dedicação vai de 1 a 5 (mapeamento ordinal fixo); nota usa a
+  // faixa real observada na base, com uma margem, em vez de assumir 0–100.
+  const dedicacaoMin = 1
+  const dedicacaoMax = 5
+  const notasObservadas = regressao.map((d) => d.NT_GER)
+  const notaMin = notasObservadas.length ? Math.floor(Math.min(...notasObservadas) / 5) * 5 - 5 : 0
+  const notaMax = notasObservadas.length ? Math.ceil(Math.max(...notasObservadas) / 5) * 5 + 5 : 100
+
+  const reta = useMemo(
+    () => regressaoLinear(regressao.map((d) => ({ x: d.QE_I23_ordinal, y: d.NT_GER }))),
+    [regressao],
+  )
+
+  const shapOrdenado = shap ? [...shap].sort((a, b) => b.importancia_media - a.importancia_media) : []
+  const maiorShap = shapOrdenado[0]?.importancia_media ?? 1
 
   return (
     <main className="min-h-screen bg-[#f6f8fb] text-[#111827]">
@@ -96,7 +133,13 @@ export default function MultiEnadePage() {
 
       <div className="px-10 py-8">
         <div className="mb-5 flex items-center gap-2 text-xs text-[#8aa0c1]"><a href="/" className="hover:text-[#1d4ed8]">Home</a><span>/</span><span>Subprojetos</span><span>/</span><span className="text-[#2d4263]">MultiENADE</span></div>
-        <section className="flex items-end justify-between border-b border-[#dfe5ee] pb-9"><div><div className="flex items-center gap-3"><h1 className="text-[29px] font-bold tracking-tight">MultiENADE</h1><span className="rounded-lg border border-[#cfe0ff] bg-[#eef5ff] px-2.5 py-1 text-[11px] font-semibold text-[#155eef]">Descoberta de padrões</span></div><p className="mt-2 text-sm text-[#607494]">Descoberta de padrões multidimensionais em microdados do ENADE com apoio de inteligência explicável.</p></div><div className="flex items-center gap-2 text-xs text-[#607494]"><Database className="size-4 text-[#89a1c5]" /> Dataset: <strong className="text-[#2d4263]">Curado 2021</strong><span className="text-emerald-500">•</span></div></section>
+        <section className="flex items-end justify-between border-b border-[#dfe5ee] pb-9">
+          <div>
+            <div className="flex items-center gap-3"><h1 className="text-[29px] font-bold tracking-tight">MultiENADE</h1><span className="rounded-lg border border-[#cfe0ff] bg-[#eef5ff] px-2.5 py-1 text-[11px] font-semibold text-[#155eef]">Descoberta de padrões</span></div>
+            <p className="mt-2 text-sm text-[#607494]">Descoberta de padrões multidimensionais em microdados do ENADE com apoio de inteligência explicável.</p>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-[#607494]"><Database className="size-4 text-[#89a1c5]" /> Dataset: <strong className="text-[#2d4263]">ENADE 2021</strong></div>
+        </section>
 
         {status === 'error' && (
           <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -106,23 +149,18 @@ export default function MultiEnadePage() {
 
         <div className="mt-8 grid grid-cols-[280px_minmax(0,1fr)] gap-8">
           <aside className="rounded-2xl border border-[#dfe5ee] bg-white p-5 shadow-sm">
-            <div className="flex items-center justify-between"><h2 className="flex items-center gap-2 text-sm font-bold"><Filter className="size-4 text-[#155eef]" /> Filtros globais</h2><button className="text-[11px] text-[#8aa0c1]">Limpar</button></div>
-            <p className="mt-2 text-xs text-[#8aa0c1]">Defina o contexto da amostra</p>
-            <label className="mt-6 block text-xs font-semibold text-[#536987]">Ano
-              <select value={year} onChange={(e) => setYear(e.target.value)} className="mt-2 w-full rounded-xl border border-[#dfe5ee] bg-white px-3 py-3 text-sm font-normal outline-none focus:border-[#155eef]">
-                <option>2021</option><option>2019</option><option>2018</option><option>2017</option>
-              </select>
-            </label>
+            <h2 className="text-sm font-bold">Base de dados</h2>
+            <p className="mt-2 text-xs text-[#8aa0c1]">Microdados do ENADE 2021, já tratados e agregados por curso.</p>
             <button
               onClick={carregarBase}
               disabled={status === 'loading'}
               className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-[#1d4ed8] py-3 text-xs font-bold text-white shadow-sm transition hover:bg-[#1742ba] disabled:opacity-60"
             >
-              <Play className="size-3.5" /> {status === 'loading' ? 'Carregando…' : 'Carregar base'}
+              <Play className="size-3.5" /> {status === 'loading' ? 'Carregando…' : 'Recarregar dados'}
             </button>
             <div className="mt-5 flex justify-between border-t border-[#edf1f6] pt-5 text-[11px]">
-              <span className="text-[#8aa0c1]">Amostra selecionada</span>
-              <strong className="text-[#00a56e]">{status === 'ready' ? `${regressao.length.toLocaleString('pt-BR')} registros` : '—'}</strong>
+              <span className="text-[#8aa0c1]">Cursos na amostra</span>
+              <strong className="text-[#00a56e]">{status === 'ready' ? `${regressao.length.toLocaleString('pt-BR')}` : '—'}</strong>
             </div>
           </aside>
 
@@ -141,7 +179,7 @@ export default function MultiEnadePage() {
                 <div className="flex items-start justify-between py-6">
                   <div>
                     <h2 className="text-lg font-bold">Modelagem supervisionada & explicabilidade</h2>
-                    <p className="mt-1 text-xs text-[#8aa0c1]">Regressão e métricas de desempenho calculadas a partir da nota real vs. prevista.</p>
+                    <p className="mt-1 text-xs text-[#8aa0c1]">Peso da dedicação aos estudos sobre a nota, e métricas de desempenho do modelo.</p>
                   </div>
                   <button onClick={carregarBase} className="flex items-center gap-2 rounded-xl border border-[#dfe5ee] bg-white px-3 py-2 text-xs font-semibold text-[#536987]"><RotateCcw className="size-3.5" /> Atualizar análise</button>
                 </div>
@@ -161,37 +199,65 @@ export default function MultiEnadePage() {
                 </div>
 
                 <div className="mt-5 rounded-2xl border border-[#dfe5ee] bg-white p-5 shadow-sm">
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between gap-4">
                     <div>
-                      <h3 className="text-sm font-bold">Nota real × Nota prevista</h3>
-                      <p className="mt-1 text-xs text-[#8aa0c1]">Cada ponto é um curso; quanto mais perto da diagonal, melhor a previsão</p>
+                      <h3 className="text-sm font-bold">Dedicação aos estudos × Nota geral</h3>
+                      <p className="mt-1 text-xs text-[#8aa0c1]">Cada ponto é um curso; a linha tracejada é a tendência geral (regressão linear)</p>
                     </div>
-                    <button aria-label="Mais informações" className="flex size-8 items-center justify-center rounded-lg border border-[#dfe5ee] text-[#8aa0c1]"><Info className="size-4" /></button>
+                    <div className="flex shrink-0 items-center gap-1 rounded-xl border border-[#dfe5ee] bg-[#f6f8fb] p-1 text-[11px] font-semibold">
+                      <button
+                        onClick={() => setVariavelCor('infraestrutura')}
+                        className={`rounded-lg px-3 py-1.5 transition ${variavelCor === 'infraestrutura' ? 'bg-white text-[#155eef] shadow-sm' : 'text-[#8aa0c1]'}`}
+                      >
+                        Infraestrutura (QE_I63)
+                      </button>
+                      <button
+                        onClick={() => setVariavelCor('cotas')}
+                        className={`rounded-lg px-3 py-1.5 transition ${variavelCor === 'cotas' ? 'bg-white text-[#155eef] shadow-sm' : 'text-[#8aa0c1]'}`}
+                      >
+                        Perfil de ingresso (QE_I15)
+                      </button>
+                    </div>
                   </div>
-                  <div className="relative mt-4 h-[290px] border-b border-l border-[#dbe6f7] bg-[linear-gradient(to_top,#f7faff_1px,transparent_1px),linear-gradient(to_right,#f7faff_1px,transparent_1px)] bg-[size:100%_25%,10%_100%]">
-                    <div className="absolute bottom-[-26px] left-1/2 text-[10px] text-[#8aa0c1]">Nota real (NT_GER)</div>
-                    <div className="absolute left-[-31px] top-1/2 -rotate-90 text-[10px] text-[#8aa0c1]">Nota prevista</div>
-                    {/* Diagonal de referência (previsto = real) desenhada em SVG para não depender
-                        da proporção do container — rotate() do CSS distorce em retângulos não-quadrados. */}
-                    <svg
-                      className="pointer-events-none absolute inset-0 size-full"
-                      viewBox="0 0 100 100"
-                      preserveAspectRatio="none"
-                    >
-                      <line x1="0" y1="100" x2="100" y2="0" stroke="#a8c8ff" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+
+                  <div className="relative mt-4 h-[340px] border-b border-l border-[#dbe6f7] bg-[linear-gradient(to_top,#f7faff_1px,transparent_1px),linear-gradient(to_right,#f7faff_1px,transparent_1px)] bg-[size:100%_25%,10%_100%]">
+                    <div className="absolute bottom-[-26px] left-1/2 -translate-x-1/2 text-[10px] text-[#8aa0c1]">Média de dedicação aos estudos (QE_I23, escala 1–5)</div>
+                    <div className="absolute left-[-8px] top-1/2 -translate-y-1/2 -rotate-90 text-[10px] text-[#8aa0c1]">Nota geral média (NT_GER)</div>
+
+                    <svg className="pointer-events-none absolute inset-0 size-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                      <line
+                        x1={escala(dedicacaoMin, dedicacaoMin, dedicacaoMax)}
+                        y1={100 - escala(reta.a + reta.b * dedicacaoMin, notaMin, notaMax)}
+                        x2={escala(dedicacaoMax, dedicacaoMin, dedicacaoMax)}
+                        y2={100 - escala(reta.a + reta.b * dedicacaoMax, notaMin, notaMax)}
+                        stroke="#2b2d42"
+                        strokeWidth="1"
+                        strokeDasharray="3 2"
+                        vectorEffect="non-scaling-stroke"
+                      />
                     </svg>
-                    {pontosScatter.map((d, index) => {
-                      const left = clamp(((d.NT_GER - notaMin) / (notaMax - notaMin)) * 100, 2, 98)
-                      const bottom = clamp(((d.NT_GER_PREVISTA - notaMin) / (notaMax - notaMin)) * 100, 2, 98)
-                      return (
-                        <span
-                          key={`${d.CO_CURSO}-${index}`}
-                          className="absolute size-3 -translate-x-1/2 translate-y-1/2 rounded-full border-2 border-white bg-[#4d88f5] shadow-[0_0_0_1px_#c7dcff]"
-                          style={{ left: `${left}%`, bottom: `${bottom}%` }}
-                          title={`Curso ${d.CO_CURSO}: real ${d.NT_GER.toFixed(1)}, previsto ${d.NT_GER_PREVISTA.toFixed(1)}`}
-                        />
-                      )
-                    })}
+
+                    {pontosScatter.map(({ dados: d, categoria, cor }, index) => (
+                      <span
+                        key={`${d.CO_CURSO}-${index}`}
+                        className="absolute size-2.5 -translate-x-1/2 translate-y-1/2 rounded-full border border-white/70"
+                        style={{
+                          left: `${clamp(escala(d.QE_I23_ordinal, dedicacaoMin, dedicacaoMax), 1, 99)}%`,
+                          bottom: `${clamp(escala(d.NT_GER, notaMin, notaMax), 1, 99)}%`,
+                          backgroundColor: cor,
+                        }}
+                        title={`Curso ${d.CO_CURSO}: dedicação ${d.QE_I23_ordinal.toFixed(1)}, nota ${d.NT_GER.toFixed(1)} — ${categoria}`}
+                      />
+                    ))}
+                  </div>
+
+                  <div className="mt-4 flex gap-5 text-[11px] text-[#607494]">
+                    {Object.entries(CORES_CATEGORIA[variavelCor]).map(([categoria, cor]) => (
+                      <span key={categoria} className="flex items-center gap-1.5">
+                        <i className="inline-block size-2.5 rounded-full" style={{ backgroundColor: cor }} />
+                        {categoria}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
@@ -199,43 +265,37 @@ export default function MultiEnadePage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="text-sm font-bold">Importância global (SHAP)</h3>
-                      <p className="mt-1 text-xs text-[#8aa0c1]">Ainda não disponível — depende de um export específico do pipeline de modelagem</p>
+                      <p className="mt-1 text-xs text-[#8aa0c1]">Impacto médio absoluto de cada fator na nota prevista</p>
                     </div>
-                    <Sparkles className="size-4 text-[#c7d2e3]" />
+                    <Sparkles className="size-4 text-[#155eef]" />
                   </div>
-                  <p className="mt-4 rounded-lg bg-[#f6f8fb] px-3 py-4 text-center text-xs text-[#8aa0c1]">Em breve, assim que os valores SHAP forem exportados junto com o modelo.</p>
+
+                  {!shapDisponivel && (
+                    <p className="mt-4 rounded-lg bg-[#f6f8fb] px-3 py-4 text-center text-xs text-[#8aa0c1]">
+                      Ainda não disponível — o pipeline de treino precisa persistir os valores SHAP numa tabela (ver instruções de backend).
+                    </p>
+                  )}
+
+                  {shapDisponivel && shapOrdenado.length > 0 && (
+                    <div className="mt-5 flex flex-col gap-3">
+                      {shapOrdenado.map((s) => (
+                        <div key={s.feature}>
+                          <div className="flex justify-between text-[11px] text-[#536987]">
+                            <span>{LABELS_FEATURE[s.feature] ?? s.feature}</span>
+                            <strong>{s.importancia_media.toFixed(2)}</strong>
+                          </div>
+                          <div className="mt-1.5 h-1.5 rounded-full bg-[#edf2f8]">
+                            <div className="h-full rounded-full bg-[#2463eb]" style={{ width: `${(s.importancia_media / maiorShap) * 100}%` }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </>
             )}
 
-            {activeTab === 'Clusters' && (
-              <div className="py-6">
-                <h2 className="text-lg font-bold">Agrupamento de perfis (K-Means)</h2>
-                <p className="mt-1 text-xs text-[#8aa0c1]">Projeção PCA dos {clusters.length.toLocaleString('pt-BR')} cursos, coloridos por cluster.</p>
-                <div className="relative mt-5 h-[360px] rounded-2xl border border-[#dfe5ee] bg-white p-4 shadow-sm">
-                  {amostrar(clusters, 200).map((c, index) => (
-                    <span
-                      key={`${c.CO_CURSO}-${index}`}
-                      className="absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                      style={{
-                        left: `${scalePca(c.PCA_X, clusters, 'PCA_X')}%`,
-                        top: `${scalePca(c.PCA_Y, clusters, 'PCA_Y')}%`,
-                        backgroundColor: CLUSTER_COLORS[c.Cluster_ID % CLUSTER_COLORS.length],
-                      }}
-                      title={`Curso ${c.CO_CURSO} — cluster ${c.Cluster_ID}`}
-                    />
-                  ))}
-                </div>
-                <div className="mt-4 flex gap-5 text-xs text-[#607494]">
-                  {[0, 1, 2].map((id) => (
-                    <span key={id} className="flex items-center gap-1.5">
-                      <i className="inline-block size-2.5 rounded-full" style={{ backgroundColor: CLUSTER_COLORS[id] }} />
-                      Cluster {id}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+            {activeTab === 'Clusters' && <ClustersTab clusters={clusters} />}
 
             {activeTab === 'Regras de associação' && (
               <div className="py-6">
@@ -280,6 +340,43 @@ export default function MultiEnadePage() {
   )
 }
 
+function ClustersTab({ clusters }: { clusters: ClusterRow[] }) {
+  const idsUnicos = useMemo(
+    () => Array.from(new Set(clusters.map((c) => c.Cluster_ID))).sort((a, b) => a - b),
+    [clusters],
+  )
+  const pontos = amostrar(clusters, 500)
+
+  return (
+    <div className="py-6">
+      <h2 className="text-lg font-bold">Agrupamento de perfis (K-Means)</h2>
+      <p className="mt-1 text-xs text-[#8aa0c1]">Projeção PCA dos {clusters.length.toLocaleString('pt-BR')} cursos, coloridos por cluster.</p>
+      <div className="relative mt-5 h-[400px] rounded-2xl border border-[#dfe5ee] bg-white p-4 shadow-sm">
+        {pontos.map((c, index) => (
+          <span
+            key={`${c.CO_CURSO}-${index}`}
+            className="absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/70"
+            style={{
+              left: `${scalePca(c.PCA_X, clusters, 'PCA_X')}%`,
+              top: `${scalePca(c.PCA_Y, clusters, 'PCA_Y')}%`,
+              backgroundColor: CLUSTER_PALETTE[c.Cluster_ID % CLUSTER_PALETTE.length],
+            }}
+            title={`Curso ${c.CO_CURSO} — cluster ${c.Cluster_ID}`}
+          />
+        ))}
+      </div>
+      <div className="mt-4 flex flex-wrap gap-5 text-xs text-[#607494]">
+        {idsUnicos.map((id) => (
+          <span key={id} className="flex items-center gap-1.5">
+            <i className="inline-block size-2.5 rounded-full" style={{ backgroundColor: CLUSTER_PALETTE[id % CLUSTER_PALETTE.length] }} />
+            Cluster {id}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function LayersIcon() {
   return <span className="inline-flex size-4 items-center justify-center text-[12px]">▱</span>
 }
@@ -288,8 +385,40 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
 
-// Reduz um array grande para no máximo `n` itens, distribuídos uniformemente,
-// para não desenhar milhares de elementos no DOM.
+function escala(valor: number, min: number, max: number) {
+  if (max === min) return 50
+  return ((valor - min) / (max - min)) * 100
+}
+
+// Classifica cada curso em uma das duas categorias, replicando a lógica de
+// preparar_dados_plotagem() do modelo_regressao.py.
+function classificar(d: RegressaoRow, variavel: VariavelCor): { categoria: string; cor: string } {
+  if (variavel === 'infraestrutura') {
+    const categoria = d.QE_I63 >= 4.0 ? 'Adequada/Excelente' : 'Regular/Insuficiente'
+    return { categoria, cor: CORES_CATEGORIA.infraestrutura[categoria] }
+  }
+  const categoria = d.QE_I15_A >= 0.5 ? 'Maioria Ampla Concorr.' : 'Maioria Cotistas'
+  return { categoria, cor: CORES_CATEGORIA.cotas[categoria] }
+}
+
+// Regressão linear simples (mínimos quadrados), equivalente ao sns.regplot do Python.
+function regressaoLinear(pontos: { x: number; y: number }[]): { a: number; b: number } {
+  const n = pontos.length
+  if (n === 0) return { a: 0, b: 0 }
+  const mediaX = pontos.reduce((s, p) => s + p.x, 0) / n
+  const mediaY = pontos.reduce((s, p) => s + p.y, 0) / n
+  let num = 0
+  let den = 0
+  for (const p of pontos) {
+    num += (p.x - mediaX) * (p.y - mediaY)
+    den += (p.x - mediaX) ** 2
+  }
+  const b = den === 0 ? 0 : num / den
+  const a = mediaY - b * mediaX
+  return { a, b }
+}
+
+// Reduz um array grande para no máximo `n` itens, distribuídos uniformemente.
 function amostrar<T>(dados: T[], n: number): T[] {
   if (dados.length <= n) return dados
   const passo = dados.length / n
