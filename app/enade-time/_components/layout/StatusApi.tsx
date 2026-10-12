@@ -16,7 +16,13 @@ export function StatusApi() {
 
   let estado: Estado = { texto: '● Verificando…', classe: NEUTRO }
   if (health.isSuccess && health.data.status === 'ok') {
-    estado = { texto: `● API conectada · v${health.data.version}`, classe: VERDE }
+    const fonte =
+      health.data.fonte === 'supabase'
+        ? ' · Supabase'
+        : health.data.fonte === 'local'
+          ? ' · local'
+          : ''
+    estado = { texto: `● API conectada · v${health.data.version}${fonte}`, classe: VERDE }
   } else if (health.isError) {
     const erro = health.error
     const status = erro instanceof EnadeTimeApiError ? erro.status : 0

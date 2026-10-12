@@ -10,6 +10,7 @@ const ABAS: TabItem[] = [
   { href: ROTAS.spdComparativo, label: 'Comparativo' },
   { href: ROTAS.spdExecucoes, label: 'Execuções' },
   { href: ROTAS.spdMetricas, label: 'Métricas' },
+  { href: ROTAS.spdCarga, label: 'Custo de publicação' },
 ]
 
 export function SpdTabs() {

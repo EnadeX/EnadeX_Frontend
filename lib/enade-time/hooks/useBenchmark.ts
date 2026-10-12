@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 import {
+  fetchCarga,
   fetchComparativo,
   fetchEtapas,
   fetchExecucao,
@@ -50,6 +51,14 @@ export function useComparativo(apenasValidas: boolean) {
   return useQuery({
     queryKey: ['enade-time', 'benchmark', 'comparativo', apenasValidas],
     queryFn: ({ signal }) => fetchComparativo(apenasValidas, signal),
+    staleTime: STALE,
+  })
+}
+
+export function useCarga() {
+  return useQuery({
+    queryKey: ['enade-time', 'benchmark', 'carga'],
+    queryFn: ({ signal }) => fetchCarga(signal),
     staleTime: STALE,
   })
 }

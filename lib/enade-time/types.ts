@@ -260,8 +260,49 @@ export interface BenchmarkComparativo {
   resumo?: ResumoConfiguracao[]
 }
 
+// ---------------------------------------------------------------------------
+// Eixo de carga (D17): custo de PUBLICAR a base num destino. Não é speedup.
+// ---------------------------------------------------------------------------
+
+export interface ResumoCarga {
+  estrategia: string
+  n: number
+  tempo_mediana: number
+  tempo_min: number
+  tempo_max: number
+  tempo_iqr: number
+  throughput_mediana: number
+  rtt_mediana_ms: number | null
+  bytes_payload: number | null
+  linhas_destino: number
+  md5_confere: boolean
+  host_destino: string | null
+  rede: string | null
+  inicio: string
+  fim: string
+}
+
+export interface RepeticaoCarga {
+  estrategia: string
+  repeticao: number
+  tempo_seg: number
+  rtt_ms: number | null
+}
+
+export interface CargaResposta {
+  carga_id: string | null
+  resumo: ResumoCarga[]
+  repeticoes: RepeticaoCarga[]
+  // medianas (s) da rodada imediatamente anterior, por estratégia
+  anterior?: Record<string, number>
+}
+
 export interface HealthStatus {
   status: string
   database: string
   version: string
+  // de onde a API está lendo e quando os dados foram publicados (ausentes em versões antigas)
+  fonte?: 'local' | 'supabase' | 'externo'
+  ultima_publicacao?: string | null
+  versao_dataset?: string | null
 }

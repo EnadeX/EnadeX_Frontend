@@ -18,6 +18,7 @@ export const ROTAS = {
   spdComparativo: `${BASE}/spd/comparativo`,
   spdExecucoes: `${BASE}/spd/execucoes`,
   spdMetricas: `${BASE}/spd/metricas`,
+  spdCarga: `${BASE}/spd/carga`,
   spdEtapasPrefixo: `${BASE}/spd/etapas/`,
   spdEtapas: (execucaoId: number | string) => `${BASE}/spd/etapas/${execucaoId}`,
 } as const

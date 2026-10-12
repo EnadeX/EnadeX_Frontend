@@ -10,6 +10,7 @@ import type {
   BenchmarkEtapa,
   BenchmarkExecucao,
   BenchmarkMetrica,
+  CargaResposta,
   CategoriaAdm,
   FiltrosAnalise,
   Grupo,
@@ -248,4 +249,8 @@ export function fetchComparativo(
     { apenas_validas: apenasValidas },
     signal,
   )
+}
+
+export function fetchCarga(signal?: AbortSignal): Promise<CargaResposta> {
+  return request<CargaResposta>('/benchmark/carga', undefined, signal)
 }
