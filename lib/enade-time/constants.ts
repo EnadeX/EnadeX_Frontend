@@ -10,6 +10,8 @@ export const CHART_COLORS = {
 
 export const PAGE_SIZE_OPTIONS = [10, 25, 50, 100, 250] as const
 
-// Limiar de amostra: abaixo deste n por ano/grupo, a estimativa é considerada
-// estatisticamente frágil e um alerta é exibido (Módulo 3 — Critério B).
+// Limiar de amostra: abaixo de 30 cursos por ano/grupo a média é considerada
+// estatisticamente frágil e um alerta é exibido (Módulo 3 — Critério B). A unidade
+// analítica é o curso-ano (as inscrições replicadas funcionam como peso), então o que
+// conta é o número de cursos, não o de inscrições (enade_time, DESIGN_LOG D16).
 export const LIMIAR_AMOSTRA = 30

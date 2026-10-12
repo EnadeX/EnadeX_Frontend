@@ -11,6 +11,7 @@ import {
 import { ErrorState } from '@/app/enade-time/_components/feedback/ErrorState'
 import { LoadingSpinner } from '@/app/enade-time/_components/feedback/LoadingSpinner'
 import { Card, CardHeader } from '@/app/enade-time/_components/ui/Card'
+import { tamanhoAmostra } from '@/lib/enade-time/amostra'
 import { LIMIAR_AMOSTRA } from '@/lib/enade-time/constants'
 import {
   exportarGraficoSVG,
@@ -114,8 +115,9 @@ export default function EnadeComparar() {
       [serieB, labelB],
     ] as const) {
       for (const p of serie) {
-        if (p.total_registros < LIMIAR_AMOSTRA) {
-          out.push({ grupo: label, nu_ano: p.nu_ano, n: p.total_registros })
+        const { n, unidade } = tamanhoAmostra(p)
+        if (n < LIMIAR_AMOSTRA) {
+          out.push({ grupo: label, nu_ano: p.nu_ano, n, unidade, inscricoes: p.total_registros })
         }
       }
     }
@@ -277,9 +279,9 @@ export default function EnadeComparar() {
                 <tr>
                   <th className={`${th} text-left`}>Ano</th>
                   <th className={`${th} text-right`}>{labelA} — GER</th>
-                  <th className={`${th} text-right`}>n ({labelA})</th>
+                  <th className={`${th} text-right`}>Cursos · inscrições ({labelA})</th>
                   <th className={`${th} text-right`}>{labelB} — GER</th>
-                  <th className={`${th} text-right`}>n ({labelB})</th>
+                  <th className={`${th} text-right`}>Cursos · inscrições ({labelB})</th>
                   <th className={`${th} text-right`}>Δ (A − B)</th>
                 </tr>
               </thead>
@@ -298,13 +300,13 @@ export default function EnadeComparar() {
                         {formatDecimal(a?.media_geral_ger ?? null, 2)}
                       </td>
                       <td className={`${td} text-right`}>
-                        {a ? formatInt(a.total_registros) : '—'}
+                        {a ? `${a.total_cursos ?? '—'} · ${formatInt(a.total_registros)}` : '—'}
                       </td>
                       <td className={`${td} text-right`}>
                         {formatDecimal(b?.media_geral_ger ?? null, 2)}
                       </td>
                       <td className={`${td} text-right`}>
-                        {b ? formatInt(b.total_registros) : '—'}
+                        {b ? `${b.total_cursos ?? '—'} · ${formatInt(b.total_registros)}` : '—'}
                       </td>
                       <td className={`${td} text-right font-medium`}>{formatDecimal(delta, 2)}</td>
                     </tr>

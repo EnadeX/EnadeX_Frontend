@@ -49,6 +49,7 @@ export interface FiltrosAnalise {
 export interface ResumoAnual {
   nu_ano: number
   total_registros: number
+  total_cursos?: number // cursos distintos; ausente em versões antigas da API
   media_geral: number | null
   media_min: number | null
   media_max: number | null
@@ -61,6 +62,7 @@ export interface ResumoRegiao {
   co_regiao: number
   nome: string
   total_registros: number
+  total_cursos?: number // cursos distintos; ausente em versões antigas da API
   media_geral: number | null
   media_min: number | null
   media_max: number | null
@@ -75,6 +77,7 @@ export interface ResumoUF {
   nome: string
   co_regiao: number
   total_registros: number
+  total_cursos?: number // cursos distintos; ausente em versões antigas da API
   media_geral: number | null
   media_min: number | null
   media_max: number | null
@@ -89,6 +92,7 @@ export interface ResumoIES {
   co_orgacad: number
   co_uf_curso: number
   total_registros: number
+  total_cursos?: number // cursos distintos; ausente em versões antigas da API
   media_geral: number | null
   media_geral_ger: number | null
   media_geral_ce: number | null

@@ -1,3 +1,4 @@
+import { rotuloAmostra, tamanhoAmostra } from '@/lib/enade-time/amostra'
 import type { ResumoAnual } from '@/lib/enade-time/types'
 
 // ---------------------------------------------------------------------------
@@ -48,11 +49,17 @@ function num(v: number | null | undefined): string {
 //    Colunas: ano;grupo;media_nt_ger;n_registros
 // ---------------------------------------------------------------------------
 export function exportarSerieCSV(dados: DadosComparacao): void {
-  const linhas: string[] = ['ano;grupo;media_nt_ger;n_registros']
+  const linhas: string[] = ['ano;grupo;media_nt_ger;n_registros;n_cursos']
   for (const g of [dados.grupoA, dados.grupoB]) {
     for (const ponto of g.serie) {
       linhas.push(
-        [ponto.nu_ano, g.label, num(ponto.media_geral_ger), ponto.total_registros].join(';'),
+        [
+          ponto.nu_ano,
+          g.label,
+          num(ponto.media_geral_ger),
+          ponto.total_registros,
+          num(ponto.total_cursos),
+        ].join(';'),
       )
     }
   }
@@ -156,16 +163,17 @@ export function gerarRelatorioMarkdown(dados: DadosComparacao): string {
   const linhasTabela = anos.map((ano) => {
     const a = idxA.get(ano)
     const b = idxB.get(ano)
-    return `| ${ano} | ${fmt(a?.media_geral_ger ?? null)} | ${a?.total_registros ?? '—'} | ${fmt(b?.media_geral_ger ?? null)} | ${b?.total_registros ?? '—'} |`
+    return `| ${ano} | ${fmt(a?.media_geral_ger ?? null)} | ${a?.total_cursos ?? '—'} | ${a?.total_registros ?? '—'} | ${fmt(b?.media_geral_ger ?? null)} | ${b?.total_cursos ?? '—'} | ${b?.total_registros ?? '—'} |`
   })
 
   // alerta de amostra reduzida
   const alertas: string[] = []
   for (const g of [dados.grupoA, dados.grupoB]) {
     for (const p of g.serie) {
-      if (p.total_registros < dados.limiarAmostra) {
+      const { n, unidade } = tamanhoAmostra(p)
+      if (n < dados.limiarAmostra) {
         alertas.push(
-          `- ⚠️ **${g.label} / ${p.nu_ano}**: n = ${p.total_registros} (< ${dados.limiarAmostra}) — estimativa estatisticamente frágil.`,
+          `- ⚠️ **${g.label} / ${p.nu_ano}**: ${rotuloAmostra(n, unidade)} (< ${dados.limiarAmostra}), ${p.total_registros} inscrições — estimativa estatisticamente frágil.`,
         )
       }
     }
@@ -184,8 +192,8 @@ export function gerarRelatorioMarkdown(dados: DadosComparacao): string {
     ``,
     `## Série por ano e grupo`,
     ``,
-    `| Ano | ${dados.grupoA.label} (GER) | n (${dados.grupoA.label}) | ${dados.grupoB.label} (GER) | n (${dados.grupoB.label}) |`,
-    `|----:|---:|---:|---:|---:|`,
+    `| Ano | ${dados.grupoA.label} (GER) | cursos (${dados.grupoA.label}) | inscrições (${dados.grupoA.label}) | ${dados.grupoB.label} (GER) | cursos (${dados.grupoB.label}) | inscrições (${dados.grupoB.label}) |`,
+    `|----:|---:|---:|---:|---:|---:|---:|`,
     ...linhasTabela,
     ``,
     `## Interpretação automática`,
@@ -197,11 +205,12 @@ export function gerarRelatorioMarkdown(dados: DadosComparacao): string {
     ``,
     alertas.length > 0
       ? alertas.join('\n')
-      : `- Nenhum: todos os grupos/anos têm n ≥ ${dados.limiarAmostra}.`,
+      : `- Nenhum: todos os grupos/anos têm pelo menos ${dados.limiarAmostra} cursos.`,
     ``,
     `---`,
     `*Relatório automático gerado pelo dashboard ENADE-Time. Métrica: média da`,
-    `Nota Geral (NT GER) por ano e grupo. n = total de registros do grupo no ano.*`,
+    `Nota Geral (NT GER) por ano e grupo. A unidade de análise é o curso (n = cursos distintos`,
+    `do grupo no ano); as inscrições entram como peso nas médias.*`,
     ``,
   ].join('\n')
 }
