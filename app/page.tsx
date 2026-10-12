@@ -55,6 +55,7 @@ const projects = [
     tags: ['Séries históricas', '2017–2021'],
     icon: LineChart,
     accent: 'amber',
+    href: '/enade-time',
   },
 ]
 
