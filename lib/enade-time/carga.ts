@@ -47,7 +47,9 @@ export function leituraCarga(c: CargaResposta): string[] {
   if (!ref) return []
   const s = (v: number) => formatSeconds(v)
   const ms = (v: number | null | undefined) => (v == null ? '—' : decimal1Fmt.format(v))
-  const anterior = c.anterior ?? {}
+  const paresAnteriores = (c.anteriores ?? []).filter(
+    (a) => a.copy_local != null && a.copy_pooler != null,
+  )
   const paragrafos = [
     `Cada repetição carrega as ${formatInt(ref.linhas_destino)} linhas numa tabela vazia e dedicada ` +
       `(${formatInt(ref.bytes_payload)} bytes), com o TRUNCATE por conexão direta fora do tempo medido e o md5 do ` +
@@ -67,11 +69,18 @@ export function leituraCarga(c: CargaResposta): string[] {
       `Supabase, ${s(po.tempo_mediana)}, com RTT mediano de ${ms(lo.rtt_mediana_ms)} ms e ` +
       `${ms(po.rtt_mediana_ms)} ms${razao ? ` (cerca de ${razao} vezes maior na nuvem)` : ''}. ` +
       `O IQR foi de ${s(lo.tempo_iqr)} no local e de ${s(po.tempo_iqr)} na nuvem.`
-    if (anterior.copy_local != null && anterior.copy_pooler != null) {
+    if (paresAnteriores.length > 0) {
+      const quando =
+        paresAnteriores.length === 1
+          ? 'uma rodada anterior'
+          : `${paresAnteriores.length} rodadas anteriores`
+      const lista = paresAnteriores
+        .map((a) => `${s(a.copy_local)} e ${s(a.copy_pooler)}`)
+        .join('; ')
       texto +=
-        ` Em outra rodada, feita antes com o mesmo protocolo, as medianas foram ${s(anterior.copy_local)} e ` +
-        `${s(anterior.copy_pooler)}: a distância entre o local e a nuvem varia de uma rodada para a outra com a ` +
-        `rede, e é por isso que o resultado vale como medição situada.`
+        ` Em ${quando}, com o mesmo protocolo para estas duas estratégias, as medianas do COPY local e do COPY ` +
+        `pelo pooler foram ${lista}: o nível dos tempos e a distância entre o local e a nuvem mudam de uma rodada ` +
+        `para a outra com a rede e a carga da máquina, e é por isso que o resultado vale como medição situada.`
     }
     paragrafos.push(texto)
     const doPooler = c.repeticoes.filter((x) => x.estrategia === 'copy_pooler')
@@ -118,7 +127,27 @@ export function leituraCarga(c: CargaResposta): string[] {
       'validação em bloco evita um gatilho por linha) reduziria o custo de uma republicação.'
     paragrafos.push(texto)
   }
-  if (!r.upsert_postgrest) {
+  const up = r.upsert_postgrest
+  if (up) {
+    let texto =
+      `O upsert em lotes de 2.000 linhas pelo PostgREST (util_db do grupo, com a chave pública) levou ` +
+      `${s(up.tempo_mediana)} de mediana, com IQR de ${s(up.tempo_iqr)} e RTT mediano de ` +
+      `${ms(up.rtt_mediana_ms)} ms`
+    if (po && po.tempo_mediana) {
+      texto += `, cerca de ${decimal1Fmt.format(up.tempo_mediana / po.tempo_mediana)} vezes o COPY pelo pooler`
+    }
+    texto +=
+      '. São 13 requisições HTTP em sequência, cada uma com a ida e volta da rede e a manutenção da ' +
+      'estrutura no servidor; como não há controle sem estrutura para o upsert, estas medições não ' +
+      'separam uma coisa da outra.'
+    paragrafos.push(texto)
+    paragrafos.push(
+      'Para o md5 bater, as três colunas decimais da fato vão como texto já arredondado a 4 casas. ' +
+        'Como número, os valores que são empate exato na 5ª casa (12 na base atual) seriam ' +
+        'arredondados para cima pelo PostgreSQL, enquanto o COPY da etapa 06 (`%.4f` do Python) ' +
+        'vai para o par: a tabela sairia 0,0001 acima do COPY nessas médias.',
+    )
+  } else {
     paragrafos.push(
       'O upsert em lotes pelo PostgREST (util_db do grupo) não foi medido nesta rodada: exige SUPABASE_URL e ' +
         'SUPABASE_KEY públicas na máquina da medição.',

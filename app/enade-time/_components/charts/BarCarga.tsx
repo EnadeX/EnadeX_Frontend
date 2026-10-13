@@ -31,7 +31,9 @@ export function BarCarga({ data }: { data: ResumoCarga[] }) {
       ? CHART_COLORS.seq
       : r.estrategia === 'copy_local'
         ? CHART_COLORS.paralelo
-        : CHART_COLORS.paralelo2,
+        : r.estrategia === 'upsert_postgrest'
+          ? CHART_COLORS.warn
+          : CHART_COLORS.paralelo2,
   }))
 
   return (

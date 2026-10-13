@@ -293,8 +293,8 @@ export interface CargaResposta {
   carga_id: string | null
   resumo: ResumoCarga[]
   repeticoes: RepeticaoCarga[]
-  // medianas (s) da rodada imediatamente anterior, por estratégia
-  anterior?: Record<string, number>
+  // medianas (s) das rodadas anteriores, mais recente primeiro, por estratégia
+  anteriores?: Record<string, number>[]
 }
 
 export interface HealthStatus {
