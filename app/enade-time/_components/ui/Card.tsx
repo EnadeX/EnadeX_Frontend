@@ -17,10 +17,10 @@ export function CardHeader({
   action?: ReactNode
 }) {
   return (
-    <div className="mb-4 flex items-start justify-between gap-4">
-      <div>
-        <h3 className="text-sm font-bold text-[#111827]">{title}</h3>
-        {description && <p className="mt-1 text-xs leading-5 text-[#5f7393]">{description}</p>}
+    <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
+      <div className="min-w-0 break-words">
+        <h3 className="text-h3 text-ink">{title}</h3>
+        {description && <p className="mt-1 text-small text-ink-muted">{description}</p>}
       </div>
       {action}
     </div>

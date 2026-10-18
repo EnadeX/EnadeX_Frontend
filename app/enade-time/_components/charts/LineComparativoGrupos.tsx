@@ -12,7 +12,6 @@ import {
 } from 'recharts'
 
 import { EIXO, GRID_COLOR, TOOLTIP_STYLE, fmtTooltip } from '@/lib/enade-time/chart'
-import { CHART_COLORS } from '@/lib/enade-time/constants'
 import { formatDecimal } from '@/lib/enade-time/format'
 import type { ResumoAnual } from '@/lib/enade-time/types'
 
@@ -60,7 +59,7 @@ export function LineComparativoGrupos({
           type="monotone"
           dataKey="ger_a"
           name={labelA}
-          stroke={CHART_COLORS.paralelo}
+          stroke="var(--series-1)"
           strokeWidth={2.5}
           dot={{ r: 4 }}
           connectNulls
@@ -69,7 +68,7 @@ export function LineComparativoGrupos({
           type="monotone"
           dataKey="ger_b"
           name={labelB}
-          stroke={CHART_COLORS.warn}
+          stroke="var(--series-2)"
           strokeWidth={2.5}
           dot={{ r: 4 }}
           connectNulls

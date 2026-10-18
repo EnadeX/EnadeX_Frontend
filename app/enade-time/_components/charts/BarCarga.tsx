@@ -52,7 +52,7 @@ export function BarCarga({ data }: { data: ResumoCarga[] }) {
           {chart.map((d, i) => (
             <Cell key={i} fill={d.cor} />
           ))}
-          <ErrorBar dataKey="erro" width={6} strokeWidth={1.5} stroke="#0f172a" />
+          <ErrorBar dataKey="erro" width={6} strokeWidth={1.5} stroke="var(--ink)" />
         </Bar>
       </BarChart>
     </ResponsiveContainer>

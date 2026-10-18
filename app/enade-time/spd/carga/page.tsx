@@ -26,16 +26,16 @@ export default function SpdCusto() {
         return (
           <>
             <Card>
-              <div className="flex items-start gap-3 text-xs leading-6 text-[#536987]">
-                <Database className="mt-0.5 size-5 shrink-0 text-[#5f7393]" aria-hidden />
+              <div className="flex items-start gap-3 text-small text-ink-muted">
+                <Database className="mt-0.5 size-5 shrink-0 text-ink-muted" aria-hidden />
                 <div>
-                  <h3 className="text-sm font-bold text-[#111827]">
+                  <h3 className="text-h3 text-ink">
                     Custo de publicar a base: local × nuvem
                   </h3>
                   <p className="mt-1">
                     Medição à parte do experimento de paralelismo: quanto custa carregar as{' '}
                     {formatInt(linhas[0].linhas_destino)} linhas num destino vazio. Mediana e
-                    variação entre {linhas[0].n} repetições; <strong>não é speedup</strong> e não se
+                    variação entre {linhas[0].n} repetições; <strong className="font-medium">não é speedup</strong> e não se
                     compara com a aba Comparativo.
                   </p>
                 </div>
@@ -79,7 +79,7 @@ export default function SpdCusto() {
                           )}
                         </td>
                         <td className={`${td} text-right`}>{r.n}</td>
-                        <td className={`${td} text-right font-semibold`}>
+                        <td className={`${td} text-right font-medium`}>
                           {formatSeconds(r.tempo_mediana)}
                         </td>
                         <td className={`${td} whitespace-nowrap text-right`}>
@@ -106,9 +106,9 @@ export default function SpdCusto() {
 
             <Card>
               <div className="flex items-start gap-3">
-                <Info className="mt-0.5 size-5 shrink-0 text-[#5f7393]" aria-hidden />
-                <div className="space-y-2 text-xs leading-6 text-[#536987]">
-                  <h3 className="text-sm font-bold text-[#111827]">Como ler</h3>
+                <Info className="mt-0.5 size-5 shrink-0 text-ink-muted" aria-hidden />
+                <div className="space-y-2 text-small text-ink-muted">
+                  <h3 className="text-h3 text-ink">Como ler</h3>
                   {leituraCarga(data).map((paragrafo) => (
                     <p key={paragrafo.slice(0, 40)}>{paragrafo}</p>
                   ))}

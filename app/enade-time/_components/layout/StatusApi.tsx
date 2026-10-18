@@ -6,10 +6,11 @@ import { cn } from '@/lib/utils'
 
 type Estado = { texto: string; classe: string }
 
-const NEUTRO = 'border-slate-200 bg-slate-50 text-slate-500'
-const VERDE = 'border-[#a7efd0] bg-[#f0fdf8] text-[#047857]'
-const LARANJA = 'border-[#fed7aa] bg-[#fff7ed] text-[#c2410c]'
-const VERMELHO = 'border-[#fecaca] bg-[#fef2f2] text-[#b91c1c]'
+// A barra do módulo é azul-marinho nos dois temas: o texto fica em ink-on-nav e o estado vem da cor da borda.
+const NEUTRO = 'border-ink-on-nav/40 text-ink-on-nav'
+const VERDE = 'border-success text-ink-on-nav'
+const LARANJA = 'border-warning text-ink-on-nav'
+const VERMELHO = 'border-danger text-ink-on-nav'
 
 export function StatusApi() {
   const health = useHealth()
@@ -35,7 +36,7 @@ export function StatusApi() {
     <span
       aria-live="polite"
       className={cn(
-        'inline-flex shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold',
+        'inline-flex min-w-0 rounded-marca-sm border px-2 py-1 text-caption font-medium sm:px-3 sm:text-small',
         estado.classe,
       )}
     >

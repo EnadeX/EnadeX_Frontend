@@ -18,9 +18,9 @@ export function Breadcrumb() {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="mb-5 flex flex-wrap items-center gap-2 text-xs text-[#5f7393]"
+      className="mb-5 flex flex-wrap items-center gap-2 text-small text-ink-muted"
     >
-      <a href={ROTAS.homeEnadex} className="hover:text-[#b45309]">
+      <a href={ROTAS.homeEnadex} className="hover:text-accent">
         Home
       </a>
       <span aria-hidden>/</span>
@@ -28,16 +28,16 @@ export function Breadcrumb() {
       <span aria-hidden>/</span>
       {secao ? (
         <>
-          <Link href={ROTAS.inicio} className="hover:text-[#b45309]">
+          <Link href={ROTAS.inicio} className="hover:text-accent">
             ENADE-Time
           </Link>
           <span aria-hidden>/</span>
-          <span aria-current="page" className="text-[#2d4263]">
+          <span aria-current="page" className="text-ink">
             {secao}
           </span>
         </>
       ) : (
-        <span aria-current="page" className="text-[#2d4263]">
+        <span aria-current="page" className="text-ink">
           ENADE-Time
         </span>
       )}

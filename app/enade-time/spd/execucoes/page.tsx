@@ -17,10 +17,10 @@ export default function SpdExecucoes() {
         title="Execuções de benchmark (histórico completo)"
         description="Cada linha é uma execução completa do pipeline ETL. Execuções de uma campanha trazem campanha, suíte, ordem de submissão, CPU média do sistema, bytes lidos do disco e a condição de cache; as marcadas 'oficial' compõem a campanha exibida no Comparativo. Rodadas antigas (sem campanha) permanecem no banco como histórico. Execuções listadas em BENCHMARK_IDS_EXCLUIR ficam ocultas por padrão."
         action={
-          <label className="flex shrink-0 items-center gap-2 text-xs font-semibold text-[#536987]">
+          <label className="flex shrink-0 items-center gap-2 text-small font-medium text-ink-muted">
             <input
               type="checkbox"
-              className="size-3.5 accent-[#b45309]"
+              className="size-3.5 accent-accent"
               checked={!apenasValidas}
               onChange={(e) => setApenasValidas(!e.target.checked)}
             />

@@ -13,7 +13,7 @@ export function LoadingSpinner({
     <div
       role="status"
       className={cn(
-        'flex items-center justify-center gap-2 py-6 text-sm text-[#5f7393]',
+        'flex items-center justify-center gap-2 py-6 text-body text-ink-muted',
         className,
       )}
     >

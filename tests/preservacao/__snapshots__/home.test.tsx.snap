@@ -1,0 +1,46 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`home: caracterização > lista de hrefs da página 1`] = `
+[
+  "#overview",
+  "#overview",
+  "#projects",
+  "#methodology",
+  "#documentation",
+  "https://github.com",
+  "#projects",
+  "#methodology",
+  "https://github.com",
+  "/multienade",
+  "/e-xplainenade",
+  "/educluster",
+  "/enade-time",
+]
+`;
+
+exports[`home: caracterização > os 4 cards dos subprojetos 1`] = `
+[
+  {
+    "href": "/multienade",
+    "nome": "MultiENADE",
+    "texto": "01 / 04Descoberta de padrõesMultiENADEExplora relações multidimensionais entre perfis socioeconômicos, instituições e desempenho acadêmico.Machine LearningSHAPAcessar módulo",
+  },
+  {
+    "href": "/e-xplainenade",
+    "nome": "E-XplainENADE",
+    "texto": "01 / 04Modelagem estatísticaE-XplainENADETransforma modelos preditivos em evidências interpretáveis para apoiar decisões educacionais.RegressãoVIFAcessar módulo",
+  },
+  {
+    "href": "/educluster",
+    "nome": "EduCluster",
+    "texto": "01 / 04Perfis latentesEduClusterAgrupa cursos e estudantes em perfis latentes, cruzando o desempenho na prova com a qualidade do curso percebida pelos estudantes.K-MeansClusterizaçãoAcessar módulo",
+  },
+  {
+    "href": "/enade-time",
+    "nome": "ENADE-Time",
+    "texto": "01 / 04Análise longitudinalENADE-TimeAcompanha mudanças e tendências no tempo com uma visão histórica das edições harmonizadas.Séries históricas2005–2021Acessar módulo",
+  },
+]
+`;
+
+exports[`home: caracterização > texto visível fora do cabeçalho 1`] = `"Base ENADE 2021Mapeamento multidimensional e explicável dos microdados do ENADE.Uma plataforma integrada baseada em Design Science Research para descobrir padrões socioeconômicos, institucionais e pedagógicos no ensino superior.Explorar subprojetos Como funciona Status da plataformaDados prontos para análise201720192021Estudantes processados1,2M+18,4% vs. 2020Cursos analisados8.43627 áreas de avaliaçãoEdições harmonizadas052017 até 2021Repositório do projetoCódigo aberto no GitHubVer projeto EcossistemaSubprojetos de pesquisaQuatro perspectivas complementares sobre os mesmos dados harmonizados.01 / 04Descoberta de padrõesMultiENADEExplora relações multidimensionais entre perfis socioeconômicos, instituições e desempenho acadêmico.Machine LearningSHAPAcessar módulo 01 / 04Modelagem estatísticaE-XplainENADETransforma modelos preditivos em evidências interpretáveis para apoiar decisões educacionais.RegressãoVIFAcessar módulo 01 / 04Perfis latentesEduClusterAgrupa cursos e estudantes em perfis latentes, cruzando o desempenho na prova com a qualidade do curso percebida pelos estudantes.K-MeansClusterizaçãoAcessar módulo 01 / 04Análise longitudinalENADE-TimeAcompanha mudanças e tendências no tempo com uma visão histórica das edições harmonizadas.Séries históricas2005–2021Acessar módulo MétodoCiência orientada a dados, com contexto.O EnadeX combina rigor metodológico, transparência e ferramentas abertas para tornar a pesquisa educacional mais reprodutível.Dados harmonizadosVariáveis organizadas para comparação entre edições.Análise integradaMúltiplos métodos, uma visão conectada.ExplicabilidadeResultados claros, auditáveis e úteis.EnadeX · Pesquisa aplicada ao ensino superiorLicença abertaConformidade LGPDReferências ABNT / INEP"`;

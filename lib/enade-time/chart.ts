@@ -1,16 +1,16 @@
-// Estilo comum dos gráficos Recharts do módulo (grade, eixos e tooltip no padrão do grupo).
+// Estilo comum dos gráficos Recharts do módulo: grade, eixos e tooltip com os tokens da marca EnadeX.
 
-export const GRID_COLOR = '#edf1f6'
+export const GRID_COLOR = 'var(--border)'
 
 export const EIXO = {
-  stroke: '#dfe5ee',
-  tick: { fontSize: 11, fill: '#5f7393' },
+  stroke: 'var(--border)',
+  tick: { fontSize: 11, fill: 'var(--ink-muted)' },
 } as const
 
 export const TOOLTIP_STYLE = {
   fontSize: 11,
   borderRadius: 8,
-  borderColor: '#dfe5ee',
+  borderColor: 'var(--border)',
 } as const
 
 // O Recharts 3 tipa o valor do tooltip como ValueType | undefined, não number.

@@ -2,45 +2,46 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
 
 // ---------- Tipos (espelham as colunas reais das tabelas no Supabase) ----------
 
+// A tabela também traz colunas de modelagens anteriores (QE_I63, QE_I15_A, QE_I23_ordinal, QE_I08_media…),
+// hoje sempre nulas — por isso não entram nos tipos e a tabela do Dataset esconde colunas sem nenhum valor.
 export interface RegressaoRow {
   CO_CURSO: number
   NT_GER: number
   QT_ALUNOS: number
-  QE_I63: number
-  QE_I57: number
-  QE_I15_A: number
-  QE_I15_B: number
-  QE_I15_C: number
-  QE_I15_D: number
-  QE_I15_E: number
-  QE_I15_F: number
-  QE_I23_ordinal: number
   NT_GER_PREVISTA: number
+  // as 14 variáveis do modelo (ver EnadeX/multi_enade/EXPLORACAO_MODELO_REGRESSAO.md, seção 4)
+  QE_I57: number
+  QE_I15_C: number
+  QE_I15_E: number
+  QE_I04_media: number
+  CO_TURNO_GRADUACAO_4: number
+  QE_I13_A: number
+  QE_I13_B: number
+  QE_I13_D: number
+  QE_I24_A: number
+  QE_I12_A: number
+  QE_I11_A: number
+  QE_I19_B: number
+  PCA_ECON_1: number
+  PCA_ECON_2: number
 }
 
-export interface ClusterRow {
+type Proporcoes<P extends string, S extends string> = { [K in `${P}${S}`]: number | null }
+
+export type ClusterRow = {
   CO_CURSO: number
   NT_GER: number
-  QE_I63_1: number
-  QE_I63_2: number
-  QE_I63_3: number
-  QE_I63_4: number
-  QE_I63_5: number
-  QE_I63_6: number
-  QE_I63_7: number
-  QE_I63_8: number
-  QE_I15_A: number
-  QE_I15_B: number
-  QE_I15_C: number
-  QE_I15_D: number
-  QE_I15_E: number
-  QE_I15_F: number
   Cluster_ID: number
+  /** Nome pelo ranking de NT_GER médio do grupo (Desempenho Alto/Médio/Baixo), calculado pelo endpoint. */
+  Cluster_Nome: string
   PCA_X: number
   PCA_Y: number
-}
+} & Proporcoes<'QE_I63_', '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'> &
+  Proporcoes<'QE_I15_', 'A' | 'B' | 'C' | 'D' | 'E' | 'F'> &
+  Proporcoes<'QE_I11_', 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K'>
 
 export interface AssociacaoRow {
+  id: number
   antecedents: string
   consequents: string
   support: number
@@ -97,22 +98,29 @@ export function getRelatorioShap() {
   return fetchJson<ShapRow[]>('/api/multienade/relatorio-shap')
 }
 
-// Nomes legíveis para as colunas técnicas do modelo, na mesma ordem de importância do SHAP.
+// Nomes legíveis para as variáveis do modelo, na ordem em que aparecem no SHAP.
 export const LABELS_FEATURE: Record<string, string> = {
-  QE_I23_ordinal: 'Dedicação aos estudos (QE_I23)',
-  QE_I15_A: 'Não cotista (QE_I15_A)',
-  QE_I15_B: 'Cota étnico-racial (QE_I15_B)',
+  PCA_ECON_1: 'Índice socioeconômico (PCA_ECON_1)',
+  PCA_ECON_2: 'Índice socioeconômico, 2º eixo (PCA_ECON_2)',
+  QE_I13_A: 'Sem bolsa acadêmica (QE_I13_A)',
+  QE_I13_B: 'Bolsa de iniciação científica (QE_I13_B)',
+  QE_I13_D: 'Bolsa de monitoria/tutoria (QE_I13_D)',
+  QE_I24_A: 'Idioma estrangeiro na instituição, presencial (QE_I24_A)',
+  QE_I04_media: 'Escolaridade do pai (QE_I04)',
   QE_I15_C: 'Cota por renda (QE_I15_C)',
-  QE_I15_D: 'Cota escola pública/bolsa (QE_I15_D)',
-  QE_I15_E: 'Cota combinada (QE_I15_E)',
-  QE_I15_F: 'Outro sistema de cotas (QE_I15_F)',
+  QE_I15_E: 'Cota por múltiplos critérios (QE_I15_E)',
+  CO_TURNO_GRADUACAO_4: 'Curso noturno (CO_TURNO_GRADUACAO)',
   QE_I57: 'Domínio docente (QE_I57)',
-  QE_I63: 'Infraestrutura prática (QE_I63)',
+  QE_I19_B: 'Incentivo dos pais (QE_I19_B)',
+  QE_I11_A: 'Curso gratuito, sem financiamento (QE_I11_A)',
+  QE_I12_A: 'Sem auxílio permanência (QE_I12_A)',
 }
 
 // ---------- Métricas de regressão calculadas no cliente ----------
 // Não existem colunas de R²/MAE/RMSE nas tabelas; calculamos a partir
-// de NT_GER (real) vs NT_GER_PREVISTA (previsto pelo modelo).
+// de NT_GER (real) vs NT_GER_PREVISTA (previsto pelo modelo). O modelo publicado foi reajustado com 100% dos
+// cursos, então estas métricas incluem o treino e são otimistas; a avaliação honesta (teste 80/20) fica no
+// backend (EXPLORACAO_MODELO_REGRESSAO.md, seção 4).
 
 export interface MetricasRegressao {
   r2: number

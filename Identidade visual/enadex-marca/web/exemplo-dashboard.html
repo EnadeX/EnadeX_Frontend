@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visão geral do curso — EnadeX</title>
+<link rel="icon" href="favicons/favicon.ico" sizes="any">
+<link rel="icon" href="favicons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicons/apple-touch-icon.png">
+<meta name="theme-color" content="#0C3350">
+<link rel="stylesheet" href="enadex.css">
+<script src="theme.js"></script>
+<style>
+  body { min-height: 100vh; }
+  .app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+  .app.is-collapsed { grid-template-columns: 64px 1fr; }
+  /* sidebar: logo horizontal a 24px; recolhida, símbolo flat a 24px */
+  .sidebar { background: var(--surface-card); border-right: 1px solid var(--border); padding: var(--space-4) var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); position: sticky; top: 0; height: 100vh; }
+  .sidebar .enx-logo { margin: 0 0 var(--space-6); align-self: flex-start; }
+  .sidebar .enx-logo img { height: var(--logo-sidebar); }
+  .sidebar .symbol { display: none !important; height: var(--logo-collapsed) !important; }
+  .is-collapsed .sidebar { padding-inline: var(--space-3); align-items: center; }
+  .is-collapsed .sidebar .enx-logo { align-self: center; }
+  .is-collapsed .sidebar .enx-logo-light, .is-collapsed .sidebar .enx-logo-dark { display: none !important; }
+  .is-collapsed .sidebar .symbol { display: block !important; }
+  .nav-item { display: flex; align-items: center; gap: var(--space-3); height: 40px; padding: 0 var(--space-3); border-radius: var(--radius-sm); color: var(--ink-muted); text-decoration: none; font-size: 14px; white-space: nowrap; }
+  .nav-item:hover { color: var(--ink); background: var(--surface-sunken); }
+  .nav-item[aria-current="page"] { background: var(--surface-sunken); color: var(--accent); font-weight: 500; }
+  .is-collapsed .nav-item { width: 40px; padding: 0; justify-content: center; }
+  .is-collapsed .nav-item span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .collapse { margin-top: auto; background: none; border: 0; cursor: pointer; font: inherit; }
+  /* topo */
+  .main { min-width: 0; }
+  .topbar { height: 64px; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-8); border-bottom: 1px solid var(--border); background: var(--surface-card); }
+  .topbar h1 { margin-right: auto; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 500; background: var(--surface-sunken); }
+  .content { padding: var(--space-8); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-6); max-width: 1280px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .row { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+  .card-head { margin-bottom: var(--space-4); }
+  .card-head p { margin: var(--space-1) 0 0; color: var(--ink-muted); max-width: 60ch; }
+  .note { display: flex; gap: var(--space-2); align-items: flex-start; margin-top: var(--space-4); padding: var(--space-3); border-radius: var(--radius-sm); background: var(--surface-sunken); font-size: 13px; line-height: 20px; }
+  .note b { color: var(--warning); font-weight: 500; }
+  .legend { display: flex; gap: 2px; align-items: center; margin-bottom: var(--space-3); font: 400 11px/16px var(--font-data); color: var(--ink-muted); }
+  .legend span[class^="enx-"] { width: 36px; height: 22px; display: grid; place-items: center; border-radius: var(--radius-sm); font-size: 12px; }
+  @media (max-width: 1100px) { .kpis { grid-template-columns: repeat(2, 1fr); } .row { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 760px) {
+    .app, .app.is-collapsed { grid-template-columns: 64px 1fr; }
+    .app .sidebar { align-items: center; }
+    .app .sidebar .enx-logo-light, .app .sidebar .enx-logo-dark { display: none !important; }
+    .app .sidebar .symbol { display: block !important; }
+    .app .nav-item { width: 40px; padding: 0; justify-content: center; }
+    .app .nav-item span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .collapse { display: none; }
+    .topbar { padding: 0 var(--space-4); }
+    .topbar h1 { font-size: 18px; line-height: 24px; }
+    .topbar .enx-chip:not([aria-pressed="true"]), .topbar [data-enx-theme-toggle] { display: none; }
+    .content { padding: var(--space-4); }
+    .kpis { grid-template-columns: 1fr; }
+    .enx-contrib { grid-template-columns: 104px minmax(0, 1fr) minmax(0, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="sidebar" aria-label="Navegação">
+    <a class="enx-logo" href="exemplo-site.html">
+      <img class="enx-logo-light" src="img/enadex-horizontal.svg" alt="EnadeX, página inicial" width="101" height="24">
+      <img class="enx-logo-dark" src="img/enadex-horizontal-negativo.svg" alt="" width="101" height="24">
+      <img class="symbol" src="img/enadex-simbolo-flat.svg" alt="EnadeX, página inicial" width="24" height="24">
+    </a>
+    <a class="nav-item" href="#" aria-current="page"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/><rect x="3" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg><span>Visão geral</span></a>
+    <a class="nav-item" href="#"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h9"/></svg><span>Cursos</span></a>
+    <a class="nav-item" href="#"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v14M10 6h5M10 10H4M10 14h3"/></svg><span>Explicações</span></a>
+    <a class="nav-item" href="#"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h7l3 3v12H5z"/><path d="M8 10h4M8 13h4"/></svg><span>Relatórios</span></a>
+    <button class="nav-item collapse" type="button" id="collapse" aria-expanded="true"><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M12 5l-5 5 5 5"/></svg><span>Recolher menu</span></button>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <h1 class="enx-h1">Visão geral do curso</h1>
+      <button class="enx-chip" type="button" aria-pressed="true">ENADE 2023</button>
+      <button class="enx-chip" type="button" aria-pressed="false">Administração</button>
+      <button class="enx-chip" type="button" aria-pressed="false">Campus Centro</button>
+      <button class="enx-btn" type="button" data-enx-theme-toggle aria-pressed="false"><span>Tema escuro</span></button>
+      <span class="avatar" aria-label="Usuário">MS</span>
+    </header>
+
+    <main class="content">
+      <section class="kpis" aria-label="Indicadores">
+        <div class="enx-card"><div class="enx-kpi-label">Conceito ENADE</div><div class="enx-kpi-value">4</div><div class="enx-kpi-delta enx-up">+1 em relação a 2018</div></div>
+        <div class="enx-card"><div class="enx-kpi-label">Nota média padronizada</div><div class="enx-kpi-value">3,82</div><div class="enx-kpi-delta enx-up">+0,41 em relação a 2018</div></div>
+        <div class="enx-card"><div class="enx-kpi-label">Participantes</div><div class="enx-kpi-value">1.284</div><div class="enx-kpi-delta enx-muted">88% dos inscritos</div></div>
+        <div class="enx-card"><div class="enx-kpi-label">Acima da média nacional</div><div class="enx-kpi-value">62%</div><div class="enx-kpi-delta enx-down">−3 p.p. em relação a 2018</div></div>
+      </section>
+
+      <section class="row">
+        <figure class="enx-card" style="margin:0" aria-labelledby="c-t">
+          <div class="card-head">
+            <h2 class="enx-h2" id="c-t">Fatores que mais pesaram na nota prevista</h2>
+            <p>Renda familiar e tipo de escola no ensino médio foram os fatores que mais pesaram na nota prevista deste curso.</p>
+          </div>
+          <div class="enx-contrib" data-contrib='[["Renda familiar",0.31],["Ensino médio em escola pública",-0.22],["Escolaridade da mãe",0.18],["Horas de estudo por semana",0.12],["Trabalha durante o curso",-0.09],["Bolsa ou financiamento",0.07],["Outras variáveis",0.04,"other"]]'></div>
+          <div class="note"><b>Atenção</b><span>Amostra pequena no turno noturno (38 participantes): as explicações desse grupo têm baixa confiança.</span></div>
+          <figcaption class="enx-caption" style="margin-top:var(--space-4)">Exemplo ilustrativo. Fonte: INEP, microdados ENADE 2023.</figcaption>
+        </figure>
+
+        <figure class="enx-card" style="margin:0" aria-labelledby="h-t">
+          <div class="card-head"><h2 class="enx-h2" id="h-t">Conceito por curso e campus</h2></div>
+          <div class="legend"><span style="margin-right:var(--space-2)">Conceito</span><span class="enx-c1">1</span><span class="enx-c2">2</span><span class="enx-c3">3</span><span class="enx-c4">4</span><span class="enx-c5">5</span><span class="enx-sc">SC</span></div>
+          <div class="enx-scroll"><table class="enx-heat">
+            <thead><tr><th></th><th>Centro</th><th>Norte</th><th>Sul</th><th>EaD</th></tr></thead>
+            <tbody>
+              <tr><th>Administração</th><td class="enx-c4">4</td><td class="enx-c3">3</td><td class="enx-c3">3</td><td class="enx-c2">2</td></tr>
+              <tr><th>Direito</th><td class="enx-c5">5</td><td class="enx-c4">4</td><td class="enx-sc">SC</td><td class="enx-c3">3</td></tr>
+              <tr><th>Enfermagem</th><td class="enx-c3">3</td><td class="enx-c4">4</td><td class="enx-c2">2</td><td class="enx-c1">1</td></tr>
+              <tr><th>Pedagogia</th><td class="enx-c4">4</td><td class="enx-c5">5</td><td class="enx-c3">3</td><td class="enx-c2">2</td></tr>
+            </tbody>
+          </table></div>
+          <figcaption class="enx-caption" style="margin-top:var(--space-4)">Exemplo ilustrativo.</figcaption>
+        </figure>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="contrib.js"></script>
+<script>
+  (function () {
+    var app = document.getElementById("app"), btn = document.getElementById("collapse");
+    btn.addEventListener("click", function () {
+      var c = app.classList.toggle("is-collapsed");
+      btn.setAttribute("aria-expanded", String(!c));
+      btn.querySelector("span").textContent = c ? "Expandir menu" : "Recolher menu";
+      btn.querySelector("path").setAttribute("d", c ? "M8 5l5 5-5 5" : "M12 5l-5 5 5 5");
+    });
+  })();
+</script>
+</body>
+</html>

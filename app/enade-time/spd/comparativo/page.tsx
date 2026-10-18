@@ -63,23 +63,23 @@ function Interpretacao({
     <>
       <p className="mt-1">
         A melhor configuração desta {agregado ? 'campanha' : 'rodada'} foi{' '}
-        <strong>
+        <strong className="font-medium">
           {melhor.num_workers} workers
           {melhor.ordem_submissao ? ` (submissão ${ROTULO_ORDEM[melhor.ordem_submissao]})` : ''}
         </strong>
         {melhor.execucao_id !== null ? ` (execução #${melhor.execucao_id})` : ''}, com speedup{' '}
-        {agregado ? 'mediano ' : ''}de <strong>{formatSpeedup(melhor.speedup)}</strong>
+        {agregado ? 'mediano ' : ''}de <strong className="font-medium">{formatSpeedup(melhor.speedup)}</strong>
         {faixa(melhor.speedup_erro, melhor.speedup, (v) => formatSpeedup(v)) && (
           <> (mín–máx {faixa(melhor.speedup_erro, melhor.speedup, (v) => formatSpeedup(v))})</>
         )}{' '}
-        e eficiência de <strong>{formatPercent(melhor.eficiencia)}</strong>
+        e eficiência de <strong className="font-medium">{formatPercent(melhor.eficiencia)}</strong>
         {agregado ? ` sobre ${melhor.n} suítes` : ''}.
       </p>
 
       {escalouAteOFim ? (
         <p className="mt-2">
           O ganho ainda crescia no maior número de workers testado ({maxWorkers}), ou seja,{' '}
-          <strong>o ponto de saturação não foi atingido</strong> dentro da faixa medida.
+          <strong className="font-medium">o ponto de saturação não foi atingido</strong> dentro da faixa medida.
           {acimaDosFisicos && (
             <>
               {' '}
@@ -91,7 +91,7 @@ function Interpretacao({
         </p>
       ) : (
         <p className="mt-2">
-          Aumentar para {maxWorkers} workers <strong>não melhorou</strong> o resultado.
+          Aumentar para {maxWorkers} workers <strong className="font-medium">não melhorou</strong> o resultado.
           {acimaDosFisicos ? (
             <>
               {' '}
@@ -103,7 +103,7 @@ function Interpretacao({
             <>
               {' '}
               O overhead de criação de processos, a serialização entre eles e a contenção passaram a
-              superar o ganho de CPU — o platô previsto pela <strong>Lei de Amdahl</strong>.
+              superar o ganho de CPU — o platô previsto pela <strong className="font-medium">Lei de Amdahl</strong>.
             </>
           )}
         </p>
@@ -111,8 +111,8 @@ function Interpretacao({
 
       {ordens.length > 1 && (
         <p className="mt-2">
-          Duas ordens de submissão foram medidas: <strong>LPT</strong> (anos em ordem decrescente de
-          tempo, Graham 1969) e <strong>crescente</strong> (ordem histórica do script). O executor
+          Duas ordens de submissão foram medidas: <strong className="font-medium">LPT</strong> (anos em ordem decrescente de
+          tempo, Graham 1969) e <strong className="font-medium">crescente</strong> (ordem histórica do script). O executor
           entrega cada ano ao primeiro worker livre, então a ordem muda o makespan mesmo sem tocar
           no código dos workers — a diferença entre as duas linhas é perda de <em>escalonamento</em>
           , não de contenção.
@@ -121,7 +121,7 @@ function Interpretacao({
 
       <p className="mt-2">
         Eficiência abaixo de 100% indica tempo não paralelizável. Estimativa da{' '}
-        <strong>fração sequencial (métrica de Karp–Flatt)</strong> por configuração — ela embute
+        <strong className="font-medium">fração sequencial (métrica de Karp–Flatt)</strong> por configuração — ela embute
         granularidade, escalonamento, contenção e overhead, não uma seção serial do código:
       </p>
       <ul className="mt-1 list-disc space-y-0.5 pl-5">
@@ -136,7 +136,7 @@ function Interpretacao({
               s.speedup !== null ? fracaoSerialKarpFlatt(s.speedup, s.num_workers) : null
             return (
               <li key={s.chave}>
-                <strong>{s.label}</strong> — {formatSeconds(s.tempo)}
+                <strong className="font-medium">{s.label}</strong> — {formatSeconds(s.tempo)}
                 {agregado ? ` (mediana de ${s.n})` : ''}, speedup {formatSpeedup(s.speedup)},
                 eficiência {formatPercent(s.eficiencia)}
                 {serial !== null && <> · fração sequencial estimada {formatPercent(serial)}</>}
@@ -166,21 +166,21 @@ export default function SpdComparativo() {
         return (
           <>
             {melhor && (
-              <Card className="border-[#a7efd0] bg-[#f0fdf8]">
+              <Card className="border-success">
                 <div className="flex items-start gap-3">
-                  <Award className="size-6 shrink-0 text-[#047857]" aria-hidden />
+                  <Award className="size-6 shrink-0 text-success" aria-hidden />
                   <div>
-                    <h3 className="text-sm font-bold text-[#065f46]">
+                    <h3 className="text-h3 text-success">
                       Melhor configuração: {melhor.num_workers} workers
                       {melhor.ordem_submissao ? ` · ${ROTULO_ORDEM[melhor.ordem_submissao]}` : ''}
                       {melhor.execucao_id !== null ? ` (#${melhor.execucao_id})` : ''}
                     </h3>
-                    <p className="mt-1 max-w-3xl text-xs leading-6 text-[#047857]">
+                    <p className="mt-1 max-w-3xl text-small text-success">
                       Speedup {agregado ? 'mediano ' : ''}de{' '}
-                      <strong>{formatSpeedup(melhor.speedup)}</strong> em relação ao baseline
+                      <strong className="font-medium">{formatSpeedup(melhor.speedup)}</strong> em relação ao baseline
                       sequencial ({agregado ? 'mediana ' : ''}
                       {formatSeconds(data.tempo_baseline_seg)}), com eficiência de{' '}
-                      <strong>{formatPercent(melhor.eficiencia)}</strong>
+                      <strong className="font-medium">{formatPercent(melhor.eficiencia)}</strong>
                       {agregado && data.n_suites ? ` — ${formatInt(data.n_suites)} suítes` : ''}.
                     </p>
                   </div>
@@ -190,21 +190,21 @@ export default function SpdComparativo() {
 
             {(maquina || data.campanha_id) && (
               <Card>
-                <div className="flex items-start gap-3 text-xs leading-6 text-[#536987]">
-                  <Cpu className="mt-0.5 size-5 shrink-0 text-[#5f7393]" aria-hidden />
+                <div className="flex items-start gap-3 text-small text-ink-muted">
+                  <Cpu className="mt-0.5 size-5 shrink-0 text-ink-muted" aria-hidden />
                   <div>
-                    <span className="font-semibold text-[#111827]">Condições de medição.</span>{' '}
+                    <span className="font-medium text-ink">Condições de medição.</span>{' '}
                     {maquina?.cpu_modelo ?? 'CPU não identificada'}
                     {maquina?.cpu_fisicos !== null && maquina?.cpu_fisicos !== undefined && (
                       <>
                         {' '}
-                        — <strong>{maquina.cpu_fisicos} núcleos físicos</strong> /{' '}
+                        — <strong className="font-medium">{maquina.cpu_fisicos} núcleos físicos</strong> /{' '}
                         {maquina.cpu_logicos ?? '?'} lógicos
                       </>
                     )}
                     {maquina?.cache_quente === true && (
                       <>
-                        ; <strong>cache de páginas quente</strong> (passada de aquecimento
+                        ; <strong className="font-medium">cache de páginas quente</strong> (passada de aquecimento
                         descartada antes da campanha)
                       </>
                     )}
@@ -265,9 +265,9 @@ export default function SpdComparativo() {
 
             <Card>
               <div className="flex items-start gap-3">
-                <Info className="mt-0.5 size-5 shrink-0 text-[#5f7393]" aria-hidden />
-                <div className="text-xs leading-6 text-[#536987]">
-                  <h3 className="text-sm font-bold text-[#111827]">
+                <Info className="mt-0.5 size-5 shrink-0 text-ink-muted" aria-hidden />
+                <div className="text-small text-ink-muted">
+                  <h3 className="text-h3 text-ink">
                     Interpretação desta {agregado ? 'campanha' : 'rodada'}
                   </h3>
                   <Interpretacao data={data} series={series} agregado={agregado} melhor={melhor} />

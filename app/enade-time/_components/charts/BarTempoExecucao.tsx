@@ -46,7 +46,7 @@ export function BarTempoExecucao({ data }: { data: SerieBenchmark[] }) {
           {chart.map((d, i) => (
             <Cell key={i} fill={d.cor} />
           ))}
-          {temErro && <ErrorBar dataKey="erro" width={6} strokeWidth={1.5} stroke="#0f172a" />}
+          {temErro && <ErrorBar dataKey="erro" width={6} strokeWidth={1.5} stroke="var(--ink)" />}
         </Bar>
       </BarChart>
     </ResponsiveContainer>

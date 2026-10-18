@@ -195,7 +195,7 @@ export default function EnadeComparar() {
         </div>
 
         {valueA === valueB && (
-          <p className="mt-2 text-xs text-[#c2410c]">
+          <p className="mt-2 text-small text-warning">
             Os dois grupos são iguais — escolha valores diferentes para comparar.
           </p>
         )}
@@ -254,7 +254,7 @@ export default function EnadeComparar() {
         ) : carregando ? (
           <LoadingSpinner label="Carregando comparação…" />
         ) : semDados ? (
-          <p className="py-6 text-center text-sm text-[#5f7393]">
+          <p className="py-6 text-center text-body text-ink-muted">
             Sem dados para os grupos selecionados.
           </p>
         ) : (

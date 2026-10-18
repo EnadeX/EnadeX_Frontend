@@ -51,14 +51,14 @@ export function RegistrosView() {
       >
         {(data) => (
           <>
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-sm text-[#536987]">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-body text-ink-muted">
               <div>
                 Mostrando{' '}
-                <strong>
+                <strong className="font-medium">
                   {formatInt((data.page - 1) * data.page_size + 1)}–
                   {formatInt(Math.min(data.page * data.page_size, data.total))}
                 </strong>{' '}
-                de <strong>{formatInt(data.total)}</strong> registros ({formatInt(data.total_pages)}{' '}
+                de <strong className="font-medium">{formatInt(data.total)}</strong> registros ({formatInt(data.total_pages)}{' '}
                 página{data.total_pages !== 1 ? 's' : ''})
               </div>
               <div className="flex items-center gap-1">
@@ -71,7 +71,7 @@ export function RegistrosView() {
                 >
                   <ChevronLeft className="size-4" aria-hidden />
                 </button>
-                <span className="px-2 text-xs">
+                <span className="px-2 text-small">
                   Página {data.page} / {data.total_pages || 1}
                 </span>
                 <button

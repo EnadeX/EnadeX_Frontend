@@ -4,12 +4,12 @@ import { Info } from 'lucide-react'
 // única linha: "CÓDIGO: definição curta · CÓDIGO: definição curta".
 export function VariaveisInfo({ itens }: { itens: { codigo: string; texto: string }[] }) {
   return (
-    <p className="flex items-start gap-1.5 text-[10px] leading-4 text-[#8aa0c1]">
+    <p className="flex items-start gap-1.5 text-caption text-ink-muted">
       <Info className="mt-0.5 size-3 shrink-0" />
       <span>
         {itens.map((item, index) => (
           <span key={item.codigo}>
-            <strong className="font-semibold text-[#607494]">{item.codigo}</strong>: {item.texto}
+            <strong className="font-medium text-ink">{item.codigo}</strong>: {item.texto}
             {index < itens.length - 1 ? ' · ' : ''}
           </span>
         ))}

@@ -1,0 +1,7 @@
+// Arquivo de controle da guarda de marca: cada linha abaixo tem uma violação.
+const a = <div className="bg-[#1d4ed8]" />
+const b = <p className="text-slate-500" />
+const c = <h1 className="font-bold" />
+const d = <span className="uppercase" />
+import { BarChart3 } from 'lucide-react'
+const e = <a href="#overview">ok, não é cor</a>

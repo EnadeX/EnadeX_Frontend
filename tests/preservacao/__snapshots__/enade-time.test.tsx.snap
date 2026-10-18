@@ -1,0 +1,5518 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ENADE-Time: caracterização > API offline: status 1`] = `"● API offline"`;
+
+exports[`ENADE-Time: caracterização > banco indisponível (503): status e erro 1`] = `
+{
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            "page",
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            "page",
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● Banco indisponível",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Tentar novamente",
+      "tipo": "button",
+      "type": "button",
+    },
+  ],
+  "texto": "Home/Subprojetos/ENADE-TimeENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEVisão geralIndicadores principais do projeto: cobertura dos microdados ENADE (Norte e Nordeste, Computação) e resultados do experimento de processamento paralelo.Microdados ENADETotal de registros—inscrições (582 cursos-ano)Anos analisados—edições ENADE2005 a 2021Regiões cobertas2Norte + NordesteUFs cobertas16estadosProcessamento paralelo (SPD)Tempo sequencial (baseline)48,00 smediana de 5 suítesMelhor speedup4,5280×8 workers · LPT · mediana de 5 suítesMelhor eficiência95,60%2 workers · LPT · mediana de 5 suítesThroughput máximo2.355,40linhas/s8 workers · LPT · mediana de 5 suítesMelhor configuração da campanha oficial: 8 workers · LPTNa campanha oficial carregada no banco, a configuração com 8 workers obteve o melhor desempenho: speedup mediano de 4,5280× e eficiência de 56,60% (5 suítes, cada paralela pareada com o sequencial da própria suíte). A melhor configuração depende da máquina (núcleos físicos, cache, ordem de submissão). Consulte Benchmark · Comparativo para ver os resultados carregados no banco.Status dos dados carregadosCarregamento direto da API, por edição do ENADE.Erro ao carregar dadosBanco do ENADE-Time indisponívelTentar novamenteSubprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > comparar: exportação em CSV e Markdown gera os mesmos arquivos 1`] = `
+[
+  {
+    "conteudo": "ano;grupo;media_nt_ger;n_registros;n_cursos
+2005;Norte;33.864061740041926;5748;112
+2008;Norte;31.9458254805492;8740;165
+2011;Norte;33.50855547861507;2463;81
+2014;Norte;44.19037479026846;2388;68
+2017;Norte;42.31016759665205;2537;74
+2021;Norte;37.03314718191022;3091;82
+2005;Nordeste;33.864061740041926;5748;112
+2008;Nordeste;31.9458254805492;8740;165
+2011;Nordeste;33.50855547861507;2463;81
+2014;Nordeste;44.19037479026846;2388;68
+2017;Nordeste;42.31016759665205;2537;74
+2021;Nordeste;37.03314718191022;3091;82
+",
+    "nome": "enade_comparacao_<data>.csv",
+    "tipo": "text/csv;charset=utf-8",
+  },
+  {
+    "conteudo": "# Relatório Longitudinal — ENADE-Time
+
+**Gerado em:** <data>
+**Métrica principal:** Média NT GER (\`media_nt_ger\`)
+**Dimensão comparada:** Região
+**Grupos comparados:** Norte × Nordeste
+**Filtros aplicados:** Dimensão: Região; Grupo A: Norte; Grupo B: Nordeste
+
+## Série por ano e grupo
+
+| Ano | Norte (GER) | cursos (Norte) | inscrições (Norte) | Nordeste (GER) | cursos (Nordeste) | inscrições (Nordeste) |
+|----:|---:|---:|---:|---:|---:|---:|
+| 2005 | 33,86 | 112 | 5748 | 33,86 | 112 | 5748 |
+| 2008 | 31,95 | 165 | 8740 | 31,95 | 165 | 8740 |
+| 2011 | 33,51 | 81 | 2463 | 33,51 | 81 | 2463 |
+| 2014 | 44,19 | 68 | 2388 | 44,19 | 68 | 2388 |
+| 2017 | 42,31 | 74 | 2537 | 42,31 | 74 | 2537 |
+| 2021 | 37,03 | 82 | 3091 | 37,03 | 82 | 3091 |
+
+## Interpretação automática
+
+- **Norte**: de 2005 (33,86) a 2021 (37,03), variação de +3,17 pontos — tendência de **alta**.
+- **Nordeste**: de 2005 (33,86) a 2021 (37,03), variação de +3,17 pontos — tendência de **alta**.
+
+## Alertas de amostra reduzida
+
+- Nenhum: todos os grupos/anos têm pelo menos 30 cursos.
+
+---
+*Relatório automático gerado pelo dashboard ENADE-Time. Métrica: média da
+Nota Geral (NT GER) por ano e grupo. A unidade de análise é o curso (n = cursos distintos
+do grupo no ano); as inscrições entram como peso nas médias.*
+",
+    "nome": "enade_relatorio_longitudinal_<data>.md",
+    "tipo": "text/markdown;charset=utf-8",
+  },
+]
+`;
+
+exports[`ENADE-Time: caracterização > enade anual filtrado: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchAnos": [
+      [],
+    ],
+    "fetchCategoriasAdm": [
+      [],
+    ],
+    "fetchGrupos": [
+      [],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+    "fetchModalidades": [
+      [],
+    ],
+    "fetchOrganizacoesAcademicas": [
+      [],
+    ],
+    "fetchRegioes": [
+      [],
+    ],
+    "fetchResumoAnual": [
+      [
+        {
+          "co_modalidade": 1,
+          "co_regiao": 2,
+          "nu_ano": 2017,
+        },
+      ],
+    ],
+    "fetchUFs": [
+      [
+        2,
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Limpar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "2005",
+          "2005",
+        ],
+        [
+          "2008",
+          "2008",
+        ],
+        [
+          "2011",
+          "2011",
+        ],
+        [
+          "2014",
+          "2014",
+        ],
+        [
+          "2017",
+          "2017",
+        ],
+        [
+          "2021",
+          "2021",
+        ],
+      ],
+      "rotulo": "Ano",
+      "tipo": "select",
+      "valor": "2017",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Norte",
+        ],
+        [
+          "2",
+          "Nordeste",
+        ],
+      ],
+      "rotulo": "Região",
+      "tipo": "select",
+      "valor": "2",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "12",
+          "AC — Acre",
+        ],
+        [
+          "13",
+          "AM — Amazonas",
+        ],
+        [
+          "16",
+          "AP — Amapá",
+        ],
+        [
+          "15",
+          "PA — Pará",
+        ],
+        [
+          "11",
+          "RO — Rondônia",
+        ],
+        [
+          "14",
+          "RR — Roraima",
+        ],
+        [
+          "17",
+          "TO — Tocantins",
+        ],
+        [
+          "27",
+          "AL — Alagoas",
+        ],
+        [
+          "29",
+          "BA — Bahia",
+        ],
+        [
+          "23",
+          "CE — Ceará",
+        ],
+        [
+          "21",
+          "MA — Maranhão",
+        ],
+        [
+          "25",
+          "PB — Paraíba",
+        ],
+        [
+          "26",
+          "PE — Pernambuco",
+        ],
+        [
+          "22",
+          "PI — Piauí",
+        ],
+        [
+          "24",
+          "RN — Rio Grande do Norte",
+        ],
+        [
+          "28",
+          "SE — Sergipe",
+        ],
+      ],
+      "rotulo": "UF",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "40",
+          "40 — Ciência da Computação (código 2005–2008)",
+        ],
+        [
+          "4004",
+          "4004 — Ciência da Computação (código 2011+)",
+        ],
+      ],
+      "rotulo": "Grupo (curso)",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "0",
+          "EAD",
+        ],
+        [
+          "1",
+          "Presencial",
+        ],
+      ],
+      "rotulo": "Modalidade",
+      "tipo": "select",
+      "valor": "1",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Pública Federal",
+        ],
+        [
+          "2",
+          "Pública Estadual",
+        ],
+        [
+          "3",
+          "Pública Municipal",
+        ],
+        [
+          "4",
+          "Privada com fins lucrativos",
+        ],
+        [
+          "5",
+          "Privada sem fins lucrativos",
+        ],
+        [
+          "7",
+          "Especial",
+        ],
+      ],
+      "rotulo": "Categoria Adm.",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "10019",
+          "Universidade",
+        ],
+        [
+          "10020",
+          "Centro Universitário",
+        ],
+        [
+          "10022",
+          "Faculdade",
+        ],
+        [
+          "10026",
+          "IF e CEFET",
+        ],
+        [
+          "10027",
+          "Centro de Educação Tecnológica",
+        ],
+        [
+          "10028",
+          "Faculdade Integrada",
+        ],
+      ],
+      "rotulo": "Org. Acadêmica",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "checked": false,
+      "disabled": false,
+      "inputMode": "numeric",
+      "placeholder": "ex.: 1234",
+      "rotulo": "Cód. IES",
+      "tipo": "input",
+      "type": "number",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Cancelar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Aplicar",
+      "tipo": "button",
+      "type": "button",
+    },
+  ],
+  "graficos": [
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 320,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "LineChart",
+      "props": {
+        "data": [
+          {
+            "desvio_padrao": 7.966009816817547,
+            "media_geral": 55.38226575821104,
+            "media_geral_ce": 26.69675814116003,
+            "media_geral_ger": 33.864061740041926,
+            "media_max": 70.6077,
+            "media_min": 4.0556,
+            "nu_ano": 2005,
+            "total_cursos": 112,
+            "total_registros": 5748,
+          },
+          {
+            "desvio_padrao": 6.383061187374759,
+            "media_geral": 47.95401546910755,
+            "media_geral_ce": 26.60406090389016,
+            "media_geral_ger": 31.9458254805492,
+            "media_max": 64.4286,
+            "media_min": 11.1944,
+            "nu_ano": 2008,
+            "total_cursos": 165,
+            "total_registros": 8740,
+          },
+          {
+            "desvio_padrao": 5.226720328252792,
+            "media_geral": 50.685884602851324,
+            "media_geral_ce": 27.76494969450102,
+            "media_geral_ger": 33.50855547861507,
+            "media_max": 64.2,
+            "media_min": 35.5833,
+            "nu_ano": 2011,
+            "total_cursos": 81,
+            "total_registros": 2463,
+          },
+          {
+            "desvio_padrao": 6.030544973597459,
+            "media_geral": 59.60944979026846,
+            "media_geral_ce": 39.03304848993289,
+            "media_geral_ger": 44.19037479026846,
+            "media_max": 79.2,
+            "media_min": 40.613,
+            "nu_ano": 2014,
+            "total_cursos": 68,
+            "total_registros": 2388,
+          },
+          {
+            "desvio_padrao": 6.042533535963046,
+            "media_geral": 53.32636660023914,
+            "media_geral_ce": 38.62254934236748,
+            "media_geral_ger": 42.31016759665205,
+            "media_max": 67.3304,
+            "media_min": 35.9429,
+            "nu_ano": 2017,
+            "total_cursos": 74,
+            "total_registros": 2537,
+          },
+          {
+            "desvio_padrao": 5.804933376065715,
+            "media_geral": 38.16675646304421,
+            "media_geral_ce": 36.6384428957138,
+            "media_geral_ger": 37.03314718191022,
+            "media_max": 54.3,
+            "media_min": 24.3833,
+            "nu_ano": 2021,
+            "total_cursos": 82,
+            "total_registros": 3091,
+          },
+        ],
+        "margin": {
+          "bottom": 0,
+          "left": 0,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Média da Nota Geral por ano",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "dataKey": "nu_ano",
+        "tick": {},
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "domain": [
+          0,
+          100,
+        ],
+        "tick": {},
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+        "labelFormatter": "[função]",
+      },
+    },
+    {
+      "componente": "Line",
+      "props": {
+        "dataKey": "media_geral_ger",
+        "name": "Média NT GER",
+        "type": "monotone",
+      },
+    },
+  ],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual?nu_ano=2017&co_regiao=2&co_modalidade=1",
+    "/enade-time/enade/regional?nu_ano=2017&co_regiao=2&co_modalidade=1",
+    "/enade-time/enade/uf?nu_ano=2017&co_regiao=2&co_modalidade=1",
+    "/enade-time/enade/ies?nu_ano=2017&co_regiao=2&co_modalidade=1",
+    "/enade-time/enade/comparar?nu_ano=2017&co_regiao=2&co_modalidade=1",
+    "/enade-time/enade/registros?nu_ano=2017&co_regiao=2&co_modalidade=1",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosLimparAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarRegistros (filtrado)24.967Anos no recorte6Média NT GER37,14Melhor ano2014Média 44,19Média Nota Geral (NT GER) por anoVariação longitudinal das médias da Nota Geral (NT GER) ao longo das edições.Menor média observada: 2008 (31,95).Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade anual: filtros na última opção + Aplicar grava a URL; Limpar e Cancelar 1`] = `
+{
+  "aplicado": [
+    [
+      "/enade-time/enade/anual?nu_ano=2021&co_regiao=2&co_ies=1234&co_grupo=4004&co_modalidade=1&co_categad=7&co_orgacad=10028",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+  "aposCancelar": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "campos": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "limpar": [
+    [
+      "/enade-time/enade/anual",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade anual: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchAnos": [
+      [],
+    ],
+    "fetchCategoriasAdm": [
+      [],
+    ],
+    "fetchGrupos": [
+      [],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+    "fetchModalidades": [
+      [],
+    ],
+    "fetchOrganizacoesAcademicas": [
+      [],
+    ],
+    "fetchRegioes": [
+      [],
+    ],
+    "fetchResumoAnual": [
+      [
+        {},
+      ],
+    ],
+    "fetchUFs": [
+      [
+        undefined,
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "2005",
+          "2005",
+        ],
+        [
+          "2008",
+          "2008",
+        ],
+        [
+          "2011",
+          "2011",
+        ],
+        [
+          "2014",
+          "2014",
+        ],
+        [
+          "2017",
+          "2017",
+        ],
+        [
+          "2021",
+          "2021",
+        ],
+      ],
+      "rotulo": "Ano",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Norte",
+        ],
+        [
+          "2",
+          "Nordeste",
+        ],
+      ],
+      "rotulo": "Região",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "12",
+          "AC — Acre",
+        ],
+        [
+          "13",
+          "AM — Amazonas",
+        ],
+        [
+          "16",
+          "AP — Amapá",
+        ],
+        [
+          "15",
+          "PA — Pará",
+        ],
+        [
+          "11",
+          "RO — Rondônia",
+        ],
+        [
+          "14",
+          "RR — Roraima",
+        ],
+        [
+          "17",
+          "TO — Tocantins",
+        ],
+        [
+          "27",
+          "AL — Alagoas",
+        ],
+        [
+          "29",
+          "BA — Bahia",
+        ],
+        [
+          "23",
+          "CE — Ceará",
+        ],
+        [
+          "21",
+          "MA — Maranhão",
+        ],
+        [
+          "25",
+          "PB — Paraíba",
+        ],
+        [
+          "26",
+          "PE — Pernambuco",
+        ],
+        [
+          "22",
+          "PI — Piauí",
+        ],
+        [
+          "24",
+          "RN — Rio Grande do Norte",
+        ],
+        [
+          "28",
+          "SE — Sergipe",
+        ],
+      ],
+      "rotulo": "UF",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "40",
+          "40 — Ciência da Computação (código 2005–2008)",
+        ],
+        [
+          "4004",
+          "4004 — Ciência da Computação (código 2011+)",
+        ],
+      ],
+      "rotulo": "Grupo (curso)",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "0",
+          "EAD",
+        ],
+        [
+          "1",
+          "Presencial",
+        ],
+      ],
+      "rotulo": "Modalidade",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Pública Federal",
+        ],
+        [
+          "2",
+          "Pública Estadual",
+        ],
+        [
+          "3",
+          "Pública Municipal",
+        ],
+        [
+          "4",
+          "Privada com fins lucrativos",
+        ],
+        [
+          "5",
+          "Privada sem fins lucrativos",
+        ],
+        [
+          "7",
+          "Especial",
+        ],
+      ],
+      "rotulo": "Categoria Adm.",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "10019",
+          "Universidade",
+        ],
+        [
+          "10020",
+          "Centro Universitário",
+        ],
+        [
+          "10022",
+          "Faculdade",
+        ],
+        [
+          "10026",
+          "IF e CEFET",
+        ],
+        [
+          "10027",
+          "Centro de Educação Tecnológica",
+        ],
+        [
+          "10028",
+          "Faculdade Integrada",
+        ],
+      ],
+      "rotulo": "Org. Acadêmica",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "checked": false,
+      "disabled": false,
+      "inputMode": "numeric",
+      "placeholder": "ex.: 1234",
+      "rotulo": "Cód. IES",
+      "tipo": "input",
+      "type": "number",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Cancelar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Aplicar",
+      "tipo": "button",
+      "type": "button",
+    },
+  ],
+  "graficos": [
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 320,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "LineChart",
+      "props": {
+        "data": [
+          {
+            "desvio_padrao": 7.966009816817547,
+            "media_geral": 55.38226575821104,
+            "media_geral_ce": 26.69675814116003,
+            "media_geral_ger": 33.864061740041926,
+            "media_max": 70.6077,
+            "media_min": 4.0556,
+            "nu_ano": 2005,
+            "total_cursos": 112,
+            "total_registros": 5748,
+          },
+          {
+            "desvio_padrao": 6.383061187374759,
+            "media_geral": 47.95401546910755,
+            "media_geral_ce": 26.60406090389016,
+            "media_geral_ger": 31.9458254805492,
+            "media_max": 64.4286,
+            "media_min": 11.1944,
+            "nu_ano": 2008,
+            "total_cursos": 165,
+            "total_registros": 8740,
+          },
+          {
+            "desvio_padrao": 5.226720328252792,
+            "media_geral": 50.685884602851324,
+            "media_geral_ce": 27.76494969450102,
+            "media_geral_ger": 33.50855547861507,
+            "media_max": 64.2,
+            "media_min": 35.5833,
+            "nu_ano": 2011,
+            "total_cursos": 81,
+            "total_registros": 2463,
+          },
+          {
+            "desvio_padrao": 6.030544973597459,
+            "media_geral": 59.60944979026846,
+            "media_geral_ce": 39.03304848993289,
+            "media_geral_ger": 44.19037479026846,
+            "media_max": 79.2,
+            "media_min": 40.613,
+            "nu_ano": 2014,
+            "total_cursos": 68,
+            "total_registros": 2388,
+          },
+          {
+            "desvio_padrao": 6.042533535963046,
+            "media_geral": 53.32636660023914,
+            "media_geral_ce": 38.62254934236748,
+            "media_geral_ger": 42.31016759665205,
+            "media_max": 67.3304,
+            "media_min": 35.9429,
+            "nu_ano": 2017,
+            "total_cursos": 74,
+            "total_registros": 2537,
+          },
+          {
+            "desvio_padrao": 5.804933376065715,
+            "media_geral": 38.16675646304421,
+            "media_geral_ce": 36.6384428957138,
+            "media_geral_ger": 37.03314718191022,
+            "media_max": 54.3,
+            "media_min": 24.3833,
+            "nu_ano": 2021,
+            "total_cursos": 82,
+            "total_registros": 3091,
+          },
+        ],
+        "margin": {
+          "bottom": 0,
+          "left": 0,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Média da Nota Geral por ano",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "dataKey": "nu_ano",
+        "tick": {},
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "domain": [
+          0,
+          100,
+        ],
+        "tick": {},
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+        "labelFormatter": "[função]",
+      },
+    },
+    {
+      "componente": "Line",
+      "props": {
+        "dataKey": "media_geral_ger",
+        "name": "Média NT GER",
+        "type": "monotone",
+      },
+    },
+  ],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/enade/regional",
+    "/enade-time/enade/uf",
+    "/enade-time/enade/ies",
+    "/enade-time/enade/comparar",
+    "/enade-time/enade/registros",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarRegistros (filtrado)24.967Anos no recorte6Média NT GER37,14Melhor ano2014Média 44,19Média Nota Geral (NT GER) por anoVariação longitudinal das médias da Nota Geral (NT GER) ao longo das edições.Menor média observada: 2008 (31,95).Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade comparar: seletores próprios da tela mudam as consultas 1`] = `
+[
+  {
+    "api": {
+      "fetchResumoAnual": [
+        [
+          {
+            "co_categad": 1,
+          },
+        ],
+        [
+          {
+            "co_categad": 2,
+          },
+        ],
+      ],
+    },
+    "rotulo": "Dimensão",
+    "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosComparação longitudinal entre dois gruposCompara a evolução da Média NT GER (Nota Geral) ao longo das edições do ENADE entre dois grupos. Padrão: Região — Norte × Nordeste.DimensãoRegiãoUFCategoria AdministrativaGrupo APública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialGrupo BPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialExportar CSVExportar SVGExportar relatório (.md)Categoria Administrativa: Pública Federal × Pública EstadualMétrica: Média NT GER (Nota Geral) por ano.Série por ano e grupoAnoPública Federal — GERCursos · inscrições (Pública Federal)Pública Estadual — GERCursos · inscrições (Pública Estadual)Δ (A − B)200533,86112 · 5.74833,86112 · 5.7480,00200831,95165 · 8.74031,95165 · 8.7400,00201133,5181 · 2.46333,5181 · 2.4630,00201444,1968 · 2.38844,1968 · 2.3880,00201742,3174 · 2.53742,3174 · 2.5370,00202137,0382 · 3.09137,0382 · 3.0910,00Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+    "valor": "co_categad",
+  },
+  {
+    "api": {
+      "fetchResumoAnual": [
+        [
+          {
+            "co_categad": 7,
+          },
+        ],
+      ],
+    },
+    "rotulo": "Grupo A",
+    "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosComparação longitudinal entre dois gruposCompara a evolução da Média NT GER (Nota Geral) ao longo das edições do ENADE entre dois grupos. Padrão: Região — Norte × Nordeste.DimensãoRegiãoUFCategoria AdministrativaGrupo APública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialGrupo BPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialExportar CSVExportar SVGExportar relatório (.md)Categoria Administrativa: Especial × Pública EstadualMétrica: Média NT GER (Nota Geral) por ano.Série por ano e grupoAnoEspecial — GERCursos · inscrições (Especial)Pública Estadual — GERCursos · inscrições (Pública Estadual)Δ (A − B)200533,86112 · 5.74833,86112 · 5.7480,00200831,95165 · 8.74031,95165 · 8.7400,00201133,5181 · 2.46333,5181 · 2.4630,00201444,1968 · 2.38844,1968 · 2.3880,00201742,3174 · 2.53742,3174 · 2.5370,00202137,0382 · 3.09137,0382 · 3.0910,00Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+    "valor": "7",
+  },
+  {
+    "api": {},
+    "rotulo": "Grupo B",
+    "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosComparação longitudinal entre dois gruposCompara a evolução da Média NT GER (Nota Geral) ao longo das edições do ENADE entre dois grupos. Padrão: Região — Norte × Nordeste.DimensãoRegiãoUFCategoria AdministrativaGrupo APública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialGrupo BPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialExportar CSVExportar SVGExportar relatório (.md)Categoria Administrativa: Pública Federal × Pública EstadualMétrica: Média NT GER (Nota Geral) por ano.Série por ano e grupoAnoPública Federal — GERCursos · inscrições (Pública Federal)Pública Estadual — GERCursos · inscrições (Pública Estadual)Δ (A − B)200533,86112 · 5.74833,86112 · 5.7480,00200831,95165 · 8.74031,95165 · 8.7400,00201133,5181 · 2.46333,5181 · 2.4630,00201444,1968 · 2.38844,1968 · 2.3880,00201742,3174 · 2.53742,3174 · 2.5370,00202137,0382 · 3.09137,0382 · 3.0910,00Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+    "valor": "2",
+  },
+]
+`;
+
+exports[`ENADE-Time: caracterização > enade comparar: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchCategoriasAdm": [
+      [],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+    "fetchRegioes": [
+      [],
+    ],
+    "fetchResumoAnual": [
+      [
+        {
+          "co_regiao": 1,
+        },
+      ],
+      [
+        {
+          "co_regiao": 2,
+        },
+      ],
+    ],
+    "fetchUFs": [
+      [
+        undefined,
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "co_regiao",
+          "Região",
+        ],
+        [
+          "co_uf",
+          "UF",
+        ],
+        [
+          "co_categad",
+          "Categoria Administrativa",
+        ],
+      ],
+      "rotulo": "Dimensão",
+      "tipo": "select",
+      "valor": "co_regiao",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "1",
+          "Norte",
+        ],
+        [
+          "2",
+          "Nordeste",
+        ],
+      ],
+      "rotulo": "Grupo A",
+      "tipo": "select",
+      "valor": "1",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "1",
+          "Norte",
+        ],
+        [
+          "2",
+          "Nordeste",
+        ],
+      ],
+      "rotulo": "Grupo B",
+      "tipo": "select",
+      "valor": "2",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Exportar CSV",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Exportar SVG",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Exportar relatório (.md)",
+      "tipo": "button",
+      "type": "button",
+    },
+  ],
+  "graficos": [
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 340,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "LineChart",
+      "props": {
+        "data": [
+          {
+            "ger_a": 33.864061740041926,
+            "ger_b": 33.864061740041926,
+            "nu_ano": 2005,
+          },
+          {
+            "ger_a": 31.9458254805492,
+            "ger_b": 31.9458254805492,
+            "nu_ano": 2008,
+          },
+          {
+            "ger_a": 33.50855547861507,
+            "ger_b": 33.50855547861507,
+            "nu_ano": 2011,
+          },
+          {
+            "ger_a": 44.19037479026846,
+            "ger_b": 44.19037479026846,
+            "nu_ano": 2014,
+          },
+          {
+            "ger_a": 42.31016759665205,
+            "ger_b": 42.31016759665205,
+            "nu_ano": 2017,
+          },
+          {
+            "ger_a": 37.03314718191022,
+            "ger_b": 37.03314718191022,
+            "nu_ano": 2021,
+          },
+        ],
+        "margin": {
+          "bottom": 0,
+          "left": 0,
+          "right": 24,
+          "top": 8,
+        },
+        "title": "Média da Nota Geral por ano: Norte e Nordeste",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "dataKey": "nu_ano",
+        "tick": {},
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "domain": [
+          0,
+          100,
+        ],
+        "tick": {},
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+        "labelFormatter": "[função]",
+      },
+    },
+    {
+      "componente": "Legend",
+      "props": {},
+    },
+    {
+      "componente": "Line",
+      "props": {
+        "connectNulls": true,
+        "dataKey": "ger_a",
+        "name": "Norte",
+        "type": "monotone",
+      },
+    },
+    {
+      "componente": "Line",
+      "props": {
+        "connectNulls": true,
+        "dataKey": "ger_b",
+        "name": "Nordeste",
+        "type": "monotone",
+      },
+    },
+  ],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/enade/regional",
+    "/enade-time/enade/uf",
+    "/enade-time/enade/ies",
+    "/enade-time/enade/comparar",
+    "/enade-time/enade/registros",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosComparação longitudinal entre dois gruposCompara a evolução da Média NT GER (Nota Geral) ao longo das edições do ENADE entre dois grupos. Padrão: Região — Norte × Nordeste.DimensãoRegiãoUFCategoria AdministrativaGrupo ANorteNordesteGrupo BNorteNordesteExportar CSVExportar SVGExportar relatório (.md)Região: Norte × NordesteMétrica: Média NT GER (Nota Geral) por ano.Série por ano e grupoAnoNorte — GERCursos · inscrições (Norte)Nordeste — GERCursos · inscrições (Nordeste)Δ (A − B)200533,86112 · 5.74833,86112 · 5.7480,00200831,95165 · 8.74031,95165 · 8.7400,00201133,5181 · 2.46333,5181 · 2.4630,00201444,1968 · 2.38844,1968 · 2.3880,00201742,3174 · 2.53742,3174 · 2.5370,00202137,0382 · 3.09137,0382 · 3.0910,00Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade ies: filtros na última opção + Aplicar grava a URL; Limpar e Cancelar 1`] = `
+{
+  "aplicado": [
+    [
+      "/enade-time/enade/ies?nu_ano=2021&co_regiao=2&co_ies=1234&co_grupo=4004&co_modalidade=1&co_categad=7&co_orgacad=10028",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+  "aposCancelar": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "campos": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "limpar": [
+    [
+      "/enade-time/enade/ies",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade ies: seletores próprios da tela mudam as consultas 1`] = `
+[
+  {
+    "api": {
+      "fetchResumoIES": [
+        [
+          {},
+          100,
+          1,
+        ],
+      ],
+    },
+    "rotulo": "Top N",
+    "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarRanking de IESIES ordenadas por Nota Geral (NT GER), com filtro mínimo de cursos para reduzir ruído de amostras pequenas.Top N102050100Mín. cursos12510#Cód. IESCat. Adm.Org. Acad.UF (cód.)RegistrosMédia FGMédia CEMédia GER119327510022262248,8349,7949,5625801100282682957,7046,7849,52325641100282544257,9444,5547,9145781100282943957,1242,5846,23525275110028262246,1844,1944,7065831100282343353,1941,7344,6075701100282428157,9538,8843,6585871100282619850,6840,5543,10941100281338055,3738,5542,771044841002023340,6042,9042,35115791100282535356,5737,0541,9412242100282924655,5736,9441,61134700410022265855,9536,6441,4814292100282345550,2938,2741,281531100282839549,5538,1941,0416669510020135053,9136,2740,6817402100282924957,4634,7440,42185481100282132654,5835,6040,3619666210028295760,1033,6440,262018071100262320445,3138,5140,23Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+    "valor": "100",
+  },
+  {
+    "api": {
+      "fetchResumoIES": [
+        [
+          {},
+          100,
+          10,
+        ],
+      ],
+    },
+    "rotulo": "Mín. cursos",
+    "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarRanking de IESIES ordenadas por Nota Geral (NT GER), com filtro mínimo de cursos para reduzir ruído de amostras pequenas.Top N102050100Mín. cursos12510#Cód. IESCat. Adm.Org. Acad.UF (cód.)RegistrosMédia FGMédia CEMédia GER119327510022262248,8349,7949,5625801100282682957,7046,7849,52325641100282544257,9444,5547,9145781100282943957,1242,5846,23525275110028262246,1844,1944,7065831100282343353,1941,7344,6075701100282428157,9538,8843,6585871100282619850,6840,5543,10941100281338055,3738,5542,771044841002023340,6042,9042,35115791100282535356,5737,0541,9412242100282924655,5736,9441,61134700410022265855,9536,6441,4814292100282345550,2938,2741,281531100282839549,5538,1941,0416669510020135053,9136,2740,6817402100282924957,4634,7440,42185481100282132654,5835,6040,3619666210028295760,1033,6440,262018071100262320445,3138,5140,23Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+    "valor": "10",
+  },
+]
+`;
+
+exports[`ENADE-Time: caracterização > enade ies: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchAnos": [
+      [],
+    ],
+    "fetchCategoriasAdm": [
+      [],
+    ],
+    "fetchGrupos": [
+      [],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+    "fetchModalidades": [
+      [],
+    ],
+    "fetchOrganizacoesAcademicas": [
+      [],
+    ],
+    "fetchRegioes": [
+      [],
+    ],
+    "fetchResumoIES": [
+      [
+        {},
+        20,
+        1,
+      ],
+    ],
+    "fetchUFs": [
+      [
+        undefined,
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "2005",
+          "2005",
+        ],
+        [
+          "2008",
+          "2008",
+        ],
+        [
+          "2011",
+          "2011",
+        ],
+        [
+          "2014",
+          "2014",
+        ],
+        [
+          "2017",
+          "2017",
+        ],
+        [
+          "2021",
+          "2021",
+        ],
+      ],
+      "rotulo": "Ano",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Norte",
+        ],
+        [
+          "2",
+          "Nordeste",
+        ],
+      ],
+      "rotulo": "Região",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "12",
+          "AC — Acre",
+        ],
+        [
+          "13",
+          "AM — Amazonas",
+        ],
+        [
+          "16",
+          "AP — Amapá",
+        ],
+        [
+          "15",
+          "PA — Pará",
+        ],
+        [
+          "11",
+          "RO — Rondônia",
+        ],
+        [
+          "14",
+          "RR — Roraima",
+        ],
+        [
+          "17",
+          "TO — Tocantins",
+        ],
+        [
+          "27",
+          "AL — Alagoas",
+        ],
+        [
+          "29",
+          "BA — Bahia",
+        ],
+        [
+          "23",
+          "CE — Ceará",
+        ],
+        [
+          "21",
+          "MA — Maranhão",
+        ],
+        [
+          "25",
+          "PB — Paraíba",
+        ],
+        [
+          "26",
+          "PE — Pernambuco",
+        ],
+        [
+          "22",
+          "PI — Piauí",
+        ],
+        [
+          "24",
+          "RN — Rio Grande do Norte",
+        ],
+        [
+          "28",
+          "SE — Sergipe",
+        ],
+      ],
+      "rotulo": "UF",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "40",
+          "40 — Ciência da Computação (código 2005–2008)",
+        ],
+        [
+          "4004",
+          "4004 — Ciência da Computação (código 2011+)",
+        ],
+      ],
+      "rotulo": "Grupo (curso)",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "0",
+          "EAD",
+        ],
+        [
+          "1",
+          "Presencial",
+        ],
+      ],
+      "rotulo": "Modalidade",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Pública Federal",
+        ],
+        [
+          "2",
+          "Pública Estadual",
+        ],
+        [
+          "3",
+          "Pública Municipal",
+        ],
+        [
+          "4",
+          "Privada com fins lucrativos",
+        ],
+        [
+          "5",
+          "Privada sem fins lucrativos",
+        ],
+        [
+          "7",
+          "Especial",
+        ],
+      ],
+      "rotulo": "Categoria Adm.",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "10019",
+          "Universidade",
+        ],
+        [
+          "10020",
+          "Centro Universitário",
+        ],
+        [
+          "10022",
+          "Faculdade",
+        ],
+        [
+          "10026",
+          "IF e CEFET",
+        ],
+        [
+          "10027",
+          "Centro de Educação Tecnológica",
+        ],
+        [
+          "10028",
+          "Faculdade Integrada",
+        ],
+      ],
+      "rotulo": "Org. Acadêmica",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "checked": false,
+      "disabled": false,
+      "inputMode": "numeric",
+      "placeholder": "ex.: 1234",
+      "rotulo": "Cód. IES",
+      "tipo": "input",
+      "type": "number",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Cancelar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Aplicar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "10",
+          "10",
+        ],
+        [
+          "20",
+          "20",
+        ],
+        [
+          "50",
+          "50",
+        ],
+        [
+          "100",
+          "100",
+        ],
+      ],
+      "rotulo": "Top N",
+      "tipo": "select",
+      "valor": "20",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "1",
+          "1",
+        ],
+        [
+          "2",
+          "2",
+        ],
+        [
+          "5",
+          "5",
+        ],
+        [
+          "10",
+          "10",
+        ],
+      ],
+      "rotulo": "Mín. cursos",
+      "tipo": "select",
+      "valor": "1",
+    },
+  ],
+  "graficos": [],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/enade/regional",
+    "/enade-time/enade/uf",
+    "/enade-time/enade/ies",
+    "/enade-time/enade/comparar",
+    "/enade-time/enade/registros",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarRanking de IESIES ordenadas por Nota Geral (NT GER), com filtro mínimo de cursos para reduzir ruído de amostras pequenas.Top N102050100Mín. cursos12510#Cód. IESCat. Adm.Org. Acad.UF (cód.)RegistrosMédia FGMédia CEMédia GER119327510022262248,8349,7949,5625801100282682957,7046,7849,52325641100282544257,9444,5547,9145781100282943957,1242,5846,23525275110028262246,1844,1944,7065831100282343353,1941,7344,6075701100282428157,9538,8843,6585871100282619850,6840,5543,10941100281338055,3738,5542,771044841002023340,6042,9042,35115791100282535356,5737,0541,9412242100282924655,5736,9441,61134700410022265855,9536,6441,4814292100282345550,2938,2741,281531100282839549,5538,1941,0416669510020135053,9136,2740,6817402100282924957,4634,7440,42185481100282132654,5835,6040,3619666210028295760,1033,6440,262018071100262320445,3138,5140,23Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade regional: filtros na última opção + Aplicar grava a URL; Limpar e Cancelar 1`] = `
+{
+  "aplicado": [
+    [
+      "/enade-time/enade/regional?nu_ano=2021&co_regiao=2&co_ies=1234&co_grupo=4004&co_modalidade=1&co_categad=7&co_orgacad=10028",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+  "aposCancelar": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "campos": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "limpar": [
+    [
+      "/enade-time/enade/regional",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade regional: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchAnos": [
+      [],
+    ],
+    "fetchCategoriasAdm": [
+      [],
+    ],
+    "fetchGrupos": [
+      [],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+    "fetchModalidades": [
+      [],
+    ],
+    "fetchOrganizacoesAcademicas": [
+      [],
+    ],
+    "fetchRegioes": [
+      [],
+    ],
+    "fetchResumoRegiao": [
+      [
+        {},
+      ],
+    ],
+    "fetchUFs": [
+      [
+        undefined,
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "2005",
+          "2005",
+        ],
+        [
+          "2008",
+          "2008",
+        ],
+        [
+          "2011",
+          "2011",
+        ],
+        [
+          "2014",
+          "2014",
+        ],
+        [
+          "2017",
+          "2017",
+        ],
+        [
+          "2021",
+          "2021",
+        ],
+      ],
+      "rotulo": "Ano",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Norte",
+        ],
+        [
+          "2",
+          "Nordeste",
+        ],
+      ],
+      "rotulo": "Região",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "12",
+          "AC — Acre",
+        ],
+        [
+          "13",
+          "AM — Amazonas",
+        ],
+        [
+          "16",
+          "AP — Amapá",
+        ],
+        [
+          "15",
+          "PA — Pará",
+        ],
+        [
+          "11",
+          "RO — Rondônia",
+        ],
+        [
+          "14",
+          "RR — Roraima",
+        ],
+        [
+          "17",
+          "TO — Tocantins",
+        ],
+        [
+          "27",
+          "AL — Alagoas",
+        ],
+        [
+          "29",
+          "BA — Bahia",
+        ],
+        [
+          "23",
+          "CE — Ceará",
+        ],
+        [
+          "21",
+          "MA — Maranhão",
+        ],
+        [
+          "25",
+          "PB — Paraíba",
+        ],
+        [
+          "26",
+          "PE — Pernambuco",
+        ],
+        [
+          "22",
+          "PI — Piauí",
+        ],
+        [
+          "24",
+          "RN — Rio Grande do Norte",
+        ],
+        [
+          "28",
+          "SE — Sergipe",
+        ],
+      ],
+      "rotulo": "UF",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "40",
+          "40 — Ciência da Computação (código 2005–2008)",
+        ],
+        [
+          "4004",
+          "4004 — Ciência da Computação (código 2011+)",
+        ],
+      ],
+      "rotulo": "Grupo (curso)",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "0",
+          "EAD",
+        ],
+        [
+          "1",
+          "Presencial",
+        ],
+      ],
+      "rotulo": "Modalidade",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Pública Federal",
+        ],
+        [
+          "2",
+          "Pública Estadual",
+        ],
+        [
+          "3",
+          "Pública Municipal",
+        ],
+        [
+          "4",
+          "Privada com fins lucrativos",
+        ],
+        [
+          "5",
+          "Privada sem fins lucrativos",
+        ],
+        [
+          "7",
+          "Especial",
+        ],
+      ],
+      "rotulo": "Categoria Adm.",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "10019",
+          "Universidade",
+        ],
+        [
+          "10020",
+          "Centro Universitário",
+        ],
+        [
+          "10022",
+          "Faculdade",
+        ],
+        [
+          "10026",
+          "IF e CEFET",
+        ],
+        [
+          "10027",
+          "Centro de Educação Tecnológica",
+        ],
+        [
+          "10028",
+          "Faculdade Integrada",
+        ],
+      ],
+      "rotulo": "Org. Acadêmica",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "checked": false,
+      "disabled": false,
+      "inputMode": "numeric",
+      "placeholder": "ex.: 1234",
+      "rotulo": "Cód. IES",
+      "tipo": "input",
+      "type": "number",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Cancelar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Aplicar",
+      "tipo": "button",
+      "type": "button",
+    },
+  ],
+  "graficos": [
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 320,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "BarChart",
+      "props": {
+        "data": [
+          {
+            "co_regiao": 1,
+            "desvio_padrao": 8.208757456270224,
+            "media_geral": 49.18530868719611,
+            "media_geral_ce": 27.149323144246353,
+            "media_geral_ger": 32.663249594813614,
+            "media_max": 79.2,
+            "media_min": 26.8167,
+            "nome": "Norte",
+            "total_cursos": 58,
+            "total_registros": 6299,
+          },
+          {
+            "co_regiao": 2,
+            "desvio_padrao": 8.971560293077578,
+            "media_geral": 50.850822789572696,
+            "media_geral_ce": 31.416384509540446,
+            "media_geral_ger": 36.28115758667025,
+            "media_max": 75.8364,
+            "media_min": 4.0556,
+            "nome": "Nordeste",
+            "total_cursos": 158,
+            "total_registros": 18668,
+          },
+        ],
+        "margin": {
+          "bottom": 0,
+          "left": 0,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Média da Nota Geral e total de registros por região",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+        "yAxisId": "left",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "dataKey": "nome",
+        "tick": {},
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "domain": [
+          0,
+          100,
+        ],
+        "tick": {},
+        "yAxisId": "left",
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "orientation": "right",
+        "tick": {},
+        "yAxisId": "right",
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+      },
+    },
+    {
+      "componente": "Legend",
+      "props": {},
+    },
+    {
+      "componente": "Bar",
+      "props": {
+        "dataKey": "media_geral_ger",
+        "name": "Média NT GER",
+        "yAxisId": "left",
+      },
+    },
+    {
+      "componente": "Bar",
+      "props": {
+        "dataKey": "total_registros",
+        "name": "Total de registros",
+        "yAxisId": "right",
+      },
+    },
+  ],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/enade/regional",
+    "/enade-time/enade/uf",
+    "/enade-time/enade/ies",
+    "/enade-time/enade/comparar",
+    "/enade-time/enade/registros",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarMédia Nota Geral por regiãoComparação Norte vs. Nordeste — médias da Nota Geral (NT GER) e volume de registros.Detalhamento por regiãoRegiãoRegistrosMédia FGMínima FGMáxima FGDesvio-padrão FGMédia CEMédia GERNorte6.29949,1926,8279,208,2127,1532,66Nordeste18.66850,854,0675,848,9731,4236,28Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade registros: filtros na última opção + Aplicar grava a URL; Limpar e Cancelar 1`] = `
+{
+  "aplicado": [
+    [
+      "/enade-time/enade/registros?nu_ano=2021&co_regiao=2&co_ies=1234&co_grupo=4004&co_modalidade=1&co_categad=7&co_orgacad=10028",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+  "aposCancelar": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "campos": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "limpar": [
+    [
+      "/enade-time/enade/registros",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade registros: seletores próprios da tela mudam as consultas 1`] = `
+[
+  {
+    "api": {
+      "fetchRegistros": [
+        [
+          {},
+          1,
+          250,
+        ],
+      ],
+    },
+    "rotulo": "Itens por página",
+    "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarRegistros (paginados)Listagem bruta da tabela fato, com paginação no servidor. Combine com os filtros acima.Itens por página102550100250Mostrando 1–50 de 24.967 registros (500 páginas)Página 1 / 500IDAnoIESCursoCateg.Org.GrupoModal.UFRegiãoMédia NT FGMédia NT CEMédia NT GER12005331711002840—28256,9832,6538,7322005331711002840—28256,9832,6538,7332005331711002840—28256,9832,6538,7342005331711002840—28256,9832,6538,7352005331711002840—28256,9832,6538,7362005331711002840—28256,9832,6538,7372005331711002840—28256,9832,6538,7382005331711002840—28256,9832,6538,7392005331711002840—28256,9832,6538,73102005331711002840—28256,9832,6538,73112005331711002840—28256,9832,6538,73122005331711002840—28256,9832,6538,73132005331711002840—28256,9832,6538,73142005331711002840—28256,9832,6538,73152005331711002840—28256,9832,6538,73162005331711002840—28256,9832,6538,73172005331711002840—28256,9832,6538,73182005331711002840—28256,9832,6538,73192005331711002840—28256,9832,6538,73202005331711002840—28256,9832,6538,73212005331711002840—28256,9832,6538,73222005331711002840—28256,9832,6538,73232005331711002840—28256,9832,6538,73242005331711002840—28256,9832,6538,73252005331711002840—28256,9832,6538,73262005331711002840—28256,9832,6538,73272005331711002840—28256,9832,6538,73282005331711002840—28256,9832,6538,73292005331711002840—28256,9832,6538,73302005331711002840—28256,9832,6538,73312005331711002840—28256,9832,6538,73322005331711002840—28256,9832,6538,73332005331711002840—28256,9832,6538,73342005331711002840—28256,9832,6538,73352005331711002840—28256,9832,6538,73362005331711002840—28256,9832,6538,73372005331711002840—28256,9832,6538,73382005331711002840—28256,9832,6538,73392005331711002840—28256,9832,6538,73402005331711002840—28256,9832,6538,73412005331711002840—28256,9832,6538,73422005331711002840—28256,9832,6538,73432005331711002840—28256,9832,6538,73442005331711002840—28256,9832,6538,73452005331711002840—28256,9832,6538,73462005331711002840—28256,9832,6538,73472005331711002840—28256,9832,6538,73482005331711002840—28256,9832,6538,73492005331711002840—28256,9832,6538,73502005551311002840—22270,3128,1938,70Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+    "valor": "250",
+  },
+]
+`;
+
+exports[`ENADE-Time: caracterização > enade registros: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchAnos": [
+      [],
+    ],
+    "fetchCategoriasAdm": [
+      [],
+    ],
+    "fetchGrupos": [
+      [],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+    "fetchModalidades": [
+      [],
+    ],
+    "fetchOrganizacoesAcademicas": [
+      [],
+    ],
+    "fetchRegioes": [
+      [],
+    ],
+    "fetchRegistros": [
+      [
+        {},
+        1,
+        50,
+      ],
+    ],
+    "fetchUFs": [
+      [
+        undefined,
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "2005",
+          "2005",
+        ],
+        [
+          "2008",
+          "2008",
+        ],
+        [
+          "2011",
+          "2011",
+        ],
+        [
+          "2014",
+          "2014",
+        ],
+        [
+          "2017",
+          "2017",
+        ],
+        [
+          "2021",
+          "2021",
+        ],
+      ],
+      "rotulo": "Ano",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Norte",
+        ],
+        [
+          "2",
+          "Nordeste",
+        ],
+      ],
+      "rotulo": "Região",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "12",
+          "AC — Acre",
+        ],
+        [
+          "13",
+          "AM — Amazonas",
+        ],
+        [
+          "16",
+          "AP — Amapá",
+        ],
+        [
+          "15",
+          "PA — Pará",
+        ],
+        [
+          "11",
+          "RO — Rondônia",
+        ],
+        [
+          "14",
+          "RR — Roraima",
+        ],
+        [
+          "17",
+          "TO — Tocantins",
+        ],
+        [
+          "27",
+          "AL — Alagoas",
+        ],
+        [
+          "29",
+          "BA — Bahia",
+        ],
+        [
+          "23",
+          "CE — Ceará",
+        ],
+        [
+          "21",
+          "MA — Maranhão",
+        ],
+        [
+          "25",
+          "PB — Paraíba",
+        ],
+        [
+          "26",
+          "PE — Pernambuco",
+        ],
+        [
+          "22",
+          "PI — Piauí",
+        ],
+        [
+          "24",
+          "RN — Rio Grande do Norte",
+        ],
+        [
+          "28",
+          "SE — Sergipe",
+        ],
+      ],
+      "rotulo": "UF",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "40",
+          "40 — Ciência da Computação (código 2005–2008)",
+        ],
+        [
+          "4004",
+          "4004 — Ciência da Computação (código 2011+)",
+        ],
+      ],
+      "rotulo": "Grupo (curso)",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "0",
+          "EAD",
+        ],
+        [
+          "1",
+          "Presencial",
+        ],
+      ],
+      "rotulo": "Modalidade",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Pública Federal",
+        ],
+        [
+          "2",
+          "Pública Estadual",
+        ],
+        [
+          "3",
+          "Pública Municipal",
+        ],
+        [
+          "4",
+          "Privada com fins lucrativos",
+        ],
+        [
+          "5",
+          "Privada sem fins lucrativos",
+        ],
+        [
+          "7",
+          "Especial",
+        ],
+      ],
+      "rotulo": "Categoria Adm.",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "10019",
+          "Universidade",
+        ],
+        [
+          "10020",
+          "Centro Universitário",
+        ],
+        [
+          "10022",
+          "Faculdade",
+        ],
+        [
+          "10026",
+          "IF e CEFET",
+        ],
+        [
+          "10027",
+          "Centro de Educação Tecnológica",
+        ],
+        [
+          "10028",
+          "Faculdade Integrada",
+        ],
+      ],
+      "rotulo": "Org. Acadêmica",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "checked": false,
+      "disabled": false,
+      "inputMode": "numeric",
+      "placeholder": "ex.: 1234",
+      "rotulo": "Cód. IES",
+      "tipo": "input",
+      "type": "number",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Cancelar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Aplicar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "10",
+          "10",
+        ],
+        [
+          "25",
+          "25",
+        ],
+        [
+          "50",
+          "50",
+        ],
+        [
+          "100",
+          "100",
+        ],
+        [
+          "250",
+          "250",
+        ],
+      ],
+      "rotulo": "Itens por página",
+      "tipo": "select",
+      "valor": "50",
+    },
+    {
+      "disabled": true,
+      "pressed": null,
+      "rotulo": "Página anterior",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Próxima página",
+      "tipo": "button",
+      "type": "button",
+    },
+  ],
+  "graficos": [],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/enade/regional",
+    "/enade-time/enade/uf",
+    "/enade-time/enade/ies",
+    "/enade-time/enade/comparar",
+    "/enade-time/enade/registros",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarRegistros (paginados)Listagem bruta da tabela fato, com paginação no servidor. Combine com os filtros acima.Itens por página102550100250Mostrando 1–50 de 24.967 registros (500 páginas)Página 1 / 500IDAnoIESCursoCateg.Org.GrupoModal.UFRegiãoMédia NT FGMédia NT CEMédia NT GER12005331711002840—28256,9832,6538,7322005331711002840—28256,9832,6538,7332005331711002840—28256,9832,6538,7342005331711002840—28256,9832,6538,7352005331711002840—28256,9832,6538,7362005331711002840—28256,9832,6538,7372005331711002840—28256,9832,6538,7382005331711002840—28256,9832,6538,7392005331711002840—28256,9832,6538,73102005331711002840—28256,9832,6538,73112005331711002840—28256,9832,6538,73122005331711002840—28256,9832,6538,73132005331711002840—28256,9832,6538,73142005331711002840—28256,9832,6538,73152005331711002840—28256,9832,6538,73162005331711002840—28256,9832,6538,73172005331711002840—28256,9832,6538,73182005331711002840—28256,9832,6538,73192005331711002840—28256,9832,6538,73202005331711002840—28256,9832,6538,73212005331711002840—28256,9832,6538,73222005331711002840—28256,9832,6538,73232005331711002840—28256,9832,6538,73242005331711002840—28256,9832,6538,73252005331711002840—28256,9832,6538,73262005331711002840—28256,9832,6538,73272005331711002840—28256,9832,6538,73282005331711002840—28256,9832,6538,73292005331711002840—28256,9832,6538,73302005331711002840—28256,9832,6538,73312005331711002840—28256,9832,6538,73322005331711002840—28256,9832,6538,73332005331711002840—28256,9832,6538,73342005331711002840—28256,9832,6538,73352005331711002840—28256,9832,6538,73362005331711002840—28256,9832,6538,73372005331711002840—28256,9832,6538,73382005331711002840—28256,9832,6538,73392005331711002840—28256,9832,6538,73402005331711002840—28256,9832,6538,73412005331711002840—28256,9832,6538,73422005331711002840—28256,9832,6538,73432005331711002840—28256,9832,6538,73442005331711002840—28256,9832,6538,73452005331711002840—28256,9832,6538,73462005331711002840—28256,9832,6538,73472005331711002840—28256,9832,6538,73482005331711002840—28256,9832,6538,73492005331711002840—28256,9832,6538,73502005551311002840—22270,3128,1938,70Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade uf: filtros na última opção + Aplicar grava a URL; Limpar e Cancelar 1`] = `
+{
+  "aplicado": [
+    [
+      "/enade-time/enade/uf?nu_ano=2021&co_regiao=2&co_ies=1234&co_grupo=4004&co_modalidade=1&co_categad=7&co_orgacad=10028",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+  "aposCancelar": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "campos": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ],
+  "limpar": [
+    [
+      "/enade-time/enade/uf",
+      {
+        "scroll": false,
+      },
+    ],
+  ],
+}
+`;
+
+exports[`ENADE-Time: caracterização > enade uf: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchAnos": [
+      [],
+    ],
+    "fetchCategoriasAdm": [
+      [],
+    ],
+    "fetchGrupos": [
+      [],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+    "fetchModalidades": [
+      [],
+    ],
+    "fetchOrganizacoesAcademicas": [
+      [],
+    ],
+    "fetchRegioes": [
+      [],
+    ],
+    "fetchResumoUF": [
+      [
+        {},
+      ],
+    ],
+    "fetchUFs": [
+      [
+        undefined,
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            "page",
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "2005",
+          "2005",
+        ],
+        [
+          "2008",
+          "2008",
+        ],
+        [
+          "2011",
+          "2011",
+        ],
+        [
+          "2014",
+          "2014",
+        ],
+        [
+          "2017",
+          "2017",
+        ],
+        [
+          "2021",
+          "2021",
+        ],
+      ],
+      "rotulo": "Ano",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Norte",
+        ],
+        [
+          "2",
+          "Nordeste",
+        ],
+      ],
+      "rotulo": "Região",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "12",
+          "AC — Acre",
+        ],
+        [
+          "13",
+          "AM — Amazonas",
+        ],
+        [
+          "16",
+          "AP — Amapá",
+        ],
+        [
+          "15",
+          "PA — Pará",
+        ],
+        [
+          "11",
+          "RO — Rondônia",
+        ],
+        [
+          "14",
+          "RR — Roraima",
+        ],
+        [
+          "17",
+          "TO — Tocantins",
+        ],
+        [
+          "27",
+          "AL — Alagoas",
+        ],
+        [
+          "29",
+          "BA — Bahia",
+        ],
+        [
+          "23",
+          "CE — Ceará",
+        ],
+        [
+          "21",
+          "MA — Maranhão",
+        ],
+        [
+          "25",
+          "PB — Paraíba",
+        ],
+        [
+          "26",
+          "PE — Pernambuco",
+        ],
+        [
+          "22",
+          "PI — Piauí",
+        ],
+        [
+          "24",
+          "RN — Rio Grande do Norte",
+        ],
+        [
+          "28",
+          "SE — Sergipe",
+        ],
+      ],
+      "rotulo": "UF",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todos",
+        ],
+        [
+          "40",
+          "40 — Ciência da Computação (código 2005–2008)",
+        ],
+        [
+          "4004",
+          "4004 — Ciência da Computação (código 2011+)",
+        ],
+      ],
+      "rotulo": "Grupo (curso)",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "0",
+          "EAD",
+        ],
+        [
+          "1",
+          "Presencial",
+        ],
+      ],
+      "rotulo": "Modalidade",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "1",
+          "Pública Federal",
+        ],
+        [
+          "2",
+          "Pública Estadual",
+        ],
+        [
+          "3",
+          "Pública Municipal",
+        ],
+        [
+          "4",
+          "Privada com fins lucrativos",
+        ],
+        [
+          "5",
+          "Privada sem fins lucrativos",
+        ],
+        [
+          "7",
+          "Especial",
+        ],
+      ],
+      "rotulo": "Categoria Adm.",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "opcoes": [
+        [
+          "",
+          "Todas",
+        ],
+        [
+          "10019",
+          "Universidade",
+        ],
+        [
+          "10020",
+          "Centro Universitário",
+        ],
+        [
+          "10022",
+          "Faculdade",
+        ],
+        [
+          "10026",
+          "IF e CEFET",
+        ],
+        [
+          "10027",
+          "Centro de Educação Tecnológica",
+        ],
+        [
+          "10028",
+          "Faculdade Integrada",
+        ],
+      ],
+      "rotulo": "Org. Acadêmica",
+      "tipo": "select",
+      "valor": "",
+    },
+    {
+      "checked": false,
+      "disabled": false,
+      "inputMode": "numeric",
+      "placeholder": "ex.: 1234",
+      "rotulo": "Cód. IES",
+      "tipo": "input",
+      "type": "number",
+      "valor": "",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Cancelar",
+      "tipo": "button",
+      "type": "button",
+    },
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Aplicar",
+      "tipo": "button",
+      "type": "button",
+    },
+  ],
+  "graficos": [
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 448,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "BarChart",
+      "props": {
+        "data": [
+          {
+            "co_regiao": 2,
+            "co_uf": 28,
+            "desvio_padrao": 7.550797970706717,
+            "media_geral": 49.714268289085545,
+            "media_geral_ce": 35.53243067846608,
+            "media_geral_ger": 39.0831314159292,
+            "media_max": 62.7116,
+            "media_min": 39.8695,
+            "nome": "Sergipe",
+            "sigla": "SE",
+            "total_cursos": 5,
+            "total_registros": 678,
+          },
+          {
+            "co_regiao": 2,
+            "co_uf": 25,
+            "desvio_padrao": 9.812698813665211,
+            "media_geral": 52.034127050113895,
+            "media_geral_ce": 34.491253872437355,
+            "media_geral_ger": 38.88382181093394,
+            "media_max": 70.2872,
+            "media_min": 31.2,
+            "nome": "Paraíba",
+            "sigla": "PB",
+            "total_cursos": 13,
+            "total_registros": 1783,
+          },
+          {
+            "co_regiao": 2,
+            "co_uf": 26,
+            "desvio_padrao": 9.68182338284341,
+            "media_geral": 50.54515608846256,
+            "media_geral_ce": 32.90900074606981,
+            "media_geral_ger": 37.32607612576605,
+            "media_max": 75.8364,
+            "media_min": 28.7625,
+            "nome": "Pernambuco",
+            "sigla": "PE",
+            "total_cursos": 27,
+            "total_registros": 3754,
+          },
+          {
+            "co_regiao": 2,
+            "co_uf": 23,
+            "desvio_padrao": 8.152108628083674,
+            "media_geral": 49.72731270925863,
+            "media_geral_ce": 32.838888691493,
+            "media_geral_ger": 37.06819371370003,
+            "media_max": 70.3188,
+            "media_min": 32.8953,
+            "nome": "Ceará",
+            "sigla": "CE",
+            "total_cursos": 26,
+            "total_registros": 2927,
+          },
+          {
+            "co_regiao": 2,
+            "co_uf": 24,
+            "desvio_padrao": 6.197206996882211,
+            "media_geral": 53.48974503816794,
+            "media_geral_ce": 30.38325335029686,
+            "media_geral_ger": 36.16546505513147,
+            "media_max": 65.41,
+            "media_min": 35.7,
+            "nome": "Rio Grande do Norte",
+            "sigla": "RN",
+            "total_cursos": 12,
+            "total_registros": 1179,
+          },
+          {
+            "co_regiao": 2,
+            "co_uf": 29,
+            "desvio_padrao": 8.42479875022165,
+            "media_geral": 52.47983507635354,
+            "media_geral_ce": 29.944390143452104,
+            "media_geral_ger": 35.58076099028228,
+            "media_max": 71.0966,
+            "media_min": 11.1944,
+            "nome": "Bahia",
+            "sigla": "BA",
+            "total_cursos": 36,
+            "total_registros": 4330,
+          },
+          {
+            "co_regiao": 2,
+            "co_uf": 21,
+            "desvio_padrao": 6.9428622852635185,
+            "media_geral": 51.21467888799356,
+            "media_geral_ce": 28.954613779210316,
+            "media_geral_ger": 34.52690080580177,
+            "media_max": 63.613,
+            "media_min": 29.1947,
+            "nome": "Maranhão",
+            "sigla": "MA",
+            "total_cursos": 10,
+            "total_registros": 1241,
+          },
+          {
+            "co_regiao": 2,
+            "co_uf": 22,
+            "desvio_padrao": 10.132819699888422,
+            "media_geral": 50.87867595445412,
+            "media_geral_ce": 28.44543556597455,
+            "media_geral_ger": 34.06272819825854,
+            "media_max": 70.3125,
+            "media_min": 4.0556,
+            "nome": "Piauí",
+            "sigla": "PI",
+            "total_cursos": 20,
+            "total_registros": 1520,
+          },
+          {
+            "co_regiao": 1,
+            "co_uf": 13,
+            "desvio_padrao": 8.452375459292359,
+            "media_geral": 47.75305366093366,
+            "media_geral_ce": 28.629980442260443,
+            "media_geral_ger": 33.41688732186732,
+            "media_max": 66.4652,
+            "media_min": 29.8571,
+            "nome": "Amazonas",
+            "sigla": "AM",
+            "total_cursos": 14,
+            "total_registros": 2035,
+          },
+          {
+            "co_regiao": 2,
+            "co_uf": 27,
+            "desvio_padrao": 9.214908406995178,
+            "media_geral": 44.866246496815286,
+            "media_geral_ce": 29.11948734076433,
+            "media_geral_ger": 33.06253710191083,
+            "media_max": 64.4286,
+            "media_min": 31.5471,
+            "nome": "Alagoas",
+            "sigla": "AL",
+            "total_cursos": 9,
+            "total_registros": 1256,
+          },
+          {
+            "co_regiao": 1,
+            "co_uf": 17,
+            "desvio_padrao": 8.888771025683665,
+            "media_geral": 48.51417722222222,
+            "media_geral_ce": 27.83458911111111,
+            "media_geral_ger": 33.009867,
+            "media_max": 79.2,
+            "media_min": 26.8167,
+            "nome": "Tocantins",
+            "sigla": "TO",
+            "total_cursos": 8,
+            "total_registros": 904,
+          },
+          {
+            "co_regiao": 1,
+            "co_uf": 15,
+            "desvio_padrao": 7.269100081389989,
+            "media_geral": 51.639330830280834,
+            "media_geral_ce": 26.7397884004884,
+            "media_geral_ger": 32.966666117216114,
+            "media_max": 66.8881,
+            "media_min": 32.1739,
+            "nome": "Pará",
+            "sigla": "PA",
+            "total_cursos": 17,
+            "total_registros": 1763,
+          },
+          {
+            "co_regiao": 1,
+            "co_uf": 16,
+            "desvio_padrao": 6.141302521795174,
+            "media_geral": 48.06971418685121,
+            "media_geral_ce": 27.145168512110725,
+            "media_geral_ger": 32.37814705882353,
+            "media_max": 54.0582,
+            "media_min": 27.9,
+            "nome": "Amapá",
+            "sigla": "AP",
+            "total_cursos": 5,
+            "total_registros": 289,
+          },
+          {
+            "co_regiao": 1,
+            "co_uf": 14,
+            "desvio_padrao": 8.000841895963989,
+            "media_geral": 47.1398845659164,
+            "media_geral_ce": 25.89952122186495,
+            "media_geral_ger": 31.213607395498393,
+            "media_max": 63.495,
+            "media_min": 27.3333,
+            "nome": "Roraima",
+            "sigla": "RR",
+            "total_cursos": 3,
+            "total_registros": 311,
+          },
+          {
+            "co_regiao": 1,
+            "co_uf": 12,
+            "desvio_padrao": 9.62050766581359,
+            "media_geral": 49.637591749174916,
+            "media_geral_ce": 24.857488448844883,
+            "media_geral_ger": 31.045754455445543,
+            "media_max": 62.8128,
+            "media_min": 34.5909,
+            "nome": "Acre",
+            "sigla": "AC",
+            "total_cursos": 2,
+            "total_registros": 303,
+          },
+          {
+            "co_regiao": 1,
+            "co_uf": 11,
+            "desvio_padrao": 7.39271496452876,
+            "media_geral": 49.64706801152738,
+            "media_geral_ce": 24.447962824207494,
+            "media_geral_ger": 30.76228371757925,
+            "media_max": 60.7273,
+            "media_min": 30,
+            "nome": "Rondônia",
+            "sigla": "RO",
+            "total_cursos": 9,
+            "total_registros": 694,
+          },
+        ],
+        "layout": "vertical",
+        "margin": {
+          "bottom": 0,
+          "left": 12,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Média da Nota Geral por UF",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "domain": [
+          0,
+          100,
+        ],
+        "tick": {},
+        "type": "number",
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "dataKey": "sigla",
+        "tick": {},
+        "type": "category",
+        "width": 50,
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+        "labelFormatter": "[função]",
+      },
+    },
+    {
+      "componente": "Bar",
+      "props": {
+        "dataKey": "media_geral_ger",
+        "name": "Média NT GER",
+      },
+    },
+  ],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/enade/regional",
+    "/enade-time/enade/uf",
+    "/enade-time/enade/ies",
+    "/enade-time/enade/comparar",
+    "/enade-time/enade/registros",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Análises ENADEENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEAnálises ENADEIndicadores agregados dos microdados ENADE para cursos de Computação no Norte e Nordeste (2005–2021). Use os filtros abaixo para refinar a análise.Por AnoPor RegiãoPor UFRanking IESCompararRegistrosFiltrosAnoTodos200520082011201420172021RegiãoTodasNorteNordesteUFTodasAC — AcreAM — AmazonasAP — AmapáPA — ParáRO — RondôniaRR — RoraimaTO — TocantinsAL — AlagoasBA — BahiaCE — CearáMA — MaranhãoPB — ParaíbaPE — PernambucoPI — PiauíRN — Rio Grande do NorteSE — SergipeGrupo (curso)Todos40 — Ciência da Computação (código 2005–2008)4004 — Ciência da Computação (código 2011+)ModalidadeTodasEADPresencialCategoria Adm.TodasPública FederalPública EstadualPública MunicipalPrivada com fins lucrativosPrivada sem fins lucrativosEspecialOrg. AcadêmicaTodasUniversidadeCentro UniversitárioFaculdadeIF e CEFETCentro de Educação TecnológicaFaculdade IntegradaCód. IESCancelarAplicarMédia Nota Geral por UFRanking horizontal de médias da Nota Geral (NT GER) por unidade federativa (escala 0–100). Use o filtro de região para focar.Detalhamento por UFUFNomeRegiãoRegistrosMédia FGMínima FGMáxima FGDesvio FGMédia CEMédia GERACAcre130349,6434,5962,819,6224,8631,05AMAmazonas12.03547,7529,8666,478,4528,6333,42APAmapá128948,0727,9054,066,1427,1532,38PAPará11.76351,6432,1766,897,2726,7432,97RORondônia169449,6530,0060,737,3924,4530,76RRRoraima131147,1427,3363,508,0025,9031,21TOTocantins190448,5126,8279,208,8927,8333,01ALAlagoas21.25644,8731,5564,439,2129,1233,06BABahia24.33052,4811,1971,108,4229,9435,58CECeará22.92749,7332,9070,328,1532,8437,07MAMaranhão21.24151,2129,1963,616,9428,9534,53PBParaíba21.78352,0331,2070,299,8134,4938,88PEPernambuco23.75450,5528,7675,849,6832,9137,33PIPiauí21.52050,884,0670,3110,1328,4534,06RNRio Grande do Norte21.17953,4935,7065,416,2030,3836,17SESergipe267849,7139,8762,717,5535,5339,08Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > não encontrada: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchHealth": [
+      [],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [],
+  "graficos": [],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+  ],
+  "texto": "Home/Subprojetos/ENADE-TimeENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NE404A página solicitada não existe no ENADE-Time.Voltar à visão geralSubprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > registros: paginação 1`] = `
+{
+  "depois": [
+    [
+      "Página anterior",
+      false,
+    ],
+    [
+      "Próxima página",
+      false,
+    ],
+  ],
+  "inicio": [
+    [
+      "Página anterior",
+      true,
+    ],
+    [
+      "Próxima página",
+      false,
+    ],
+  ],
+  "registros": [
+    [
+      {},
+      1,
+      50,
+    ],
+    [
+      {},
+      2,
+      50,
+    ],
+  ],
+}
+`;
+
+exports[`ENADE-Time: caracterização > sobre: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchHealth": [
+      [],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            "page",
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            "page",
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [],
+  "graficos": [],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/SobreENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NESobre o projetoENADE-Time Distribuído — Sistema Paralelo de Análise Longitudinal dos Microdados do ENADE. Projeto acadêmico de Sistemas Paralelos e Distribuídos.EscopoRecorte definido para tornar o experimento tratávelCursos: Computação (CO_GRUPO ∈ {40, 4004}). São dois códigos para o mesmo curso: o INEP usou 40 nas edições de 2005 e 2008 e passou a 4004 a partir de 2011.Regiões: Norte e Nordeste (CO_REGIAO_CURSO ∈ {1, 2}).Edições do ENADE: 2005, 2008, 2011, 2014, 2017, 2021 (ciclos trienais; 2021 é reaplicação pós-pandemia).Total processado: 24.967 inscrições consolidadas na tabela fato — 582 cursos-ano, que é a unidade analítica (as linhas replicadas funcionam como peso por matrícula nas médias).ArquiteturaCamadas independentes, integradas via PostgreSQLBanco de dadosPostgreSQL 16 (Docker) local, o instrumento de medição do experimento: schema dimensional (fato + dimensões) e views agregadas. A publicação dos resultados no Supabase do ecossistema é uma etapa separada.ETL paraleloPython (pandas + ProcessPoolExecutor). Workers puros processando ano-a-ano; a ordem de submissão (crescente ou LPT) é uma variável do experimento, porque o executor entrega cada ano ao primeiro worker livre.API read-onlyFastAPI + psycopg2 (enade_time/ no EnadeX, rotas em /api/enade-time), pool de conexões preguiçoso, sem ORM. Quando o banco está fora, responde 503 em vez de derrubar a API. CORS restrito ao frontend em localhost:3000.DashboardNext.js 16 (App Router) no frontend do EnadeX, com TanStack Query e Recharts, consumindo a API HTTP do ENADE-Time. A SPA original em Vite fica preservada como artefato do TCC.Metodologia do benchmark (campanha v2)Métricas-padrão de paralelismo, pareadas por suíteUma campanha tem várias suítes; cada suíte roda um sequencial e, em seguida, as configurações paralelas (2, 3, 4 e 6 workers, em duas ordens de submissão). Cada paralela é comparada com o sequencial da própria suíte — definição única, em SQL (v_benchmark_metricas); o dashboard mostra a mediana por configuração com mínimo e máximo entre suítes. As métricas são:SpeedupS(p) = T(1) / T(p) — quantas vezes mais rápido que o sequencial.EficiênciaE(p) = S(p) / p — fração do speedup ideal alcançada.ThroughputLinhas processadas por segundo de processamento.Condições declaradasMáquina com núcleos físicos e lógicos registrados, passada de aquecimento descartada (cache quente declarado), CPU ociosa medida antes de começar, CPU média e bytes lidos do disco por execução; sempre fora do OneDrive.Fases do projetoEstado atual e roadmapFase 1 (concluída): ETL inicial e schema PostgreSQL.Fase 2 (concluída): Benchmark sequencial vs. paralelo (primeiras rodadas com 2 e 4 workers).Fase 3 (concluída): API FastAPI read-only para consumo pelo dashboard.Fase 4 (concluída): Dashboard React/Vite, agora portado para o Next.js do EnadeX.Fase 5 (concluída): Empacotamento e documentação — Dockerfile da API e serviço opcional no docker-compose.Fase 6 (atual): Benchmark v2 — correção do baseline do comparativo (pareamento por suíte), ordem de submissão como variável, campanha oficial com repetições e instrumentação — e migração para o ecossistema EnadeX (enade_time/).Projeto acadêmico — sem fins comerciais.Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > spd carga: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchCarga": [
+      [],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [],
+  "graficos": [
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 260,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "BarChart",
+      "props": {
+        "data": [
+          {
+            "erro": [
+              0.18000000000000016,
+              1.4599999999999997,
+            ],
+            "label": "COPY local",
+            "tempo": 1.82,
+          },
+          {
+            "erro": [
+              0.9599999999999991,
+              7.6800000000000015,
+            ],
+            "label": "COPY pooler",
+            "tempo": 9.6,
+          },
+          {
+            "erro": [
+              3.120000000000001,
+              24.959999999999997,
+            ],
+            "label": "Upsert PostgREST",
+            "tempo": 31.2,
+          },
+          {
+            "erro": [
+              0.09999999999999998,
+              0.76,
+            ],
+            "label": "Local sem estrutura",
+            "tempo": 0.95,
+          },
+        ],
+        "layout": "vertical",
+        "margin": {
+          "bottom": 8,
+          "left": 8,
+          "right": 24,
+          "top": 8,
+        },
+        "title": "Custo de publicação por estratégia: mediana e variação entre repetições",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "domain": [
+          0,
+          "auto",
+        ],
+        "tick": {},
+        "tickFormatter": "[função]",
+        "type": "number",
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "dataKey": "label",
+        "tick": {},
+        "type": "category",
+        "width": 150,
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+      },
+    },
+    {
+      "componente": "Bar",
+      "props": {
+        "dataKey": "tempo",
+        "name": "Mediana (barra = mín–máx)",
+      },
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "ErrorBar",
+      "props": {
+        "dataKey": "erro",
+        "width": 6,
+      },
+    },
+  ],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/spd/comparativo",
+    "/enade-time/spd/execucoes",
+    "/enade-time/spd/metricas",
+    "/enade-time/spd/carga",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Benchmark SPDENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEBenchmark SPDResultados do experimento de processamento paralelo dos microdados ENADE. Comparação entre execução sequencial e paralela (2, 3, 4 e 6 workers, em duas ordens de submissão).ComparativoExecuçõesMétricasCusto de publicaçãoCusto de publicar a base: local × nuvemMedição à parte do experimento de paralelismo: quanto custa carregar as 24.967 linhas num destino vazio. Mediana e variação entre 5 repetições; não é speedup e não se compara com a aba Comparativo.Tempo de carga por estratégiaMediana entre as repetições; a barra de erro vai do mínimo ao máximo. Em cinza, os controles (destino com menos estrutura).Resultados por estratégiaEstratégianMedianaMín – máxIQRLinhas/sRTT medianoConferênciaCOPY no Postgres local51,82 s1,64 s – 3,28 s0,22 s13.7180,40 msmd5 confereCOPY pelo Session Pooler (Supabase)59,60 s8,64 s – 17,28 s1,15 s2.60138,50 msmd5 confereUpsert em lotes pelo PostgREST (Supabase)531,20 s28,08 s – 56,16 s3,74 s80041,00 msmd5 confereControle: COPY local, sem índices nem FKs controle50,95 s0,85 s – 1,71 s0,11 s26.2810,40 msmd5 confereComo lerCada repetição carrega as 24.967 linhas numa tabela vazia e dedicada (3.400.000 bytes), com o TRUNCATE por conexão direta fora do tempo medido e o md5 do destino conferido contra a tabela fato; 5 repetições por estratégia, intercaladas, com a rede em Wi-Fi doméstico. É custo de publicação, não ganho de paralelismo, e vale para estas condições (rede, RTT e host): uma medição situada, não uma propriedade do Supabase.A mediana do COPY no Postgres local foi 1,82 s e a do COPY pelo Session Pooler do Supabase, 9,60 s, com RTT mediano de 0,4 ms e 38,5 ms (cerca de 96 vezes maior na nuvem). O IQR foi de 0,22 s no local e de 1,15 s na nuvem. Em uma rodada anterior, com o mesmo protocolo para estas duas estratégias, as medianas do COPY local e do COPY pelo pooler foram 2,05 s e 11,30 s: o nível dos tempos e a distância entre o local e a nuvem mudam de uma rodada para a outra com a rede e a carga da máquina, e é por isso que o resultado vale como medição situada.A cauda da nuvem (a repetição mais lenta levou 17,28 s) não acompanhou o RTT medido antes de cada carga: o RTT não a explica. Pode ser a vazão do enlace durante o envio, que não foi medida.Os controles localizam o custo. No Postgres local, sem índices nem chaves estrangeiras o mesmo COPY leva 0,95 s; com tudo, como na tabela fato, 1,82 s. Hipótese a testar, não medida aqui: carregar sem as chaves estrangeiras e criá-las depois (a validação em bloco evita um gatilho por linha) reduziria o custo de uma republicação.O upsert em lotes de 2.000 linhas pelo PostgREST (util_db do grupo, com a chave pública) levou 31,20 s de mediana, com IQR de 3,74 s e RTT mediano de 41,0 ms, cerca de 3,3 vezes o COPY pelo pooler. São 13 requisições HTTP em sequência, cada uma com a ida e volta da rede e a manutenção da estrutura no servidor; como não há controle sem estrutura para o upsert, estas medições não separam uma coisa da outra.Para o md5 bater, as três colunas decimais da fato vão como texto já arredondado a 4 casas. Como número, os valores que são empate exato na 5ª casa (12 na base atual) seriam arredondados para cima pelo PostgreSQL, enquanto o COPY da etapa 06 (\`%.4f\` do Python) vai para o par: a tabela sairia 0,0001 acima do COPY nessas médias.Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > spd comparativo: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchComparativo": [
+      [
+        true,
+      ],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [],
+  "graficos": [
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 300,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "BarChart",
+      "props": {
+        "data": [
+          {
+            "erro": [
+              1.9200000000000017,
+              2.3999999999999986,
+            ],
+            "label": "Sequencial",
+            "tempo": 48,
+          },
+          {
+            "erro": [
+              1.0599999999999987,
+              1.3200000000000003,
+            ],
+            "label": "2w · crescente",
+            "tempo": 26.4,
+          },
+          {
+            "erro": [
+              0.6099999999999994,
+              0.7600000000000016,
+            ],
+            "label": "4w · crescente",
+            "tempo": 15.2,
+          },
+          {
+            "erro": [
+              0.47000000000000064,
+              0.5899999999999999,
+            ],
+            "label": "8w · crescente",
+            "tempo": 11.8,
+          },
+          {
+            "erro": [
+              1,
+              1.259999999999998,
+            ],
+            "label": "2w · LPT",
+            "tempo": 25.1,
+          },
+          {
+            "erro": [
+              0.5600000000000005,
+              0.6999999999999993,
+            ],
+            "label": "4w · LPT",
+            "tempo": 13.9,
+          },
+          {
+            "erro": [
+              0.41999999999999993,
+              0.5300000000000011,
+            ],
+            "label": "8w · LPT",
+            "tempo": 10.6,
+          },
+        ],
+        "margin": {
+          "bottom": 8,
+          "left": 0,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Tempo total de execução por configuração",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "angle": -30,
+        "dataKey": "label",
+        "height": 64,
+        "interval": 0,
+        "textAnchor": "end",
+        "tick": {},
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "tick": {},
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+      },
+    },
+    {
+      "componente": "Bar",
+      "props": {
+        "dataKey": "tempo",
+        "name": "Tempo (mediana; barra = mín–máx)",
+      },
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "ErrorBar",
+      "props": {
+        "dataKey": "erro",
+        "width": 6,
+      },
+    },
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 300,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "BarChart",
+      "props": {
+        "data": [
+          {
+            "erro": [
+              0.09099999999999997,
+              0.07299999999999995,
+            ],
+            "label": "2w · crescente",
+            "speedup": 1.818,
+            "workers": 2,
+          },
+          {
+            "erro": [
+              0.15799999999999992,
+              0.1259999999999999,
+            ],
+            "label": "4w · crescente",
+            "speedup": 3.158,
+            "workers": 4,
+          },
+          {
+            "erro": [
+              0.20399999999999974,
+              0.16300000000000026,
+            ],
+            "label": "8w · crescente",
+            "speedup": 4.068,
+            "workers": 8,
+          },
+          {
+            "erro": [
+              0.09499999999999997,
+              0.07700000000000018,
+            ],
+            "label": "2w · LPT",
+            "speedup": 1.912,
+            "workers": 2,
+          },
+          {
+            "erro": [
+              0.1719999999999997,
+              0.13800000000000034,
+            ],
+            "label": "4w · LPT",
+            "speedup": 3.453,
+            "workers": 4,
+          },
+          {
+            "erro": [
+              0.22599999999999998,
+              0.18100000000000005,
+            ],
+            "label": "8w · LPT",
+            "speedup": 4.528,
+            "workers": 8,
+          },
+        ],
+        "margin": {
+          "bottom": 8,
+          "left": 0,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Speedup por configuração",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "angle": -30,
+        "dataKey": "label",
+        "height": 64,
+        "interval": 0,
+        "textAnchor": "end",
+        "tick": {},
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "domain": [
+          0,
+          8.5,
+        ],
+        "tick": {},
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+      },
+    },
+    {
+      "componente": "ReferenceLine",
+      "props": {
+        "strokeDasharray": "4 4",
+        "y": 1,
+      },
+    },
+    {
+      "componente": "Bar",
+      "props": {
+        "dataKey": "speedup",
+        "name": "Speedup (mediana; barra = mín–máx)",
+      },
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "ErrorBar",
+      "props": {
+        "dataKey": "erro",
+        "width": 6,
+      },
+    },
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 300,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "LineChart",
+      "props": {
+        "data": [
+          {
+            "crescente": 0.909,
+            "lpt": 0.956,
+            "workers": 2,
+          },
+          {
+            "crescente": 0.789,
+            "lpt": 0.863,
+            "workers": 4,
+          },
+          {
+            "crescente": 0.508,
+            "lpt": 0.566,
+            "workers": 8,
+          },
+        ],
+        "margin": {
+          "bottom": 0,
+          "left": 0,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Eficiência por número de workers",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "dataKey": "workers",
+        "domain": [
+          "dataMin",
+          "dataMax",
+        ],
+        "label": {
+          "offset": -2,
+          "position": "insideBottom",
+          "value": "Número de workers",
+        },
+        "tick": {},
+        "ticks": [
+          2,
+          4,
+          8,
+        ],
+        "type": "number",
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "domain": [
+          0,
+          1.1,
+        ],
+        "tick": {},
+        "tickFormatter": "[função]",
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+      },
+    },
+    {
+      "componente": "Legend",
+      "props": {},
+    },
+    {
+      "componente": "ReferenceLine",
+      "props": {
+        "label": {
+          "position": "insideTopRight",
+          "value": "ideal (100%)",
+        },
+        "strokeDasharray": "4 4",
+        "y": 1,
+      },
+    },
+    {
+      "componente": "Line",
+      "props": {
+        "connectNulls": true,
+        "dataKey": "lpt",
+        "name": "Eficiência (LPT)",
+        "type": "monotone",
+      },
+    },
+    {
+      "componente": "Line",
+      "props": {
+        "connectNulls": true,
+        "dataKey": "crescente",
+        "name": "Eficiência (crescente)",
+        "type": "monotone",
+      },
+    },
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 300,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "BarChart",
+      "props": {
+        "data": [
+          {
+            "label": "Sequencial",
+            "throughput": 520.1,
+          },
+          {
+            "label": "2w · crescente",
+            "throughput": 945.7,
+          },
+          {
+            "label": "4w · crescente",
+            "throughput": 1642.6,
+          },
+          {
+            "label": "8w · crescente",
+            "throughput": 2115.8,
+          },
+          {
+            "label": "2w · LPT",
+            "throughput": 994.7,
+          },
+          {
+            "label": "4w · LPT",
+            "throughput": 1796.2,
+          },
+          {
+            "label": "8w · LPT",
+            "throughput": 2355.4,
+          },
+        ],
+        "margin": {
+          "bottom": 8,
+          "left": 0,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Throughput por configuração",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "angle": -30,
+        "dataKey": "label",
+        "height": 64,
+        "interval": 0,
+        "textAnchor": "end",
+        "tick": {},
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "tick": {},
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+      },
+    },
+    {
+      "componente": "Bar",
+      "props": {
+        "dataKey": "throughput",
+        "name": "Throughput (mediana)",
+      },
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+  ],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/spd/comparativo",
+    "/enade-time/spd/execucoes",
+    "/enade-time/spd/metricas",
+    "/enade-time/spd/carga",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Benchmark SPDENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEBenchmark SPDResultados do experimento de processamento paralelo dos microdados ENADE. Comparação entre execução sequencial e paralela (2, 3, 4 e 6 workers, em duas ordens de submissão).ComparativoExecuçõesMétricasCusto de publicaçãoMelhor configuração: 8 workers · LPTSpeedup mediano de 4,5280× em relação ao baseline sequencial (mediana 48,00 s), com eficiência de 56,60% — 5 suítes.Condições de medição. CPU de teste 8 núcleos — 4 núcleos físicos / 8 lógicos; cache de páginas quente (passada de aquecimento descartada antes da campanha); campanha campanha, 5 suítes. Cada execução paralela é comparada com o sequencial da própria suíte (definição única em v_benchmark_metricas).Tempo total de execuçãoMediana por configuração; barra de erro = mín–máx entre suítes (menor é melhor).SpeedupS(p) = T(1) / T(p), pareado por suíte. Linha vermelha marca o limiar sem ganho (1×).EficiênciaE(p) = S(p) / p. Linha verde marca o ideal (100%); uma linha por ordem de submissão.ThroughputLinhas processadas por segundo — mediana por configuração (maior é melhor).Interpretação desta campanhaA melhor configuração desta campanha foi 8 workers (submissão LPT), com speedup mediano de 4,5280× (mín–máx 4,3020× – 4,7090×) e eficiência de 56,60% sobre 5 suítes.O ganho ainda crescia no maior número de workers testado (8), ou seja, o ponto de saturação não foi atingido dentro da faixa medida. Note que 8 workers já ultrapassa os 4 núcleos físicos desta máquina — parte dos processos roda em hyperthreads, e o teto de granularidade (6 unidades de trabalho) não cresce mais a partir de 6.Duas ordens de submissão foram medidas: LPT (anos em ordem decrescente de tempo, Graham 1969) e crescente (ordem histórica do script). O executor entrega cada ano ao primeiro worker livre, então a ordem muda o makespan mesmo sem tocar no código dos workers — a diferença entre as duas linhas é perda de escalonamento, não de contenção.Eficiência abaixo de 100% indica tempo não paralelizável. Estimativa da fração sequencial (métrica de Karp–Flatt) por configuração — ela embute granularidade, escalonamento, contenção e overhead, não uma seção serial do código:2w · crescente — 26,40 s (mediana de 5), speedup 1,8180×, eficiência 90,90% · fração sequencial estimada 10,01%2w · LPT — 25,10 s (mediana de 5), speedup 1,9120×, eficiência 95,60% · fração sequencial estimada 4,60%4w · crescente — 15,20 s (mediana de 5), speedup 3,1580×, eficiência 78,90% · fração sequencial estimada 8,89%4w · LPT — 13,90 s (mediana de 5), speedup 3,4530×, eficiência 86,30% · fração sequencial estimada 5,28%8w · crescente — 11,80 s (mediana de 5), speedup 4,0680×, eficiência 50,80% · fração sequencial estimada 13,81%8w · LPT — 10,60 s (mediana de 5), speedup 4,5280×, eficiência 56,60% · fração sequencial estimada 10,95%Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > spd etapas id inexistente: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchEtapas": [
+      [
+        99,
+        false,
+      ],
+    ],
+    "fetchExecucao": [
+      [
+        99,
+        false,
+      ],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "disabled": false,
+      "pressed": null,
+      "rotulo": "Tentar novamente",
+      "tipo": "button",
+      "type": "button",
+    },
+  ],
+  "graficos": [],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/spd/execucoes",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Benchmark SPDENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEBenchmark SPDResultados do experimento de processamento paralelo dos microdados ENADE. Comparação entre execução sequencial e paralela (2, 3, 4 e 6 workers, em duas ordens de submissão).Voltar para execuçõesErro ao carregar dadosExecução 99 não encontradaTentar novamenteTempo por ano (etapas)Decomposição do tempo total por edição do ENADE. Em execuções paralelas, as cores diferenciam os workers.Nenhum dado encontradoDetalhamento das etapasNenhum dado encontradoSubprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > spd etapas: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchEtapas": [
+      [
+        3,
+        false,
+      ],
+    ],
+    "fetchExecucao": [
+      [
+        3,
+        false,
+      ],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [],
+  "graficos": [
+    {
+      "componente": "ResponsiveContainer",
+      "props": {
+        "height": 300,
+        "width": "100%",
+      },
+    },
+    {
+      "componente": "BarChart",
+      "props": {
+        "data": [
+          {
+            "ano": 2005,
+            "execucao_id": 3,
+            "id": 300,
+            "linhas_arq3": 2996,
+            "tempo_seg": 6.22,
+            "timestamp_fim": "2026-10-10T14:14:00",
+            "timestamp_inicio": "2026-10-10T14:13:00",
+            "worker_pid": 4100,
+          },
+          {
+            "ano": 2008,
+            "execucao_id": 3,
+            "id": 301,
+            "linhas_arq3": 3495,
+            "tempo_seg": 7.26,
+            "timestamp_fim": "2026-10-10T14:14:00",
+            "timestamp_inicio": "2026-10-10T14:13:00",
+            "worker_pid": 4101,
+          },
+          {
+            "ano": 2011,
+            "execucao_id": 3,
+            "id": 302,
+            "linhas_arq3": 3995,
+            "tempo_seg": 8.29,
+            "timestamp_fim": "2026-10-10T14:14:00",
+            "timestamp_inicio": "2026-10-10T14:13:00",
+            "worker_pid": 4102,
+          },
+          {
+            "ano": 2014,
+            "execucao_id": 3,
+            "id": 303,
+            "linhas_arq3": 4244,
+            "tempo_seg": 8.81,
+            "timestamp_fim": "2026-10-10T14:14:00",
+            "timestamp_inicio": "2026-10-10T14:13:00",
+            "worker_pid": 4103,
+          },
+          {
+            "ano": 2017,
+            "execucao_id": 3,
+            "id": 304,
+            "linhas_arq3": 4744,
+            "tempo_seg": 9.85,
+            "timestamp_fim": "2026-10-10T14:14:00",
+            "timestamp_inicio": "2026-10-10T14:13:00",
+            "worker_pid": 4100,
+          },
+          {
+            "ano": 2021,
+            "execucao_id": 3,
+            "id": 305,
+            "linhas_arq3": 5493,
+            "tempo_seg": 11.4,
+            "timestamp_fim": "2026-10-10T14:14:00",
+            "timestamp_inicio": "2026-10-10T14:13:00",
+            "worker_pid": 4101,
+          },
+        ],
+        "margin": {
+          "bottom": 0,
+          "left": 0,
+          "right": 16,
+          "top": 8,
+        },
+        "title": "Tempo por ano (etapas)",
+      },
+    },
+    {
+      "componente": "CartesianGrid",
+      "props": {
+        "strokeDasharray": "3 3",
+      },
+    },
+    {
+      "componente": "XAxis",
+      "props": {
+        "dataKey": "ano",
+        "tick": {},
+      },
+    },
+    {
+      "componente": "YAxis",
+      "props": {
+        "tick": {},
+      },
+    },
+    {
+      "componente": "Tooltip",
+      "props": {
+        "formatter": "[função]",
+        "labelFormatter": "[função]",
+      },
+    },
+    {
+      "componente": "Bar",
+      "props": {
+        "dataKey": "tempo_seg",
+        "name": "Tempo (s)",
+      },
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+    {
+      "componente": "Cell",
+      "props": {},
+    },
+  ],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/spd/execucoes",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Benchmark SPDENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEBenchmark SPDResultados do experimento de processamento paralelo dos microdados ENADE. Comparação entre execução sequencial e paralela (2, 3, 4 e 6 workers, em duas ordens de submissão).Voltar para execuçõesExecução #3 — paralelo (4 workers)Tempo total15,20 sLinhas processadas24.967Throughput1.642,60 linhas/sMemória de pico478,00 MBTempo por ano (etapas)Decomposição do tempo total por edição do ENADE. Em execuções paralelas, as cores diferenciam os workers.Detalhamento das etapasAnoTempo (s)Linhas (arq3)Worker PIDInícioFim20056,22 s2.996410010/10/2026, 14:13:0010/10/2026, 14:14:0020087,26 s3.495410110/10/2026, 14:13:0010/10/2026, 14:14:0020118,29 s3.995410210/10/2026, 14:13:0010/10/2026, 14:14:0020148,81 s4.244410310/10/2026, 14:13:0010/10/2026, 14:14:0020179,85 s4.744410010/10/2026, 14:13:0010/10/2026, 14:14:00202111,40 s5.493410110/10/2026, 14:13:0010/10/2026, 14:14:00Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > spd execuções: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchExecucoes": [
+      [
+        true,
+      ],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "checked": false,
+      "disabled": false,
+      "inputMode": "",
+      "placeholder": "",
+      "rotulo": "Mostrar execuções ocultas",
+      "tipo": "input",
+      "type": "checkbox",
+      "valor": "on",
+    },
+  ],
+  "graficos": [],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/spd/comparativo",
+    "/enade-time/spd/execucoes",
+    "/enade-time/spd/metricas",
+    "/enade-time/spd/carga",
+    "/enade-time/spd/etapas/1",
+    "/enade-time/spd/etapas/2",
+    "/enade-time/spd/etapas/3",
+    "/enade-time/spd/etapas/4",
+    "/enade-time/spd/etapas/5",
+    "/enade-time/spd/etapas/6",
+    "/enade-time/spd/etapas/7",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Benchmark SPDENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEBenchmark SPDResultados do experimento de processamento paralelo dos microdados ENADE. Comparação entre execução sequencial e paralela (2, 3, 4 e 6 workers, em duas ordens de submissão).ComparativoExecuçõesMétricasCusto de publicaçãoExecuções de benchmark (histórico completo)Cada linha é uma execução completa do pipeline ETL. Execuções de uma campanha trazem campanha, suíte, ordem de submissão, CPU média do sistema, bytes lidos do disco e a condição de cache; as marcadas 'oficial' compõem a campanha exibida no Comparativo. Rodadas antigas (sem campanha) permanecem no banco como histórico. Execuções listadas em BENCHMARK_IDS_EXCLUIR ficam ocultas por padrão.Mostrar execuções ocultasIDInícioModoWorkersOrdemTempoLinhasThroughputCPU méd.Disco lidoCacheCampanhaSuíteMem. picoObservaçõesEtapas110/10/2026, 14:10:00sequencial1—48,00 s24.967520,10 linhas/s12,50 %512,00 MBquentecampanha oficialsuite-te352,00 MB—ver etapas210/10/2026, 14:11:00paralelo2crescente26,40 s24.967945,70 linhas/s24,00 %512,00 MBquentecampanha oficialsuite-te394,00 MB—ver etapas310/10/2026, 14:12:00paralelo4crescente15,20 s24.9671.642,60 linhas/s48,00 %512,00 MBquentecampanha oficialsuite-te478,00 MB—ver etapas410/10/2026, 14:13:00paralelo8crescente11,80 s24.9672.115,80 linhas/s95,00 %512,00 MBquentecampanha oficialsuite-te646,00 MB—ver etapas510/10/2026, 14:14:00paralelo2LPT25,10 s24.967994,70 linhas/s24,00 %512,00 MBquentecampanha oficialsuite-te394,00 MB—ver etapas610/10/2026, 14:15:00paralelo4LPT13,90 s24.9671.796,20 linhas/s48,00 %512,00 MBquentecampanha oficialsuite-te478,00 MB—ver etapas710/10/2026, 14:16:00paralelo8LPT10,60 s24.9672.355,40 linhas/s95,00 %512,00 MBquentecampanha oficialsuite-te646,00 MB—ver etapasSubprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > spd métricas: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchHealth": [
+      [],
+    ],
+    "fetchMetricas": [
+      [
+        true,
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            null,
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            "page",
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [
+    {
+      "checked": false,
+      "disabled": false,
+      "inputMode": "",
+      "placeholder": "",
+      "rotulo": "Mostrar execuções ocultas",
+      "tipo": "input",
+      "type": "checkbox",
+      "valor": "on",
+    },
+  ],
+  "graficos": [],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time",
+    "/enade-time/spd/comparativo",
+    "/enade-time/spd/execucoes",
+    "/enade-time/spd/metricas",
+    "/enade-time/spd/carga",
+  ],
+  "texto": "Home/Subprojetos/ENADE-Time/Benchmark SPDENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEBenchmark SPDResultados do experimento de processamento paralelo dos microdados ENADE. Comparação entre execução sequencial e paralela (2, 3, 4 e 6 workers, em duas ordens de submissão).ComparativoExecuçõesMétricasCusto de publicaçãoMétricas detalhadas (view v_benchmark_metricas)Uma linha por execução paralela. Speedup e eficiência são calculados na view — definição única do sistema — pareando cada paralela com o sequencial da própria suíte (badge 'mesma suíte'); execuções antigas, anteriores ao conceito de suíte, usam o sequencial imediatamente anterior no tempo (badge 'temporal'). A coluna Baseline mostra qual execução sequencial foi usada.Mostrar execuções ocultasExec. IDInícioWorkersOrdemBaselinePareamentoTempo Seq.Tempo Par.SpeedupEficiênciaThr. Seq.Thr. Par.Suíte210/10/2026, 14:11:002crescente#1mesma suíte48,00 s26,40 s1,8180×90,90%520,10 linhas/s945,70 linhas/ssuite-te310/10/2026, 14:12:004crescente#1mesma suíte48,00 s15,20 s3,1580×78,90%520,10 linhas/s1.642,60 linhas/ssuite-te410/10/2026, 14:13:008crescente#1mesma suíte48,00 s11,80 s4,0680×50,80%520,10 linhas/s2.115,80 linhas/ssuite-te510/10/2026, 14:14:002LPT#1mesma suíte48,00 s25,10 s1,9120×95,60%520,10 linhas/s994,70 linhas/ssuite-te610/10/2026, 14:15:004LPT#1mesma suíte48,00 s13,90 s3,4530×86,30%520,10 linhas/s1.796,20 linhas/ssuite-te710/10/2026, 14:16:008LPT#1mesma suíte48,00 s10,60 s4,5280×56,60%520,10 linhas/s2.355,40 linhas/ssuite-teSubprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;
+
+exports[`ENADE-Time: caracterização > spd: o checkbox de execuções válidas muda as consultas 1`] = `
+[
+  {
+    "api": {
+      "fetchExecucoes": [
+        [
+          true,
+        ],
+        [
+          false,
+        ],
+      ],
+      "fetchHealth": [
+        [],
+      ],
+    },
+    "marcado": true,
+    "pathname": "/enade-time/spd/execucoes",
+    "rotulo": "Mostrar execuções ocultas",
+  },
+  {
+    "api": {
+      "fetchExecucoes": [
+        [
+          true,
+        ],
+        [
+          false,
+        ],
+      ],
+      "fetchHealth": [
+        [],
+        [],
+      ],
+      "fetchMetricas": [
+        [
+          true,
+        ],
+        [
+          false,
+        ],
+      ],
+    },
+    "marcado": true,
+    "pathname": "/enade-time/spd/metricas",
+    "rotulo": "Mostrar execuções ocultas",
+  },
+]
+`;
+
+exports[`ENADE-Time: caracterização > visão geral: texto, cabeçalho, campos, links, gráficos e API 1`] = `
+{
+  "api": {
+    "fetchComparativo": [
+      [
+        true,
+      ],
+    ],
+    "fetchHealth": [
+      [],
+    ],
+    "fetchResumoAnual": [
+      [
+        {},
+      ],
+    ],
+    "fetchResumoRegiao": [
+      [
+        {},
+      ],
+    ],
+    "fetchResumoUF": [
+      [
+        {},
+      ],
+    ],
+  },
+  "cabecalho": {
+    "linkHome": true,
+    "navs": [
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            "page",
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+      {
+        "itens": [
+          [
+            "Visão geral",
+            "/enade-time",
+            "page",
+          ],
+          [
+            "Análises ENADE",
+            "/enade-time/enade/anual",
+            null,
+          ],
+          [
+            "Benchmark SPD",
+            "/enade-time/spd/comparativo",
+            null,
+          ],
+          [
+            "Sobre",
+            "/enade-time/sobre",
+            null,
+          ],
+        ],
+        "label": "Seções do ENADE-Time",
+      },
+    ],
+    "nome": true,
+    "status": "● API conectada · v0.2.0 · local",
+  },
+  "campos": [],
+  "graficos": [],
+  "hrefs": [
+    "/",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/enade-time",
+    "/enade-time/enade/anual",
+    "/enade-time/spd/comparativo",
+    "/enade-time/sobre",
+    "/",
+    "/enade-time/spd/comparativo",
+  ],
+  "texto": "Home/Subprojetos/ENADE-TimeENADE-TimeAnálise longitudinalSéries históricas do ENADE para cursos de Computação no Norte e Nordeste e o experimento de processamento paralelo (SPD) sobre os microdados.Período: 2005–2021 · Computação N/NEVisão geralIndicadores principais do projeto: cobertura dos microdados ENADE (Norte e Nordeste, Computação) e resultados do experimento de processamento paralelo.Microdados ENADETotal de registros24.967inscrições (582 cursos-ano)Anos analisados6edições ENADE2005 a 2021Regiões cobertas2Norte + NordesteUFs cobertas16estadosProcessamento paralelo (SPD)Tempo sequencial (baseline)48,00 smediana de 5 suítesMelhor speedup4,5280×8 workers · LPT · mediana de 5 suítesMelhor eficiência95,60%2 workers · LPT · mediana de 5 suítesThroughput máximo2.355,40linhas/s8 workers · LPT · mediana de 5 suítesMelhor configuração da campanha oficial: 8 workers · LPTNa campanha oficial carregada no banco, a configuração com 8 workers obteve o melhor desempenho: speedup mediano de 4,5280× e eficiência de 56,60% (5 suítes, cada paralela pareada com o sequencial da própria suíte). A melhor configuração depende da máquina (núcleos físicos, cache, ordem de submissão). Consulte Benchmark · Comparativo para ver os resultados carregados no banco.Status dos dados carregadosCarregamento direto da API, por edição do ENADE.Edição 20055.748 reg.média 55,38Edição 20088.740 reg.média 47,95Edição 20112.463 reg.média 50,69Edição 20142.388 reg.média 59,61Edição 20172.537 reg.média 53,33Edição 20213.091 reg.média 38,17Subprojeto do ecossistema EnadeX · dados INEP/ENADE 2005–2021 (Norte e Nordeste, Computação)",
+}
+`;

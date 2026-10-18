@@ -66,7 +66,7 @@ export function LineEficiencia({ data }: { data: SerieBenchmark[] }) {
             position: 'insideBottom',
             offset: -2,
             fontSize: 11,
-            fill: '#64748b',
+            fill: 'var(--ink-muted)',
           }}
         />
         <YAxis domain={[0, 1.1]} tickFormatter={(v) => formatPercent(v)} {...EIXO} />

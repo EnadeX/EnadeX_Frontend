@@ -19,7 +19,7 @@ export function EtapaDetalheView({ id }: { id: number }) {
     <>
       <Link
         href={ROTAS.spdExecucoes}
-        className="inline-flex items-center gap-1 text-sm font-medium text-[#b45309] hover:text-[#92400e]"
+        className="inline-flex items-center gap-1 text-body font-medium text-accent hover:text-accent"
       >
         <ArrowLeft className="size-4" aria-hidden />
         Voltar para execuções
@@ -34,22 +34,22 @@ export function EtapaDetalheView({ id }: { id: number }) {
               }`}
               description={e.observacoes ?? undefined}
             />
-            <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 text-body sm:grid-cols-4">
               <div>
-                <div className="text-[11px] text-[#5f7393]">Tempo total</div>
-                <div className="font-semibold">{formatSeconds(e.tempo_total_seg)}</div>
+                <div className="text-caption text-ink-muted">Tempo total</div>
+                <div className="font-medium">{formatSeconds(e.tempo_total_seg)}</div>
               </div>
               <div>
-                <div className="text-[11px] text-[#5f7393]">Linhas processadas</div>
-                <div className="font-semibold">{formatInt(e.linhas_processadas)}</div>
+                <div className="text-caption text-ink-muted">Linhas processadas</div>
+                <div className="font-medium">{formatInt(e.linhas_processadas)}</div>
               </div>
               <div>
-                <div className="text-[11px] text-[#5f7393]">Throughput</div>
-                <div className="font-semibold">{formatThroughput(e.throughput_lps)}</div>
+                <div className="text-caption text-ink-muted">Throughput</div>
+                <div className="font-medium">{formatThroughput(e.throughput_lps)}</div>
               </div>
               <div>
-                <div className="text-[11px] text-[#5f7393]">Memória de pico</div>
-                <div className="font-semibold">
+                <div className="text-caption text-ink-muted">Memória de pico</div>
+                <div className="font-medium">
                   {e.memoria_pico_mb !== null ? `${formatDecimal(e.memoria_pico_mb, 2)} MB` : '—'}
                 </div>
               </div>

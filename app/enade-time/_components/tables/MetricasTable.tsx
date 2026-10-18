@@ -58,11 +58,11 @@ export function MetricasTable({ data }: { data: BenchmarkMetrica[] }) {
               </td>
               <td className={`${td} text-right`}>{formatSeconds(m.tempo_sequencial)}</td>
               <td className={`${td} text-right`}>{formatSeconds(m.tempo_paralelo)}</td>
-              <td className={`${td} text-right font-semibold`}>{formatSpeedup(m.speedup)}</td>
+              <td className={`${td} text-right font-medium`}>{formatSpeedup(m.speedup)}</td>
               <td className={`${td} text-right`}>{formatPercent(m.eficiencia)}</td>
               <td className={`${td} text-right`}>{formatThroughput(m.throughput_sequencial)}</td>
               <td className={`${td} text-right`}>{formatThroughput(m.throughput_paralelo)}</td>
-              <td className={`${td} font-mono text-xs text-[#5f7393]`} title={m.suite_id ?? ''}>
+              <td className={`${td} font-mono text-small text-ink-muted`} title={m.suite_id ?? ''}>
                 {curto(m.suite_id)}
               </td>
             </tr>

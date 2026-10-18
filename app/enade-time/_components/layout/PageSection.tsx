@@ -15,9 +15,9 @@ export function PageSection({
     <section className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 className="text-lg font-bold">{title}</h2>
+          <h2 className="text-h2">{title}</h2>
           {description && (
-            <p className="mt-1 max-w-3xl text-xs leading-6 text-[#5f7393]">{description}</p>
+            <p className="mt-1 max-w-3xl text-small text-ink-muted">{description}</p>
           )}
         </div>
         {actions}

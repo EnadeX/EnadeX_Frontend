@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EnadeX — ENADE eXplainability Framework</title>
+<meta name="description" content="Entenda o que pesa em cada nota do ENADE.">
+<link rel="icon" href="favicons/favicon.ico" sizes="any">
+<link rel="icon" href="favicons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicons/apple-touch-icon.png">
+<link rel="manifest" href="favicons/site.webmanifest">
+<meta name="theme-color" content="#0C3350">
+<meta property="og:image" content="img/og-image.png">
+<link rel="stylesheet" href="enadex.css">
+<script src="theme.js"></script>
+<style>
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 var(--space-6); }
+  /* cabeçalho: logo horizontal a 28px, área de proteção no padding do link */
+  .site-header { position: sticky; top: 0; z-index: 10; background: var(--surface-card); border-bottom: 1px solid var(--border); }
+  .site-header .wrap { height: 64px; display: flex; align-items: center; gap: var(--space-6); }
+  .site-nav { display: flex; gap: var(--space-6); margin-left: auto; }
+  .site-nav a { color: var(--ink-muted); text-decoration: none; font-size: 14px; }
+  .site-nav a:hover { color: var(--ink); }
+  .header-actions { display: flex; gap: var(--space-2); }
+  /* hero */
+  .hero { padding: 72px 0 64px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--space-12); align-items: center; }
+  .hero h1 { font-size: 44px; line-height: 52px; letter-spacing: -.015em; max-width: 13em; }
+  .hero .lede { font-size: 17px; line-height: 28px; color: var(--ink-muted); margin: var(--space-4) 0 var(--space-8); max-width: 34em; }
+  .hero .ctas { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .hero .enx-card h2 { margin-bottom: var(--space-1); }
+  /* passos */
+  .steps { padding: 64px 0; background: var(--surface-card); border-block: 1px solid var(--border); }
+  .steps h2 { font-size: 28px; line-height: 36px; margin-bottom: var(--space-8); }
+  .steps ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); counter-reset: s; }
+  .steps li { counter-increment: s; border-top: 2px solid var(--border); padding-top: var(--space-4); }
+  .steps li::before { content: counter(s); display: block; font: 500 14px/20px var(--font-brand); color: var(--accent); margin-bottom: var(--space-2); }
+  .steps li:nth-child(1) { border-color: var(--brand-blue); }
+  .steps li:nth-child(2) { border-color: var(--brand-aqua); }
+  .steps li:nth-child(3) { border-color: var(--brand-mint); }
+  .steps h3 { margin-bottom: var(--space-2); }
+  .steps p { margin: 0; color: var(--ink-muted); }
+  /* comparação */
+  .compare { padding: 64px 0; }
+  .compare .wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: var(--space-12); align-items: center; }
+  .compare h2 { font-size: 28px; line-height: 36px; margin-bottom: var(--space-3); }
+  .compare p { color: var(--ink-muted); max-width: 32em; }
+  .legend { display: flex; gap: 2px; align-items: center; margin-bottom: var(--space-3); font: 400 11px/16px var(--font-data); color: var(--ink-muted); }
+  .legend span[class^="enx-"] { width: 36px; height: 22px; display: grid; place-items: center; border-radius: var(--radius-sm); font-size: 12px; }
+  /* rodapé: fundo navy fixo, sempre logo negativa */
+  .site-footer { background: var(--surface-nav); color: var(--ink-on-nav); padding: 48px 0 32px; }
+  .site-footer .wrap { display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: flex-start; justify-content: space-between; }
+  .site-footer .enx-logo img { height: 32px; }
+  .site-footer p { margin: var(--space-4) 0 0; font-size: 13px; line-height: 20px; color: #a8c6ce; max-width: 30em; }
+  .site-footer nav { display: flex; gap: var(--space-6); }
+  .site-footer a { color: var(--ink-on-nav); font-size: 14px; text-decoration: none; }
+  @media (max-width: 860px) {
+    .site-nav { display: none; }
+    .header-actions { margin-left: auto; }
+    .header-actions .enx-btn-primary { display: none; }
+    .site-header .enx-logo img { height: 24px; }
+    .hero { padding: 40px 0; }
+    .hero .wrap, .compare .wrap { grid-template-columns: 1fr; gap: var(--space-8); }
+    .hero h1 { font-size: 32px; line-height: 40px; }
+    .steps ol { grid-template-columns: 1fr; }
+    .enx-contrib { grid-template-columns: 112px minmax(0, 1fr) minmax(0, 1fr); }
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="enx-logo" href="#">
+      <img class="enx-logo-light" src="img/enadex-horizontal.svg" alt="EnadeX, página inicial" width="118" height="28">
+      <img class="enx-logo-dark" src="img/enadex-horizontal-negativo.svg" alt="" width="118" height="28">
+    </a>
+    <nav class="site-nav" aria-label="Principal">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#comparar">Comparar cursos</a>
+      <a href="#">Artigo</a>
+    </nav>
+    <div class="header-actions">
+      <button class="enx-btn" type="button" data-enx-theme-toggle aria-pressed="false"><span>Tema escuro</span></button>
+      <a class="enx-btn enx-btn-primary" href="exemplo-dashboard.html">Abrir dashboard</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Entenda o que pesa em cada nota do ENADE.</h1>
+        <p class="lede">O EnadeX cruza os microdados do ENADE com modelos de aprendizado de máquina e mostra, variável por variável, o que está associado ao desempenho de cada curso.</p>
+        <div class="ctas">
+          <a class="enx-btn enx-btn-primary" href="exemplo-dashboard.html">Abrir dashboard</a>
+          <a class="enx-btn" href="#">Ler o artigo</a>
+        </div>
+      </div>
+      <figure class="enx-card" style="margin:0" aria-labelledby="hero-t">
+        <h2 class="enx-h2" id="hero-t">O que mais pesou na nota prevista</h2>
+        <p class="enx-small enx-muted" style="margin:0 0 var(--space-4)">Curso de Administração, Campus Centro</p>
+        <div class="enx-contrib" data-contrib='[["Renda familiar",0.31],["Ensino médio em escola pública",-0.22],["Escolaridade da mãe",0.18],["Horas de estudo por semana",0.12],["Trabalha durante o curso",-0.09],["Outras variáveis",0.04,"other"]]'></div>
+        <figcaption class="enx-caption" style="margin-top:var(--space-4)">Exemplo ilustrativo. Fonte: INEP, microdados ENADE 2023.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="steps" id="como-funciona">
+    <div class="wrap">
+      <h2>Como funciona</h2>
+      <ol>
+        <li><h3 class="enx-h3">Dados</h3><p>Os microdados públicos do ENADE, com o desempenho e o questionário socioeconômico de cada participante.</p></li>
+        <li><h3 class="enx-h3">Modelo</h3><p>Um modelo aprende a prever a nota a partir dessas variáveis, curso a curso.</p></li>
+        <li><h3 class="enx-h3">Explicação</h3><p>Cada previsão é decomposta: quanto cada variável empurrou a nota para cima ou para baixo.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="compare" id="comparar">
+    <div class="wrap">
+      <div>
+        <h2>Compare cursos e campi</h2>
+        <p>O conceito ENADE de 1 a 5 aparece numa escala de cinco tons, sempre com o número dentro da célula.</p>
+      </div>
+      <div class="enx-card">
+        <div class="legend"><span style="margin-right:var(--space-2)">Conceito</span><span class="enx-c1">1</span><span class="enx-c2">2</span><span class="enx-c3">3</span><span class="enx-c4">4</span><span class="enx-c5">5</span><span class="enx-sc">SC</span></div>
+        <div class="enx-scroll"><table class="enx-heat">
+          <thead><tr><th></th><th>Centro</th><th>Norte</th><th>Sul</th><th>EaD</th></tr></thead>
+          <tbody>
+            <tr><th>Administração</th><td class="enx-c4">4</td><td class="enx-c3">3</td><td class="enx-c3">3</td><td class="enx-c2">2</td></tr>
+            <tr><th>Direito</th><td class="enx-c5">5</td><td class="enx-c4">4</td><td class="enx-sc">SC</td><td class="enx-c3">3</td></tr>
+            <tr><th>Enfermagem</th><td class="enx-c3">3</td><td class="enx-c4">4</td><td class="enx-c2">2</td><td class="enx-c1">1</td></tr>
+          </tbody>
+        </table></div>
+        <p class="enx-caption" style="margin:var(--space-4) 0 0">Exemplo ilustrativo.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer enx-on-dark">
+  <div class="wrap">
+    <div>
+      <a class="enx-logo" href="#">
+        <img class="enx-logo-light" src="img/enadex-horizontal.svg" alt="" width="135" height="32">
+        <img class="enx-logo-dark" src="img/enadex-horizontal-negativo.svg" alt="EnadeX, página inicial" width="135" height="32">
+      </a>
+      <p>ENADE eXplainability Framework. Dados abertos do INEP, microdados do ENADE.</p>
+    </div>
+    <nav aria-label="Rodapé">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#">Artigo</a>
+      <a href="#">Contato</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="contrib.js"></script>
+</body>
+</html>

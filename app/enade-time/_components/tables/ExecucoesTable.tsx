@@ -75,7 +75,7 @@ export function ExecucoesTable({ data }: { data: BenchmarkExecucao[] }) {
                 {e.cache_quente === true ? 'quente' : e.cache_quente === false ? 'frio' : '—'}
               </td>
               <td
-                className={`${td} whitespace-nowrap font-mono text-xs`}
+                className={`${td} whitespace-nowrap font-mono text-small`}
                 title={e.campanha_id ?? ''}
               >
                 {curto(e.campanha_id)}
@@ -86,14 +86,14 @@ export function ExecucoesTable({ data }: { data: BenchmarkExecucao[] }) {
                   </>
                 )}
               </td>
-              <td className={`${td} font-mono text-xs text-[#5f7393]`} title={e.suite_id ?? ''}>
+              <td className={`${td} font-mono text-small text-ink-muted`} title={e.suite_id ?? ''}>
                 {curto(e.suite_id)}
               </td>
               <td className={`${td} text-right`}>
                 {e.memoria_pico_mb !== null ? `${formatDecimal(e.memoria_pico_mb, 2)} MB` : '—'}
               </td>
               <td
-                className={`${td} max-w-[300px] truncate text-[#5f7393]`}
+                className={`${td} max-w-[300px] truncate text-ink-muted`}
                 title={e.observacoes ?? ''}
               >
                 {e.observacoes ?? '—'}
