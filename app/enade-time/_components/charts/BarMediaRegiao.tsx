@@ -31,7 +31,7 @@ export function BarMediaRegiao({ data }: { data: ResumoRegiao[] }) {
           yAxisId="right"
           orientation="right"
           {...EIXO}
-          tick={{ fontSize: 11, fill: '#64748b' }}
+          tick={{ fontSize: 11, fill: 'var(--ink-muted)' }}
         />
         <Tooltip
           // Duas séries com unidades diferentes: o formato depende do nome da série.

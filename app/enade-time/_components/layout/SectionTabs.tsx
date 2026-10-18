@@ -26,7 +26,7 @@ export function SectionTabs({
   return (
     <nav
       aria-label={label}
-      className="flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-xl border border-[#dfe5ee] bg-[#f6f8fb] p-1 text-[11px] font-semibold"
+      className="flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-marca-md border border-border bg-surface-sunken p-1 text-caption font-medium"
     >
       {itens.map((item) => {
         const ativo = pathname === item.href
@@ -36,8 +36,8 @@ export function SectionTabs({
             href={search ? `${item.href}?${search}` : item.href}
             aria-current={ativo ? 'page' : undefined}
             className={cn(
-              'shrink-0 rounded-lg px-3.5 py-2 transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#f59e0b]/40',
-              ativo ? 'bg-white text-[#b45309] shadow-sm' : 'text-[#5f7393] hover:text-[#536987]',
+              'shrink-0 rounded-marca-sm px-3.5 py-2 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-focus-ring',
+              ativo ? 'bg-surface-card text-accent shadow-marca' : 'text-ink-muted hover:text-ink-muted',
             )}
           >
             {item.label}

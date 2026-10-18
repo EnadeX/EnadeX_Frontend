@@ -48,7 +48,7 @@ export function FiltrosAnaliseBar() {
 
   return (
     <Card>
-      <div className="mb-3 flex items-center gap-2 text-sm font-bold text-[#2d4263]">
+      <div className="mb-3 flex items-center gap-2 text-h3 text-ink">
         <Funnel className="size-4" aria-hidden />
         Filtros
         {algumFiltro && (
@@ -58,7 +58,7 @@ export function FiltrosAnaliseBar() {
               setLocal({})
               limpar()
             }}
-            className="ml-auto inline-flex cursor-pointer items-center gap-1 rounded-md text-xs font-medium text-[#5f7393] hover:text-[#111827] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#f59e0b]/40"
+            className="ml-auto inline-flex cursor-pointer items-center gap-1 rounded-marca-sm text-small font-medium text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-focus-ring"
           >
             <X className="size-3" aria-hidden />
             Limpar

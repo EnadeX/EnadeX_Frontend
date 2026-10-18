@@ -13,7 +13,8 @@ export interface OcorrenciaAmostra {
   inscricoes: number
 }
 
-// Laranja, e não âmbar: o âmbar é a cor de acento do módulo e o aviso precisa se destacar dela.
+// Aviso em warning, a cor de atenção da marca. (Antes era laranja para se destacar do âmbar do módulo; com a
+// identidade visual o acento passou a ser o accent único da marca e o warning cumpre esse papel.)
 export function AlertaAmostra({
   ocorrencias,
   limiar = LIMIAR_AMOSTRA,
@@ -25,14 +26,14 @@ export function AlertaAmostra({
   const unidadeDoAlerta = ocorrencias.every((o) => o.unidade === 'cursos') ? 'cursos' : 'registros'
 
   return (
-    <div role="status" className="rounded-2xl border border-[#fed7aa] bg-[#fff7ed] p-4">
+    <div role="status" className="rounded-marca-md border border-warning bg-surface-card p-4">
       <div className="flex items-start gap-3">
-        <TriangleAlert className="mt-0.5 size-5 shrink-0 text-[#c2410c]" aria-hidden />
+        <TriangleAlert className="mt-0.5 size-5 shrink-0 text-warning" aria-hidden />
         <div>
-          <h4 className="text-sm font-semibold text-[#9a3412]">
+          <h4 className="text-body font-medium text-warning">
             Amostra reduzida (menos de {limiar} {unidadeDoAlerta})
           </h4>
-          <p className="mt-1 text-xs text-[#9a3412]">
+          <p className="mt-1 text-small text-warning">
             A unidade de análise é o curso: as combinações abaixo têm poucos {unidadeDoAlerta},
             então a média pode ser estatisticamente instável e deve ser interpretada com cautela:
           </p>
@@ -40,7 +41,7 @@ export function AlertaAmostra({
             {ocorrencias.map((o) => (
               <li
                 key={`${o.grupo}-${o.nu_ano}`}
-                className="inline-flex items-center rounded-full bg-[#ffedd5] px-2 py-0.5 text-xs font-medium text-[#9a3412]"
+                className="inline-flex items-center rounded-marca-sm border border-warning bg-surface-card px-2 py-0.5 text-small font-medium text-warning"
               >
                 {o.grupo} · {o.nu_ano}: {rotuloAmostra(o.n, o.unidade)}
                 {o.unidade === 'cursos' && ` (${o.inscricoes} inscrições)`}

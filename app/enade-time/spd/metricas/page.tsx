@@ -17,10 +17,10 @@ export default function SpdMetricas() {
         title="Métricas detalhadas (view v_benchmark_metricas)"
         description="Uma linha por execução paralela. Speedup e eficiência são calculados na view — definição única do sistema — pareando cada paralela com o sequencial da própria suíte (badge 'mesma suíte'); execuções antigas, anteriores ao conceito de suíte, usam o sequencial imediatamente anterior no tempo (badge 'temporal'). A coluna Baseline mostra qual execução sequencial foi usada."
         action={
-          <label className="flex shrink-0 items-center gap-2 text-xs font-semibold text-[#536987]">
+          <label className="flex shrink-0 items-center gap-2 text-small font-medium text-ink-muted">
             <input
               type="checkbox"
-              className="size-3.5 accent-[#b45309]"
+              className="size-3.5 accent-accent"
               checked={!apenasValidas}
               onChange={(e) => setApenasValidas(!e.target.checked)}
             />

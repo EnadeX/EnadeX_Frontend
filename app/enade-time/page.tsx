@@ -36,7 +36,7 @@ import { useComparativo } from '@/lib/enade-time/hooks/useBenchmark'
 import { ROTAS } from '@/lib/enade-time/rotas'
 import { linkTexto } from '@/lib/enade-time/ui'
 
-const TITULO_SECAO = 'mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5f7393]'
+const TITULO_SECAO = 'mb-2 text-small font-medium text-ink-muted'
 
 function dica(s: SerieBenchmark | null, agregado: boolean): string | undefined {
   if (!s) return undefined
@@ -153,11 +153,11 @@ export default function EnadeTimeVisaoGeral() {
         </KpiGrid>
       </section>
 
-      <Card className="border-[#a7efd0] bg-[#f0fdf8]">
+      <Card className="border-success">
         <div className="flex items-start gap-3">
-          <Award className="size-6 shrink-0 text-[#047857]" aria-hidden />
+          <Award className="size-6 shrink-0 text-success" aria-hidden />
           <div>
-            <h3 className="text-sm font-bold text-[#065f46]">
+            <h3 className="text-h3 text-success">
               {melhorSpeedup
                 ? `Melhor configuração da ${agregado ? 'campanha oficial' : 'rodada carregada'}: ${melhorSpeedup.num_workers} workers${
                     melhorSpeedup.ordem_submissao
@@ -166,16 +166,16 @@ export default function EnadeTimeVisaoGeral() {
                   }`
                 : 'Benchmark de processamento paralelo'}
             </h3>
-            <p className="mt-1 max-w-3xl text-xs leading-6 text-[#047857]">
+            <p className="mt-1 max-w-3xl text-small text-success">
               {melhorSpeedup ? (
                 <>
                   {agregado
                     ? 'Na campanha oficial carregada no banco, a configuração com '
                     : 'Na rodada de benchmark atualmente carregada no banco, a configuração com '}
-                  <strong>{melhorSpeedup.num_workers} workers</strong> obteve o melhor desempenho:
+                  <strong className="font-medium">{melhorSpeedup.num_workers} workers</strong> obteve o melhor desempenho:
                   speedup {agregado ? 'mediano ' : ''}de{' '}
-                  <strong>{formatSpeedup(melhorSpeedup.speedup)}</strong> e eficiência de{' '}
-                  <strong>{formatPercent(melhorSpeedup.eficiencia)}</strong>
+                  <strong className="font-medium">{formatSpeedup(melhorSpeedup.speedup)}</strong> e eficiência de{' '}
+                  <strong className="font-medium">{formatPercent(melhorSpeedup.eficiencia)}</strong>
                   {agregado
                     ? ` (${melhorSpeedup.n} suítes, cada paralela pareada com o sequencial da própria suíte)`
                     : ''}
@@ -209,12 +209,12 @@ export default function EnadeTimeVisaoGeral() {
           loadingLabel="Carregando resumo anual…"
         >
           {(rows) => (
-            <ul className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-3 lg:grid-cols-6">
+            <ul className="grid grid-cols-2 gap-2 text-body sm:grid-cols-3 lg:grid-cols-6">
               {rows.map((r) => (
-                <li key={r.nu_ano} className="rounded-xl border border-[#dfe5ee] px-3 py-2">
-                  <div className="text-[11px] text-[#5f7393]">Edição {r.nu_ano}</div>
-                  <div className="font-semibold">{formatInt(r.total_registros)} reg.</div>
-                  <div className="text-xs text-[#5f7393]">
+                <li key={r.nu_ano} className="rounded-marca-md border border-border px-3 py-2">
+                  <div className="text-caption text-ink-muted">Edição {r.nu_ano}</div>
+                  <div className="font-medium">{formatInt(r.total_registros)} reg.</div>
+                  <div className="text-small text-ink-muted">
                     média {formatDecimal(r.media_geral, 2)}
                   </div>
                 </li>

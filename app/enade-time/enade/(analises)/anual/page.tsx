@@ -62,7 +62,7 @@ export default function EnadeAnual() {
               />
               <LineMediaAnual data={rows} />
               {pior && (
-                <p className="mt-2 text-xs text-[#5f7393]">
+                <p className="mt-2 text-small text-ink-muted">
                   Menor média observada: {pior.nu_ano} ({formatDecimal(pior.media_geral_ger, 2)}).
                 </p>
               )}

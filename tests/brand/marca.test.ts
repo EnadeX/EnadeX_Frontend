@@ -19,6 +19,9 @@ const MIGRADOS = [
   // EduCluster
   ...arquivosDe('app/educluster'),
   'lib/educluster/ui.ts',
+  // Telas 4 a 17: ENADE-Time
+  ...arquivosDe('app/enade-time'),
+  'lib/enade-time/ui.ts',
 ]
 
 describe('guarda de marca', () => {

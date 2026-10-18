@@ -30,7 +30,7 @@ export function RankingIES({ items }: { items: ResumoIES[] }) {
               <td className={`${td} text-right`}>{formatInt(r.total_registros)}</td>
               <td className={`${td} text-right`}>{formatDecimal(r.media_geral, 2)}</td>
               <td className={`${td} text-right`}>{formatDecimal(r.media_geral_ce, 2)}</td>
-              <td className={`${td} text-right font-semibold`}>
+              <td className={`${td} text-right font-medium`}>
                 {formatDecimal(r.media_geral_ger, 2)}
               </td>
             </tr>
