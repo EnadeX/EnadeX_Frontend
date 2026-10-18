@@ -1,6 +1,6 @@
 'use client'
 
-import { BarChart3, Database, Network, Sparkles } from 'lucide-react'
+import { Database, Network, Sparkles } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
 import {
   type RegressaoRow,
@@ -13,6 +13,8 @@ import {
   getRelatorioShap,
 } from '@/lib/multienade/api'
 import { DICIONARIO_TABELAS, TOPICOS, type Topico } from '@/lib/multienade/constants'
+import { BarraModulo } from '@/components/brand/layout/BarraModulo'
+import { badge, foco } from '@/lib/brand/classes'
 import { SupervisionadaTab } from './_components/SupervisionadaTab'
 import { ClustersTab } from './_components/ClustersTab'
 import { AssociacaoTab } from './_components/AssociacaoTab'
@@ -70,52 +72,44 @@ export default function MultiEnadePage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[#f6f8fb] text-[#111827]">
-      <header className="border-b border-[#dfe5ee] bg-white">
-        <div className="flex h-[70px] items-center justify-between px-10">
-          <div className="flex items-center gap-3">
-            <a href="/" aria-label="Voltar para a Home" className="flex items-center gap-3">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-[#1d4ed8] text-white"><BarChart3 className="size-5" /></span>
-              <span className="text-[17px] font-bold tracking-tight">EnadeX</span>
-            </a>
-            <span className="h-8 w-px bg-[#dfe5ee]" />
-            <div className="leading-tight"><p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#91a4c3]">Subprojetos</p><p className="text-sm font-semibold">MultiENADE</p></div>
-          </div>
-          <nav className="hidden items-center gap-7 text-sm text-[#607494] md:flex"><a className="font-medium text-[#111827]" href="#analysis">Análise</a><a href="#dataset">Dataset</a><a href="#methodology">Metodologia</a></nav>
-          <div className="flex items-center gap-3">
-            <span className={`hidden rounded-full border px-3 py-1.5 text-xs font-semibold sm:inline-flex ${status === 'ready' ? 'border-[#a7efd0] bg-[#f0fdf8] text-[#009b67]' : status === 'error' ? 'border-red-200 bg-red-50 text-red-600' : 'border-slate-200 bg-slate-50 text-slate-500'}`}>
-              {status === 'ready' ? '● Conectado' : status === 'error' ? '● Falha na conexão' : status === 'loading' ? '● Carregando…' : '● Aguardando'}
-            </span>
-          </div>
+    <main className="min-h-screen bg-surface-page font-marca text-body text-ink">
+      <BarraModulo
+        nome={<span className="flex flex-col leading-tight"><span className="text-caption font-normal text-ink-on-nav/80">Subprojetos</span><span className="text-h3">MultiENADE</span></span>}
+      >
+        <nav className="hidden items-center gap-6 text-small text-ink-on-nav/80 md:flex"><a className={`rounded-marca-sm font-medium text-ink-on-nav ${foco}`} href="#analysis">Análise</a><a className={`rounded-marca-sm hover:text-ink-on-nav ${foco}`} href="#dataset">Dataset</a><a className={`rounded-marca-sm hover:text-ink-on-nav ${foco}`} href="#methodology">Metodologia</a></nav>
+        <div className="flex items-center gap-3">
+          <span className={`hidden rounded-marca-sm border px-3 py-1 text-small font-medium text-ink-on-nav sm:inline-flex ${status === 'ready' ? 'border-success' : status === 'error' ? 'border-danger' : 'border-ink-on-nav/40'}`}>
+            {status === 'ready' ? '● Conectado' : status === 'error' ? '● Falha na conexão' : status === 'loading' ? '● Carregando…' : '● Aguardando'}
+          </span>
         </div>
-      </header>
+      </BarraModulo>
 
-      <div className="px-10 py-8">
-        <div className="mb-5 flex items-center gap-2 text-xs text-[#8aa0c1]"><a href="/" className="hover:text-[#1d4ed8]">Home</a><span>/</span><span>Subprojetos</span><span>/</span><span className="text-[#2d4263]">MultiENADE</span></div>
-        <section className="flex items-end justify-between border-b border-[#dfe5ee] pb-9">
+      <div className="px-4 py-8 sm:px-10">
+        <div className="mb-5 flex items-center gap-2 text-small text-ink-muted"><a href="/" className={`rounded-marca-sm hover:text-accent ${foco}`}>Home</a><span>/</span><span>Subprojetos</span><span>/</span><span className="text-ink">MultiENADE</span></div>
+        <section className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-9">
           <div>
-            <div className="flex items-center gap-3"><h1 className="text-[29px] font-bold tracking-tight">MultiENADE</h1><span className="rounded-lg border border-[#cfe0ff] bg-[#eef5ff] px-2.5 py-1 text-[11px] font-semibold text-[#155eef]">Descoberta de padrões</span></div>
-            <p className="mt-2 text-sm text-[#607494]">Descoberta de padrões multidimensionais em microdados do ENADE com apoio de inteligência explicável.</p>
+            <div className="flex flex-wrap items-center gap-3"><h1 className="text-display text-ink">MultiENADE</h1><span className={badge.info}>Descoberta de padrões</span></div>
+            <p className="mt-2 text-body text-ink-muted">Descoberta de padrões multidimensionais em microdados do ENADE com apoio de inteligência explicável.</p>
           </div>
-          <div className="flex items-center gap-5 text-xs text-[#607494]">
-            <span>Cursos na amostra: <strong className="text-[#2d4263]">{status === 'ready' ? regressao.length.toLocaleString('pt-BR') : '—'}</strong></span>
-            <span className="flex items-center gap-2"><Database className="size-4 text-[#89a1c5]" /> Dataset: <strong className="text-[#2d4263]">ENADE 2021</strong></span>
+          <div className="flex flex-wrap items-center gap-5 text-small text-ink-muted">
+            <span>Cursos na amostra: <strong className="num font-medium text-ink">{status === 'ready' ? regressao.length.toLocaleString('pt-BR') : '—'}</strong></span>
+            <span className="flex items-center gap-2"><Database className="size-4 text-ink-muted" /> Dataset: <strong className="font-medium text-ink">ENADE 2021</strong></span>
           </div>
         </section>
 
         {status === 'error' && (
-          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div className="mt-6 rounded-marca-md border border-danger bg-surface-card px-4 py-3 text-body text-danger">
             Não foi possível carregar os dados da API ({erro}). Confira se o backend está rodando em <code className="font-mono">{process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'}</code>.
           </div>
         )}
 
         {/* Menu único: controla o gráfico, a tabela do dataset e a metodologia ao mesmo tempo */}
-        <div className="mt-8 flex w-fit items-center gap-1 rounded-xl border border-[#dfe5ee] bg-[#f6f8fb] p-1 text-[11px] font-semibold">
+        <div className="mt-8 flex w-fit max-w-full flex-wrap items-center gap-1 rounded-marca-md border border-border bg-surface-sunken p-1 text-small font-medium">
           {TOPICOS.map((chave) => (
             <button
               key={chave}
               onClick={() => setTopico(chave)}
-              className={`flex items-center gap-2 rounded-lg px-3.5 py-2 transition ${topico === chave ? 'bg-white text-[#155eef] shadow-sm' : 'text-[#8aa0c1]'}`}
+              className={`flex cursor-pointer items-center gap-2 rounded-marca-sm px-3.5 py-2 transition-colors ${foco} ${topico === chave ? 'bg-surface-card text-accent shadow-marca' : 'text-ink-muted hover:text-ink'}`}
             >
               {ICONE_TOPICO[chave]}
               {DICIONARIO_TABELAS[chave].titulo}
