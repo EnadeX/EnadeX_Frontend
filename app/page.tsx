@@ -43,10 +43,11 @@ const projects = [
   {
     name: 'EduCluster',
     eyebrow: 'Perfis latentes',
-    description: 'Agrupa trajetórias e perfis de estudantes para revelar padrões ocultos no ensino superior.',
+    description: 'Agrupa cursos e estudantes em perfis latentes, cruzando o desempenho na prova com a qualidade do curso percebida pelos estudantes.',
     tags: ['K-Means', 'Clusterização'],
     icon: Network,
     accent: 'teal',
+    href: '/educluster',
   },
   {
     name: 'ENADE-Time',
