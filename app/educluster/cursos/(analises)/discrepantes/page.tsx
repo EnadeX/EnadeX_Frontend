@@ -75,8 +75,8 @@ function TabelaDiscrepantes({ cursos }: { cursos: CursoDiscrepante[] }) {
                     {c.CO_CURSO}
                   </Link>
                 </td>
-                <td className={cn(td, 'max-w-64 text-xs')}>{nomeArea(c.area)}</td>
-                <td className={cn(td, 'text-xs')}>
+                <td className={cn(td, 'max-w-64 text-small')}>{nomeArea(c.area)}</td>
+                <td className={cn(td, 'text-small')}>
                   <span className="flex items-center gap-1.5 whitespace-nowrap">
                     <MarcadorSerie indice={indiceQuadrante(c.quadrante)} />
                     {ROTULO_QUADRANTE[c.quadrante].titulo}
@@ -87,13 +87,13 @@ function TabelaDiscrepantes({ cursos }: { cursos: CursoDiscrepante[] }) {
                 <td className={tdNum}>{formatDecimal(c.ODP)}</td>
                 <td className={tdNum}>{formatSinal(c.desempenho_relativo)}</td>
                 <td className={tdNum}>{formatSinal(c.percepcao_relativa)}</td>
-                <td className={cn(tdNum, 'font-semibold')}>{formatSinal(c.tensao)}</td>
+                <td className={cn(tdNum, 'font-medium')}>{formatSinal(c.tensao)}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="flex items-center justify-between text-xs text-[#5f7393]">
+      <div className="flex items-center justify-between text-small text-ink-muted">
         <span>
           {formatInteiro(cursos.length)} cursos · página {atual + 1} de {paginas}
         </span>
@@ -190,19 +190,19 @@ export default function CursosDiscrepantes() {
                     onClick={() => definir({ quadrante: ativo ? undefined : q })}
                     aria-pressed={ativo}
                     className={cn(
-                      'rounded-2xl border bg-white p-4 text-left shadow-sm transition hover:border-[#99f6e4] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#14b8a6]/40',
-                      ativo ? 'border-[#0d9488] ring-1 ring-[#0d9488]' : 'border-[#dfe5ee]',
+                      'rounded-marca-md border bg-surface-card p-4 text-left shadow-marca transition hover:border-border-control focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-focus-ring',
+                      ativo ? 'border-accent ring-1 ring-accent' : 'border-border',
                     )}
                   >
-                    <span className="flex items-center gap-2 text-xs font-semibold text-[#111827]">
+                    <span className="flex items-center gap-2 text-small font-medium text-ink">
                       <MarcadorSerie indice={indiceQuadrante(q)} />
                       {ROTULO_QUADRANTE[q].titulo}
                     </span>
-                    <span className="mt-2 block text-2xl font-bold tracking-tight">{formatInteiro(total)}</span>
-                    <span className="text-[11px] text-[#5f7393]">
+                    <span className="mt-2 block text-kpi">{formatInteiro(total)}</span>
+                    <span className="text-caption text-ink-muted">
                       {formatPercentual(dados.total ? total / dados.total : 0)} dos discrepantes
                     </span>
-                    <span className="mt-1 block text-[11px] leading-4 text-[#5f7393]">{ROTULO_QUADRANTE[q].leitura}</span>
+                    <span className="mt-1 block text-caption text-ink-muted">{ROTULO_QUADRANTE[q].leitura}</span>
                   </button>
                 )
               })}
@@ -223,7 +223,7 @@ export default function CursosDiscrepantes() {
                 onSelecionar={(p) => router.push(ROTAS.curso(p.curso.CO_CURSO))}
                 renderTooltip={(p) => (
                   <>
-                    <p className="font-semibold text-[#111827]">Curso {p.curso.CO_CURSO}</p>
+                    <p className="font-medium text-ink">Curso {p.curso.CO_CURSO}</p>
                     <p>{nomeArea(p.curso.area)}</p>
                     <p>{ROTULO_QUADRANTE[p.curso.quadrante].titulo}</p>
                     <p>

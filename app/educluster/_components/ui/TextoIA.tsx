@@ -3,7 +3,7 @@ import { Fragment, type ReactNode } from 'react'
 function negrito(texto: string): ReactNode[] {
   return texto.split(/(\*\*[^*]+\*\*)/g).map((trecho, i) =>
     trecho.startsWith('**') && trecho.endsWith('**') ? (
-      <strong key={i} className="font-semibold text-[#111827]">
+      <strong key={i} className="font-medium text-ink">
         {trecho.slice(2, -2)}
       </strong>
     ) : (
@@ -39,11 +39,11 @@ function emBlocos(texto: string): Bloco[] {
 
 export function TextoIA({ texto }: { texto: string }) {
   return (
-    <div className="space-y-3 text-sm leading-6 text-[#334155]">
+    <div className="space-y-3 text-body text-ink">
       {emBlocos(texto).map((bloco, i) => {
         if (bloco.tipo === 'titulo') {
           return (
-            <h4 key={i} className="pt-2 text-sm font-bold text-[#111827]">
+            <h4 key={i} className="pt-2 text-h3 text-ink">
               {negrito(bloco.texto)}
             </h4>
           )

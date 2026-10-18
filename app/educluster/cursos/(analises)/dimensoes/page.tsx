@@ -24,8 +24,8 @@ function CelulaCorrelacao({ valor, dominante }: { valor: number; dominante: bool
     <td className="px-2 py-1.5 text-right">
       <span
         className={cn(
-          'inline-flex min-w-16 items-center justify-end gap-1 rounded-md px-2 py-1 text-xs tabular-nums',
-          dominante ? 'font-bold ring-2 ring-[#111827]/70' : 'font-medium',
+          'inline-flex min-w-16 items-center justify-end gap-1 rounded-marca-sm px-2 py-1 text-small num',
+          dominante ? 'font-medium ring-2 ring-ink/70' : 'font-medium',
         )}
         style={{ backgroundColor: fundo, color: tintaSobre(fundo) }}
       >
@@ -87,10 +87,10 @@ export default function DimensoesDesempenho() {
                 <BarCorrelacaoGlobal
                   dados={dados.correlacao_global.map((c) => ({ rotulo: c.dimensao, valor: c[alvo] }))}
                 />
-                <ul className="mt-2 grid gap-1 text-[11px] text-[#5f7393] sm:grid-cols-3">
+                <ul className="mt-2 grid gap-1 text-caption text-ink-muted sm:grid-cols-3">
                   {DIMENSOES.map((d) => (
                     <li key={d}>
-                      <strong className="text-[#334155]">{d}</strong>: {ROTULO_DIMENSAO[d]}
+                      <strong className="font-medium text-ink">{d}</strong>: {ROTULO_DIMENSAO[d]}
                     </li>
                   ))}
                 </ul>
@@ -118,8 +118,8 @@ export default function DimensoesDesempenho() {
                       {porArea.map((a) => (
                         <tr key={a.area} className={trLinha}>
                           <td className={td}>
-                            <span className="text-sm">{nomeArea(a.area)}</span>
-                            <span className="ml-2 text-[11px] text-[#94a3b8]">{a.area}</span>
+                            <span className="text-body">{nomeArea(a.area)}</span>
+                            <span className="ml-2 text-caption text-ink-muted">{a.area}</span>
                           </td>
                           <td className={tdNum}>{formatInteiro(a.cursos)}</td>
                           {DIMENSOES.map((d) => (

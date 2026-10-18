@@ -60,7 +60,7 @@ function DiferencaCelula({
   return (
     <td className={tdNum}>
       {formato(valor)}
-      <span className={`block text-[10px] ${delta >= 0 ? 'text-[#047857]' : 'text-[#b91c1c]'}`}>
+      <span className={`block text-caption ${delta >= 0 ? 'text-success' : 'text-danger'}`}>
         curso {formatoDelta(delta)}
       </span>
     </td>
@@ -130,29 +130,29 @@ export default function DetalheCurso() {
             ]
             return (
               <>
-                <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-[#dfe5ee] bg-white p-4 shadow-sm">
-                  <span className="text-sm font-semibold">{nomeArea(c.area)}</span>
-                  <span className="text-xs text-[#94a3b8]">{c.area}</span>
-                  <span className="h-4 w-px bg-[#dfe5ee]" />
-                  <span className="inline-flex items-center gap-1.5 text-sm">
+                <div className="flex flex-wrap items-center gap-3 rounded-marca-md border border-border bg-surface-card p-4 shadow-marca">
+                  <span className="text-body font-medium">{nomeArea(c.area)}</span>
+                  <span className="text-small text-ink-muted">{c.area}</span>
+                  <span className="h-4 w-px bg-border" />
+                  <span className="inline-flex items-center gap-1.5 text-body">
                     <MarcadorSerie indice={c.Cluster_ID} />
-                    <strong>Cluster {c.Cluster_ID}</strong>
-                    <span className="text-[#5f7393]">{rotulos[c.Cluster_ID]}</span>
+                    <strong className="font-medium">Cluster {c.Cluster_ID}</strong>
+                    <span className="text-ink-muted">{rotulos[c.Cluster_ID]}</span>
                   </span>
-                  <span className="h-4 w-px bg-[#dfe5ee]" />
-                  <span className="text-xs text-[#5f7393]">
+                  <span className="h-4 w-px bg-border" />
+                  <span className="text-small text-ink-muted">
                     {formatInteiro(c.n_notas)} estudantes com nota · {formatInteiro(c.n_qe)} respondentes do questionário
                   </span>
                 </div>
 
                 {discrepante && (
-                  <div className="flex items-start gap-2 rounded-xl border border-[#fed7aa] bg-[#fff7ed] px-3 py-2.5 text-xs leading-5 text-[#9a3412]">
+                  <div className="flex items-start gap-2 rounded-marca-md border border-warning bg-surface-card px-3 py-2.5 text-small text-warning">
                     <TriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
                     <span>
-                      Curso discrepante em relação aos pares da área: <strong>{ROTULO_QUADRANTE[discrepante.quadrante].titulo}</strong>{' '}
+                      Curso discrepante em relação aos pares da área: <strong className="font-medium">{ROTULO_QUADRANTE[discrepante.quadrante].titulo}</strong>{' '}
                       (tensão {formatSinal(discrepante.tensao)}; desempenho relativo {formatSinal(discrepante.desempenho_relativo)}, percepção
                       relativa {formatSinal(discrepante.percepcao_relativa)}). {ROTULO_QUADRANTE[discrepante.quadrante].leitura}{' '}
-                      <Link href={`${ROTAS.cursosDiscrepantes}?quadrante=${discrepante.quadrante}`} className="font-semibold underline">
+                      <Link href={`${ROTAS.cursosDiscrepantes}?quadrante=${discrepante.quadrante}`} className="font-medium underline">
                         Ver os demais
                       </Link>
                     </span>
@@ -186,7 +186,7 @@ export default function DetalheCurso() {
                           {linhas.map((l) => (
                             <tr key={l.rotulo} className={trLinha}>
                               <td className={td}>{l.rotulo}</td>
-                              <td className={`${tdNum} font-semibold`}>{l.formato(l.curso)}</td>
+                              <td className={`${tdNum} font-medium`}>{l.formato(l.curso)}</td>
                               <DiferencaCelula base={l.curso} valor={l.cluster} formato={l.formato} formatoDelta={l.formatoDelta} />
                               <DiferencaCelula base={l.curso} valor={l.area} formato={l.formato} formatoDelta={l.formatoDelta} />
                             </tr>
@@ -214,7 +214,7 @@ export default function DetalheCurso() {
                           onSelecionar={(p) => router.push(ROTAS.curso(p.curso.CO_CURSO))}
                           renderTooltip={(p) => (
                             <>
-                              <p className="font-semibold text-[#111827]">Curso {p.curso.CO_CURSO}</p>
+                              <p className="font-medium text-ink">Curso {p.curso.CO_CURSO}</p>
                               <p>{nomeArea(p.curso.area)}</p>
                             </>
                           )}

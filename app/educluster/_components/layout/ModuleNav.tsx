@@ -29,7 +29,7 @@ export function ModuleNav({ variante }: { variante: 'topo' | 'abas' }) {
 
   if (variante === 'topo') {
     return (
-      <nav aria-label="Seções do EduCluster" className="hidden items-center gap-7 text-sm md:flex">
+      <nav aria-label="Seções do EduCluster" className="hidden items-center gap-7 text-body md:flex">
         {ITENS.map((item) => {
           const ativo = itemAtivo(pathname, item)
           return (
@@ -38,8 +38,8 @@ export function ModuleNav({ variante }: { variante: 'topo' | 'abas' }) {
               href={item.href}
               aria-current={ativo ? 'page' : undefined}
               className={cn(
-                'rounded-md py-1 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#14b8a6]/40',
-                ativo ? 'font-medium text-[#111827]' : 'text-[#5f7393] hover:text-[#111827]',
+                'rounded-marca-sm py-1 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-focus-ring',
+                ativo ? 'font-medium text-ink-on-nav' : 'text-ink-on-nav/75 hover:text-ink-on-nav',
               )}
             >
               {item.label}
@@ -53,7 +53,7 @@ export function ModuleNav({ variante }: { variante: 'topo' | 'abas' }) {
   return (
     <nav
       aria-label="Seções do EduCluster"
-      className="flex w-full items-center gap-1 overflow-x-auto rounded-xl border border-[#dfe5ee] bg-[#f6f8fb] p-1 text-[11px] font-semibold md:hidden"
+      className="flex w-full items-center gap-1 overflow-x-auto rounded-marca-md border border-ink-on-nav/20 p-1 text-small font-medium md:hidden"
     >
       {ITENS.map((item) => {
         const ativo = itemAtivo(pathname, item)
@@ -63,8 +63,8 @@ export function ModuleNav({ variante }: { variante: 'topo' | 'abas' }) {
             href={item.href}
             aria-current={ativo ? 'page' : undefined}
             className={cn(
-              'shrink-0 rounded-lg px-3.5 py-2 transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#14b8a6]/40',
-              ativo ? 'bg-white text-[#0f766e] shadow-sm' : 'text-[#5f7393]',
+              'shrink-0 rounded-marca-sm px-3.5 py-2 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-focus-ring',
+              ativo ? 'bg-ink-on-nav/15 text-ink-on-nav' : 'text-ink-on-nav/75',
             )}
           >
             {item.label}

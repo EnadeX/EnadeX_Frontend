@@ -1,12 +1,13 @@
+// Séries da marca (manual p. 10): as seis categóricas na ordem; acima de seis, a forma do marcador distingue.
 export const CORES_SERIE = [
-  '#2a78d6',
-  '#eb6834',
-  '#1baf7a',
-  '#4a3aa7',
-  '#e87ba4',
-  '#eda100',
-  '#008300',
-  '#e34948',
+  'var(--series-1)',
+  'var(--series-2)',
+  'var(--series-3)',
+  'var(--series-4)',
+  'var(--series-5)',
+  'var(--series-6)',
+  'var(--ink-muted)',
+  'var(--seq-4)',
 ] as const
 
 export const FORMAS_SERIE = [
@@ -30,12 +31,13 @@ export function formaSerie(indice: number): FormaSerie {
   return FORMAS_SERIE[indice % FORMAS_SERIE.length]
 }
 
+// `primaria` fica em hex: é a tinta escura sobre as células de calor (tintaSobre), que têm cor fixa nos dois temas.
 export const INK = {
-  primaria: '#111827',
-  secundaria: '#475569',
-  muda: '#64748b',
-  grade: '#e2e8f0',
-  eixo: '#cbd5e1',
+  primaria: '#0c3350',
+  secundaria: 'var(--ink-muted)',
+  muda: 'var(--ink-muted)',
+  grade: 'var(--border)',
+  eixo: 'var(--border)',
 } as const
 
 export const GRID_COLOR = INK.grade
@@ -48,7 +50,7 @@ export const EIXO = {
 export const TOOLTIP_STYLE = {
   fontSize: 11,
   borderRadius: 8,
-  borderColor: '#dfe5ee',
+  borderColor: 'var(--border)',
 } as const
 
 export const fmtTooltip = (formatar: (valor: number) => string) => (valor: unknown) =>
@@ -72,11 +74,14 @@ function misturar(de: string, para: string, t: number): string {
   return rgbParaHex([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f])
 }
 
-const NEUTRO_DIVERGENTE = '#f0efec'
-const POLO_POSITIVO = '#1c5cab'
-const POLO_NEGATIVO = '#c23b3a'
-const SEQ_CLARO = '#e8f1fd'
-const SEQ_ESCURO = '#1c5cab'
+// Escalas de calor em hex (a mistura é calculada aqui): polos e extremos da marca no tema claro.
+// Divergente: azul-marinho e o vermelho de erro (a legenda da tela fala em azul e vermelho). O azul-marinho dá mais
+// contraste à tinta das células intermediárias do que o azul de contribuição.
+const NEUTRO_DIVERGENTE = '#e7f3f4' // surface-sunken
+const POLO_POSITIVO = '#0c3350' // brand-navy
+const POLO_NEGATIVO = '#c23b33' // danger
+const SEQ_CLARO = '#c8eee8' // seq-1
+const SEQ_ESCURO = '#0c3350' // seq-5
 
 export function corDivergente(valor: number, limite: number): string {
   const t = Math.min(1, Math.abs(valor) / limite)

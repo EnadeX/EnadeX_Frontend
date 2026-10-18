@@ -14,12 +14,12 @@ function Bloco({ icone: Icone, titulo, children }: { icone: LucideIcon; titulo: 
   return (
     <Card>
       <div className="flex items-center gap-2">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-[#f0fdfa] text-[#0f766e]">
+        <span className="flex size-8 items-center justify-center rounded-marca-sm border border-accent bg-surface-card text-accent">
           <Icone className="size-4" aria-hidden />
         </span>
-        <h3 className="text-sm font-bold">{titulo}</h3>
+        <h3 className="text-h3">{titulo}</h3>
       </div>
-      <div className="mt-3 space-y-2 text-sm leading-6 text-[#334155]">{children}</div>
+      <div className="mt-3 space-y-2 text-body text-ink">{children}</div>
     </Card>
   )
 }
@@ -61,18 +61,18 @@ export default function Sobre() {
             fora porque é combinação exata das duas. Presença: proporção de inscritos presentes com resultado válido.
           </p>
           <p>Percepção: média por curso de três blocos de assertivas do questionário do estudante (escala de 1 a 6):</p>
-          <ul className="list-disc space-y-1 pl-5 text-xs">
+          <ul className="list-disc space-y-1 pl-5 text-small">
             {DIMENSOES.map((d) => {
               const itens = dimensoes.data?.[d]?.itens
               return (
                 <li key={d}>
-                  <strong>{d}</strong>, {ROTULO_DIMENSAO[d]}
+                  <strong className="font-medium">{d}</strong>, {ROTULO_DIMENSAO[d]}
                   {itens && itens.length > 0 && `: ${itens.length} itens, ${itens[0]} a ${itens[itens.length - 1]}`}
                 </li>
               )
             })}
           </ul>
-          <p className="text-xs text-[#5f7393]">
+          <p className="text-small text-ink-muted">
             Os códigos 7 (não sei responder) e 8 (não se aplica) viram nulo antes das médias; o 6 é resposta válida.
           </p>
         </Bloco>
@@ -81,11 +81,11 @@ export default function Sobre() {
           <ol className="space-y-2">
             {CAMADAS.map(([nome, texto], i) => (
               <li key={nome} className="flex gap-3">
-                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#0f766e] text-[10px] font-bold text-white">
+                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-accent text-caption font-medium text-on-accent">
                   {i + 1}
                 </span>
                 <span>
-                  <strong>{nome}.</strong> {texto}
+                  <strong className="font-medium">{nome}.</strong> {texto}
                 </span>
               </li>
             ))}
@@ -117,12 +117,12 @@ export default function Sobre() {
 
         <Bloco icone={FlaskConical} titulo="Integração com o EnadeX">
           <p>
-            O módulo consome a API do EduCluster em <code className="rounded bg-[#f1f5f9] px-1 font-mono text-xs">{API_BASE}</code>,
+            O módulo consome a API do EduCluster em <code className="rounded-marca-sm bg-surface-sunken px-1 font-mono text-small">{API_BASE}</code>,
             definida pela variável NEXT_PUBLIC_EDUCLUSTER_API_URL. Em desenvolvimento o backend roda sozinho na
             porta 8001; no api_main.py do grupo basta incluir o router do EduCluster e apontar a variável para a
             porta 8000.
           </p>
-          <p className="text-xs text-[#5f7393]">
+          <p className="text-small text-ink-muted">
             A primeira consulta depois que a API sobe baixa a base do Supabase (cerca de 1 minuto); as seguintes
             saem do cache em memória.
           </p>

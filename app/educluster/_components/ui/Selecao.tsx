@@ -39,7 +39,7 @@ export function Selecao({
 
 export function Filtros({ children }: { children: ReactNode }) {
   return (
-    <div className="grid grid-cols-1 gap-3 rounded-2xl border border-[#dfe5ee] bg-white p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-3 rounded-marca-md border border-border bg-surface-card p-4 shadow-marca sm:grid-cols-2 lg:grid-cols-4">
       {children}
     </div>
   )

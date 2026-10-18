@@ -30,7 +30,7 @@ import { DIMENSOES, ROTULO_DIMENSAO } from '@/lib/educluster/rotulos'
 import { ROTAS } from '@/lib/educluster/rotas'
 import type { MetricasModeloCursos } from '@/lib/educluster/types'
 
-const TITULO_SECAO = 'mb-3 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5f7393]'
+const TITULO_SECAO = 'mb-3 text-small font-medium text-ink-muted'
 
 const ANALISES = [
   {
@@ -88,12 +88,12 @@ function MatrizCorrelacao() {
     <QueryBoundary query={correlacoes} loadingLabel="Calculando correlações…">
       {(dados) => (
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full text-body">
             <thead>
-              <tr className="text-[11px] uppercase tracking-wide text-[#5f7393]">
-                <th className="px-2 py-1.5 text-left font-semibold">Dimensão percebida</th>
-                <th className="px-2 py-1.5 text-right font-semibold">Formação geral</th>
-                <th className="px-2 py-1.5 text-right font-semibold">Componente específico</th>
+              <tr className="text-caption text-ink-muted">
+                <th className="px-2 py-1.5 text-left font-medium">Dimensão percebida</th>
+                <th className="px-2 py-1.5 text-right font-medium">Formação geral</th>
+                <th className="px-2 py-1.5 text-right font-medium">Componente específico</th>
               </tr>
             </thead>
             <tbody>
@@ -102,17 +102,17 @@ function MatrizCorrelacao() {
                 const valorCe = linha?.NT_CE ?? 0
                 const valorFg = linha?.NT_FG ?? 0
                 return (
-                  <tr key={d} className="border-t border-[#edf1f6]">
+                  <tr key={d} className="border-t border-border">
                     <td className="px-2 py-2">
-                      <span className="font-semibold">{d}</span>
-                      <span className="ml-2 text-xs text-[#5f7393]">{ROTULO_DIMENSAO[d]}</span>
+                      <span className="font-medium">{d}</span>
+                      <span className="ml-2 text-small text-ink-muted">{ROTULO_DIMENSAO[d]}</span>
                     </td>
                     {[valorFg, valorCe].map((v, i) => {
                       const fundo = corDivergente(v, 0.6)
                       return (
                         <td key={i} className="px-2 py-1.5 text-right">
                           <span
-                            className="inline-block min-w-16 rounded-md px-2 py-1 text-xs font-semibold tabular-nums"
+                            className="inline-block min-w-16 rounded-marca-sm px-2 py-1 text-small font-medium num"
                             style={{ backgroundColor: fundo, color: tintaSobre(fundo) }}
                           >
                             {formatSinal(v, 3)}
@@ -161,7 +161,7 @@ export default function EduClusterVisaoGeral() {
             description="Correlação de Pearson entre as dimensões percebidas do curso (arq4) e as notas médias (arq3), no nível do curso. Valores perto de zero indicam que as duas coisas variam de forma quase independente."
           />
           <MatrizCorrelacao />
-          <p className="mt-4 text-xs leading-5 text-[#5f7393]">
+          <p className="mt-4 text-small text-ink-muted">
             {m
               ? `O PCA da análise central separou as duas coisas sozinho: o componente 1 (${formatPercentual(m.variancia_por_componente[0])} da variância) concentra a percepção e o componente 2 (${formatPercentual(m.variancia_por_componente[1])}) concentra o desempenho. `
               : ''}
@@ -173,7 +173,7 @@ export default function EduClusterVisaoGeral() {
           <CardHeader
             title="Perfis de curso do modelo treinado"
             action={
-              <Link href={ROTAS.cursos} className="inline-flex items-center gap-1 text-xs font-semibold text-[#0f766e] hover:underline">
+              <Link href={ROTAS.cursos} className="inline-flex items-center gap-1 text-small font-medium text-accent hover:underline">
                 Ver mapa <ArrowUpRight className="size-3.5" aria-hidden />
               </Link>
             }
@@ -182,13 +182,13 @@ export default function EduClusterVisaoGeral() {
             {(dados) => (
               <ul className="space-y-3">
                 {dados.perfis.map((p) => (
-                  <li key={p.Cluster_ID} className="rounded-xl border border-[#edf1f6] p-3">
+                  <li key={p.Cluster_ID} className="rounded-marca-md border border-border p-3">
                     <div className="flex items-center gap-2">
                       <MarcadorSerie indice={p.Cluster_ID} />
-                      <p className="text-sm font-semibold">Cluster {p.Cluster_ID}</p>
-                      <p className="text-xs text-[#5f7393]">{rotulos[p.Cluster_ID]}</p>
+                      <p className="text-body font-medium">Cluster {p.Cluster_ID}</p>
+                      <p className="text-small text-ink-muted">{rotulos[p.Cluster_ID]}</p>
                     </div>
-                    <p className="mt-1.5 text-xs leading-5 text-[#475569]">
+                    <p className="mt-1.5 text-small text-ink-muted">
                       {formatInteiro(p.cursos)} cursos · FG {formatDecimal(p.NT_FG)} · CE {formatDecimal(p.NT_CE)} · presença{' '}
                       {formatPercentual(p.tx_presenca, 0)} · ODP {formatDecimal(p.ODP)} · OPORT {formatDecimal(p.OPORT)} · INFRA{' '}
                       {formatDecimal(p.INFRA)}
@@ -208,24 +208,24 @@ export default function EduClusterVisaoGeral() {
             <Link
               key={a.href}
               href={a.href}
-              className="group flex flex-col rounded-2xl border border-[#dfe5ee] bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#99f6e4] hover:shadow-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#14b8a6]/40"
+              className="group flex flex-col rounded-marca-md border border-border bg-surface-card p-4 shadow-marca transition hover:-translate-y-0.5 hover:border-border-control hover:shadow-marca-overlay focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-focus-ring"
             >
               <div className="flex items-center justify-between">
-                <span className="rounded-md bg-[#f0fdfa] px-2 py-0.5 text-[10px] font-bold text-[#0f766e]">{a.sigla}</span>
-                <ArrowUpRight className="size-4 text-[#94a3b8] transition group-hover:text-[#0f766e]" aria-hidden />
+                <span className="rounded-marca-sm bg-surface-sunken px-2 py-0.5 text-caption font-medium text-accent">{a.sigla}</span>
+                <ArrowUpRight className="size-4 text-ink-muted transition group-hover:text-accent" aria-hidden />
               </div>
-              <p className="mt-3 text-sm font-semibold text-[#111827]">{a.titulo}</p>
-              <p className="mt-1 text-xs leading-5 text-[#5f7393]">{a.texto}</p>
+              <p className="mt-3 text-body font-medium text-ink">{a.titulo}</p>
+              <p className="mt-1 text-small text-ink-muted">{a.texto}</p>
             </Link>
           ))}
           <Link
             href={ROTAS.sobre}
-            className="group flex flex-col justify-between rounded-2xl border border-dashed border-[#cbd5e1] p-4 transition hover:border-[#99f6e4] hover:bg-[#f0fdfa]/50"
+            className="group flex flex-col justify-between rounded-marca-md border border-dashed border-border-control p-4 transition hover:border-border-control hover:bg-surface-card"
           >
-            <GraduationCap className="size-5 text-[#0f766e]" aria-hidden />
+            <GraduationCap className="size-5 text-accent" aria-hidden />
             <div>
-              <p className="mt-3 text-sm font-semibold text-[#111827]">Método e limitações</p>
-              <p className="mt-1 text-xs leading-5 text-[#5f7393]">Dados, LGPD, pipeline, validação e o que a análise não permite concluir.</p>
+              <p className="mt-3 text-body font-medium text-ink">Método e limitações</p>
+              <p className="mt-1 text-small text-ink-muted">Dados, LGPD, pipeline, validação e o que a análise não permite concluir.</p>
             </div>
           </Link>
         </div>

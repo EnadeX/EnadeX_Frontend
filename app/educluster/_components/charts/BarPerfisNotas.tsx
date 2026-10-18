@@ -40,7 +40,7 @@ export function BarPerfisNotas({
         <CartesianGrid stroke={GRID_COLOR} vertical={false} />
         <XAxis dataKey="variavel" {...EIXO} />
         <YAxis {...EIXO} width={36} domain={[0, 'auto']} />
-        <Tooltip contentStyle={TOOLTIP_STYLE} formatter={fmtTooltip((v) => formatDecimal(v, 2))} cursor={{ fill: '#f1f5f9' }} />
+        <Tooltip contentStyle={TOOLTIP_STYLE} formatter={fmtTooltip((v) => formatDecimal(v, 2))} cursor={{ fill: 'var(--surface-sunken)' }} />
         {series.map((s) => (
           <Bar
             key={s.id}

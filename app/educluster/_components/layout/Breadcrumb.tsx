@@ -18,8 +18,8 @@ export function Breadcrumb() {
   const secao = secaoAtual(usePathname())
 
   return (
-    <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-xs text-[#5f7393]">
-      <a href={ROTAS.homeEnadex} className="hover:text-[#0f766e]">
+    <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-small text-ink-muted">
+      <a href={ROTAS.homeEnadex} className="hover:text-accent">
         Home
       </a>
       <span aria-hidden>/</span>
@@ -27,16 +27,16 @@ export function Breadcrumb() {
       <span aria-hidden>/</span>
       {secao ? (
         <>
-          <Link href={ROTAS.inicio} className="hover:text-[#0f766e]">
+          <Link href={ROTAS.inicio} className="hover:text-accent">
             EduCluster
           </Link>
           <span aria-hidden>/</span>
-          <span aria-current="page" className="text-[#2d4263]">
+          <span aria-current="page" className="text-ink">
             {secao}
           </span>
         </>
       ) : (
-        <span aria-current="page" className="text-[#2d4263]">
+        <span aria-current="page" className="text-ink">
           EduCluster
         </span>
       )}

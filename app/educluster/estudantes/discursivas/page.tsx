@@ -22,27 +22,27 @@ const GRADE: PerfilDiscursivo[][] = [
 const NOTAS = ['NT_OBJ_CE', 'NT_DIS_CE', 'NT_OBJ_FG', 'NT_DIS_FG', 'NT_GER'] as const
 
 function CartaoPerfil({ dados, total }: { dados?: PerfilDiscursivoResumo; total: number }) {
-  if (!dados) return <div className="rounded-2xl border border-dashed border-[#dfe5ee] p-4" />
+  if (!dados) return <div className="rounded-marca-md border border-dashed border-border p-4" />
   const rotulo = ROTULO_DISCURSIVO[dados.perfil_discursivo]
   const destaque = dados.perfil_discursivo === 'sabe_mas_nao_escreve'
   return (
-    <div className={cn('rounded-2xl border p-4 shadow-sm', destaque ? 'border-[#0d9488] bg-[#f0fdfa]' : 'border-[#dfe5ee] bg-white')}>
-      <p className="text-sm font-bold text-[#111827]">{rotulo.titulo}</p>
-      <p className="text-[11px] text-[#5f7393]">{rotulo.leitura}</p>
-      <p className="mt-3 text-2xl font-bold tracking-tight">{formatInteiro(dados.estudantes)}</p>
-      <p className="text-[11px] text-[#5f7393]">{formatPercentual(dados.estudantes / total)} dos estudantes</p>
-      <dl className="mt-3 grid grid-cols-3 gap-2 text-xs">
+    <div className={cn('rounded-marca-md border p-4 shadow-marca', destaque ? 'border-accent bg-surface-card' : 'border-border bg-surface-card')}>
+      <p className="text-h3 text-ink">{rotulo.titulo}</p>
+      <p className="text-caption text-ink-muted">{rotulo.leitura}</p>
+      <p className="mt-3 text-kpi">{formatInteiro(dados.estudantes)}</p>
+      <p className="text-caption text-ink-muted">{formatPercentual(dados.estudantes / total)} dos estudantes</p>
+      <dl className="mt-3 grid grid-cols-1 gap-2 text-small sm:grid-cols-3">
         <div>
-          <dt className="text-[#5f7393]">CE objetiva</dt>
-          <dd className="font-semibold tabular-nums">{formatDecimal(dados.NT_OBJ_CE)}</dd>
+          <dt className="text-ink-muted">CE objetiva</dt>
+          <dd className="font-medium num">{formatDecimal(dados.NT_OBJ_CE)}</dd>
         </div>
         <div>
-          <dt className="text-[#5f7393]">CE discursiva</dt>
-          <dd className="font-semibold tabular-nums">{formatDecimal(dados.NT_DIS_CE)}</dd>
+          <dt className="text-ink-muted">CE discursiva</dt>
+          <dd className="font-medium num">{formatDecimal(dados.NT_DIS_CE)}</dd>
         </div>
         <div>
-          <dt className="text-[#5f7393]">Abandono</dt>
-          <dd className="font-semibold tabular-nums">{formatPercentual(dados.taxa_abandono, 0)}</dd>
+          <dt className="text-ink-muted">Abandono</dt>
+          <dd className="font-medium num">{formatPercentual(dados.taxa_abandono, 0)}</dd>
         </div>
       </dl>
     </div>
@@ -80,13 +80,13 @@ export default function SituacaoDiscursivas() {
                 title="Domínio do conteúdo contra entrega das discursivas"
                 description="Linhas: domina ou não o conteúdo objetivo. Colunas: entrega ou abandona discursivas."
               />
-              <div className="grid grid-cols-[auto_1fr_1fr] gap-3">
+              <div className="grid grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)] gap-2 sm:gap-3">
                 <span />
-                <p className="text-center text-[11px] font-bold uppercase tracking-wide text-[#5f7393]">Entrega</p>
-                <p className="text-center text-[11px] font-bold uppercase tracking-wide text-[#5f7393]">Abandona</p>
+                <p className="text-center text-caption font-medium text-ink-muted">Entrega</p>
+                <p className="text-center text-caption font-medium text-ink-muted">Abandona</p>
                 {GRADE.map((linha, i) => (
                   <div key={i} className="contents">
-                    <p className="self-center text-[11px] font-bold uppercase tracking-wide text-[#5f7393] [writing-mode:vertical-rl] rotate-180">
+                    <p className="self-center text-caption font-medium text-ink-muted [writing-mode:vertical-rl] rotate-180">
                       {i === 0 ? 'Domina' : 'Não domina'}
                     </p>
                     {linha.map((perfil) => (
@@ -96,7 +96,7 @@ export default function SituacaoDiscursivas() {
                 ))}
               </div>
               {sabeNaoEscreve && (
-                <p className="mt-4 text-xs leading-5 text-[#5f7393]">
+                <p className="mt-4 text-small text-ink-muted">
                   {formatPercentual(sabeNaoEscreve.estudantes / m.n_estudantes)} dos estudantes estão acima da área na
                   parte objetiva do CE ({formatDecimal(sabeNaoEscreve.NT_OBJ_CE)}) e abandonam em média{' '}
                   {formatPercentual(sabeNaoEscreve.taxa_abandono, 0)} das discursivas, tirando{' '}

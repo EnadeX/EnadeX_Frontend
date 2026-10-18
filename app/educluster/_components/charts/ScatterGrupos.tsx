@@ -66,7 +66,7 @@ export function ScatterGrupos<T extends PontoGrupo>({
           name={rotuloX}
           {...EIXO}
           tickFormatter={(v: number) => formatDecimal(v, 0)}
-          label={{ value: rotuloX, position: 'insideBottom', offset: -14, fontSize: 11, fill: '#475569' }}
+          label={{ value: rotuloX, position: 'insideBottom', offset: -14, fontSize: 11, fill: 'var(--ink-muted)' }}
         />
         <YAxis
           type="number"
@@ -75,7 +75,7 @@ export function ScatterGrupos<T extends PontoGrupo>({
           {...EIXO}
           width={44}
           tickFormatter={(v: number) => formatDecimal(v, 0)}
-          label={{ value: rotuloY, angle: -90, position: 'insideLeft', offset: 12, fontSize: 11, fill: '#475569' }}
+          label={{ value: rotuloY, angle: -90, position: 'insideLeft', offset: 12, fontSize: 11, fill: 'var(--ink-muted)' }}
         />
         {diagonal && (
           <ReferenceLine
@@ -83,7 +83,7 @@ export function ScatterGrupos<T extends PontoGrupo>({
               { x: -extremo, y: -extremo },
               { x: extremo, y: extremo },
             ]}
-            stroke="#94a3b8"
+            stroke="var(--border-control)"
             strokeDasharray="4 4"
             ifOverflow="hidden"
           />
@@ -91,19 +91,19 @@ export function ScatterGrupos<T extends PontoGrupo>({
         <ZAxis range={[tamanho, tamanho]} />
         <ZAxis zAxisId="ativos" range={[tamanhoAtivos ?? tamanho, tamanhoAtivos ?? tamanho]} />
         <Tooltip
-          cursor={{ strokeDasharray: '3 3', stroke: '#94a3b8' }}
+          cursor={{ strokeDasharray: '3 3', stroke: 'var(--border-control)' }}
           content={(props: ConteudoTooltip) => {
             const ponto = props.active ? (props.payload?.[0]?.payload as T | undefined) : undefined
             if (!ponto) return null
             return (
-              <div className="rounded-lg border border-[#dfe5ee] bg-white px-3 py-2 text-[11px] leading-5 text-[#334155] shadow-md">
+              <div className="rounded-marca-sm border border-border bg-surface-card px-3 py-2 text-caption text-ink shadow-marca-overlay">
                 {renderTooltip(ponto)}
               </div>
             )
           }}
         />
         {apagados.length > 0 && (
-          <Scatter data={apagados} fill="#cbd5e1" fillOpacity={0.5} shape="circle" isAnimationActive={false} />
+          <Scatter data={apagados} fill="var(--border)" fillOpacity={0.5} shape="circle" isAnimationActive={false} />
         )}
         {grupos.map((grupo) => (
           <Scatter
@@ -112,7 +112,7 @@ export function ScatterGrupos<T extends PontoGrupo>({
             data={ativos.filter((p) => p.grupo === grupo)}
             fill={corSerie(grupo)}
             fillOpacity={0.78}
-            stroke="#ffffff"
+            stroke="var(--surface-card)"
             strokeWidth={0.6}
             shape={formaSerie(grupo)}
             isAnimationActive={false}

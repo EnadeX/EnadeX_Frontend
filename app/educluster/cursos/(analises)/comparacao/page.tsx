@@ -80,7 +80,7 @@ export default function ComparacaoTradicional() {
                   title="O artefato contra o ranking"
                   description="A análise tradicional divide os cursos em terços pela nota geral média, como os relatórios oficiais. O artefato agrupa pelas seis dimensões: FG, CE, presença, ODP, OPORT e INFRA."
                 />
-                <p className="text-sm leading-6 text-[#334155]">
+                <p className="text-body text-ink">
                   O ARI entre os terços de nota e os clusters é {formatDecimal(p.ari, 4)}: as duas partições carregam
                   informação em boa parte diferente. Existem {formatInteiro(dados.total_gemeos_divergentes)} pares de
                   cursos com nota geral quase idêntica que o artefato separa em perfis distintos, porque diferem na
@@ -124,7 +124,7 @@ export default function ComparacaoTradicional() {
                                 return (
                                   <td key={c} className="px-2 py-1.5 text-right">
                                     <span
-                                      className="inline-block min-w-16 rounded-md px-2 py-1.5 text-sm font-semibold tabular-nums"
+                                      className="inline-block min-w-16 rounded-marca-sm px-2 py-1.5 text-body font-medium num"
                                       style={{ backgroundColor: fundo, color: tintaSobre(fundo) }}
                                     >
                                       {formatInteiro(valor)}
@@ -138,7 +138,7 @@ export default function ComparacaoTradicional() {
                       </tbody>
                     </table>
                   </div>
-                  <ul className="mt-3 space-y-1 text-[11px] text-[#5f7393]">
+                  <ul className="mt-3 space-y-1 text-caption text-ink-muted">
                     {colunas.map((c) => (
                       <li key={c}>
                         Cluster {c}: {rotulos[Number(c)] ?? 'carregando…'}
@@ -172,8 +172,8 @@ export default function ComparacaoTradicional() {
                             <td className={tdNum}>{formatInteiro(f.cursos)}</td>
                             {DIMENSOES.map((d) => (
                               <td key={d} className={tdNum}>
-                                <span className="block font-semibold">{formatDecimal(f[`${d}_amplitude` as const])}</span>
-                                <span className="text-[10px] text-[#5f7393]">
+                                <span className="block font-medium">{formatDecimal(f[`${d}_amplitude` as const])}</span>
+                                <span className="text-caption text-ink-muted">
                                   {formatDecimal(f[`${d}_min` as const])} a {formatDecimal(f[`${d}_max` as const])}
                                 </span>
                               </td>
@@ -183,7 +183,7 @@ export default function ComparacaoTradicional() {
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-3 text-[11px] text-[#5f7393]">
+                  <p className="mt-3 text-caption text-ink-muted">
                     Valor em destaque: amplitude (máximo menos mínimo) na escala de 1 a 6. Os três terços contêm
                     cursos dos três perfis.
                   </p>
@@ -228,16 +228,16 @@ export default function ComparacaoTradicional() {
                           <td className={tdNum}>{formatDecimal(g.NT_GER_b)}</td>
                           <td className={tdNum}>{formatDecimal(g.diferenca_nota, 3)}</td>
                           <td className={td}>
-                            <span className="inline-flex items-center gap-1.5 text-xs">
+                            <span className="inline-flex items-center gap-1.5 text-small">
                               <MarcadorSerie indice={g.cluster_a} /> {g.cluster_a}
-                              <span className="text-[#94a3b8]">e</span>
+                              <span className="text-ink-muted">e</span>
                               <MarcadorSerie indice={g.cluster_b} /> {g.cluster_b}
                             </span>
                           </td>
                           <td className={tdNum}>{formatDecimal(g.ODP_a)}</td>
                           <td className={tdNum}>{formatDecimal(g.ODP_b)}</td>
                           <td className={tdNum}>
-                            <strong>{formatDecimal(g.diferenca_ODP)}</strong>
+                            <strong className="font-medium">{formatDecimal(g.diferenca_ODP)}</strong>
                           </td>
                           <td className={tdNum}>
                             {formatPercentual(g.tx_presenca_a, 0)} / {formatPercentual(g.tx_presenca_b, 0)}

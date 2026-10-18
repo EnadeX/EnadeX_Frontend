@@ -64,14 +64,14 @@ function TabelaPerfis({ perfis, rotulos }: { perfis: PerfilClusterCurso[]; rotul
                 <div className="flex items-center gap-2">
                   <MarcadorSerie indice={p.Cluster_ID} />
                   <div>
-                    <p className="font-semibold">Cluster {p.Cluster_ID}</p>
-                    <p className="text-[11px] text-[#5f7393]">{rotulos[p.Cluster_ID]}</p>
+                    <p className="font-medium">Cluster {p.Cluster_ID}</p>
+                    <p className="text-caption text-ink-muted">{rotulos[p.Cluster_ID]}</p>
                   </div>
                 </div>
               </td>
               <td className={tdNum}>
                 {formatInteiro(p.cursos)}
-                <span className="block text-[10px] text-[#5f7393]">{formatPercentual(p.cursos / totalCursos)}</span>
+                <span className="block text-caption text-ink-muted">{formatPercentual(p.cursos / totalCursos)}</span>
               </td>
               <td className={tdNum}>{formatInteiro(p.estudantes)}</td>
               <td className={tdNum}>{formatDecimal(p.NT_FG)}</td>
@@ -196,7 +196,7 @@ export default function PerfisDeCurso() {
                       onSelecionar={(p) => router.push(ROTAS.curso(p.curso.CO_CURSO))}
                       renderTooltip={(p) => (
                         <>
-                          <p className="font-semibold text-[#111827]">Curso {p.curso.CO_CURSO}</p>
+                          <p className="font-medium text-ink">Curso {p.curso.CO_CURSO}</p>
                           <p>{nomeArea(p.curso.area)}</p>
                           <p>
                             Cluster {p.curso.Cluster_ID}: {rotulos[p.curso.Cluster_ID]}
@@ -246,7 +246,7 @@ export default function PerfisDeCurso() {
           {(dados) => (
             <>
               <BarEstabilidade dados={dados.por_k} kAtual={kAtual} />
-              <p className="mt-2 text-xs leading-5 text-[#5f7393]">
+              <p className="mt-2 text-small text-ink-muted">
                 Separação e estabilidade são propriedades diferentes: o silhouette moderado indica grupos sem vazios
                 entre si, e o ARI alto indica que a mesma partição reaparece quando a base muda.
               </p>

@@ -31,7 +31,7 @@ export function LineNotaDificuldade({ dados }: { dados: Linha[] }) {
           ticks={[1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]}
           {...EIXO}
           tickFormatter={(v: number) => formatDecimal(v, 1)}
-          label={{ value: 'Dificuldade percebida (1 muito fácil, 5 muito difícil)', position: 'insideBottom', offset: -14, fontSize: 11, fill: '#475569' }}
+          label={{ value: 'Dificuldade percebida (1 muito fácil, 5 muito difícil)', position: 'insideBottom', offset: -14, fontSize: 11, fill: 'var(--ink-muted)' }}
         />
         <YAxis {...EIXO} width={40} domain={[25, 50]} ticks={[25, 30, 35, 40, 45, 50]} tickFormatter={(v: number) => formatDecimal(v, 0)} />
         <Tooltip
@@ -46,9 +46,9 @@ export function LineNotaDificuldade({ dados }: { dados: Linha[] }) {
           type="linear"
           dataKey="mean"
           name="Nota geral média"
-          stroke="#2a78d6"
+          stroke="var(--series-1)"
           strokeWidth={2}
-          dot={{ r: 4, fill: '#2a78d6', stroke: '#ffffff', strokeWidth: 2 }}
+          dot={{ r: 4, fill: 'var(--series-1)', stroke: 'var(--surface-card)', strokeWidth: 2 }}
           activeDot={{ r: 6 }}
           isAnimationActive={false}
         />

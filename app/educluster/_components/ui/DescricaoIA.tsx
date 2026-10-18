@@ -29,7 +29,7 @@ export function DescricaoIA({
       <CardHeader
         title={
           <span className="flex items-center gap-2">
-            <Sparkles className="size-4 text-[#0d9488]" aria-hidden />
+            <Sparkles className="size-4 text-accent" aria-hidden />
             {titulo}
           </span>
         }
@@ -53,14 +53,14 @@ export function DescricaoIA({
         />
       )}
       {dados && !dados.disponivel && (
-        <p className="rounded-xl border border-[#fed7aa] bg-[#fff7ed] p-3 text-xs text-[#c2410c]">
+        <p className="rounded-marca-md border border-warning bg-surface-card p-3 text-small text-warning">
           Descrição indisponível: {dados.motivo ?? 'motivo não informado pelo backend'}.
         </p>
       )}
       {dados?.disponivel && dados.descricao && (
         <div className="space-y-4">
           <TextoIA texto={dados.descricao} />
-          <p className="border-t border-[#edf1f6] pt-3 text-[11px] text-[#5f7393]">
+          <p className="border-t border-border pt-3 text-caption text-ink-muted">
             Modelo {dados.modelo} · {dados.origem === 'cache' ? 'servido do cache' : 'gerado agora'}
             {dados.chave_cache ? ` · chave ${dados.chave_cache}` : ''}
           </p>

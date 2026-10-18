@@ -1,7 +1,7 @@
 import { corSerie, formaSerie, type FormaSerie } from '@/lib/educluster/chart'
 
 function Marcador({ cor, forma }: { cor: string; forma: FormaSerie }) {
-  const comum = { fill: cor, stroke: '#ffffff', strokeWidth: 1 }
+  const comum = { fill: cor, stroke: 'var(--surface-card)', strokeWidth: 1 }
   return (
     <svg viewBox="0 0 12 12" className="size-3 shrink-0" aria-hidden>
       {forma === 'triangle' && <polygon points="6,1 11,11 1,11" {...comum} />}
@@ -17,11 +17,11 @@ function Marcador({ cor, forma }: { cor: string; forma: FormaSerie }) {
 
 export function Legenda({ itens }: { itens: { indice: number; rotulo: string; detalhe?: string }[] }) {
   return (
-    <ul className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#475569]">
+    <ul className="flex flex-wrap gap-x-5 gap-y-2 text-small text-ink-muted">
       {itens.map((item) => (
         <li key={`${item.indice}-${item.rotulo}`} className="flex items-center gap-1.5">
           <Marcador cor={corSerie(item.indice)} forma={formaSerie(item.indice)} />
-          <span className="font-semibold text-[#111827]">{item.rotulo}</span>
+          <span className="font-medium text-ink">{item.rotulo}</span>
           {item.detalhe && <span>{item.detalhe}</span>}
         </li>
       ))}

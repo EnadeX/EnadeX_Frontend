@@ -114,14 +114,14 @@ export default function DesempenhoEstudante() {
                         {dados.perfis.map((p) => (
                           <tr key={p.Cluster_ID} className={trLinha}>
                             <td className={td}>
-                              <span className="inline-flex items-center gap-1.5 font-semibold">
+                              <span className="inline-flex items-center gap-1.5 font-medium">
                                 <MarcadorSerie indice={p.Cluster_ID} />
                                 Cluster {p.Cluster_ID}
                               </span>
                             </td>
                             <td className={tdNum}>
                               {formatInteiro(p.estudantes)}
-                              <span className="block text-[10px] text-[#5f7393]">
+                              <span className="block text-caption text-ink-muted">
                                 {formatPercentual(p.estudantes / m.n_estudantes)}
                               </span>
                             </td>
@@ -166,7 +166,7 @@ export default function DesempenhoEstudante() {
                         tamanho={18}
                         renderTooltip={(p) => (
                           <>
-                            <p className="font-semibold text-[#111827]">Cluster {p.estudante.Cluster_ID}</p>
+                            <p className="font-medium text-ink">Cluster {p.estudante.Cluster_ID}</p>
                             <p>
                               FG objetiva {formatDecimal(p.estudante.NT_OBJ_FG, 1)} · discursiva {formatDecimal(p.estudante.NT_DIS_FG, 1)}
                             </p>

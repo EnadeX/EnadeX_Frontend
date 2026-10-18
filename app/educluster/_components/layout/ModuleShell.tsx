@@ -1,5 +1,8 @@
-import { Database, Network } from 'lucide-react'
+import { Database } from 'lucide-react'
 import type { ReactNode } from 'react'
+
+import { BarraModulo } from '@/components/brand/layout/BarraModulo'
+import { badge } from '@/lib/brand/classes'
 
 import { Breadcrumb } from './Breadcrumb'
 import { ModuleNav } from './ModuleNav'
@@ -7,55 +10,47 @@ import { StatusApi } from './StatusApi'
 
 export function ModuleShell({ children }: { children: ReactNode }) {
   return (
-    <main className="min-h-screen bg-[#f6f8fb] text-[#111827]">
-      <header className="border-b border-[#dfe5ee] bg-white">
-        <div className="flex h-[70px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
-          <div className="flex items-center gap-3">
-            <a href="/" aria-label="Voltar para a Home" className="flex items-center gap-3">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-[#0f766e] text-white">
-                <Network className="size-5" />
-              </span>
-              <span className="text-[17px] font-bold tracking-tight">EnadeX</span>
-            </a>
-            <span className="hidden h-8 w-px bg-[#dfe5ee] sm:block" />
-            <div className="hidden leading-tight sm:block">
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#5f7393]">Subprojetos</p>
-              <p className="text-sm font-semibold">EduCluster</p>
-            </div>
+    <main className="min-h-screen bg-surface-page font-marca text-body text-ink">
+      <BarraModulo
+        nome={
+          <span className="flex flex-col leading-tight">
+            <span className="hidden text-caption font-normal text-ink-on-nav/80 sm:block">Subprojetos</span>
+            <span className="hidden text-h3 sm:block">EduCluster</span>
+          </span>
+        }
+        inferior={
+          <div className="border-t border-ink-on-nav/15 px-4 py-2 md:hidden">
+            <ModuleNav variante="abas" />
           </div>
-          <ModuleNav variante="topo" />
-          <StatusApi />
-        </div>
-        <div className="border-t border-[#edf1f6] px-4 py-2 md:hidden">
-          <ModuleNav variante="abas" />
-        </div>
-      </header>
+        }
+      >
+        <ModuleNav variante="topo" />
+        <StatusApi />
+      </BarraModulo>
 
       <div className="px-4 py-8 sm:px-6 lg:px-10">
         <Breadcrumb />
-        <section className="flex flex-col gap-4 border-b border-[#dfe5ee] pb-9 lg:flex-row lg:items-end lg:justify-between">
+        <section className="flex flex-col gap-4 border-b border-border pb-9 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-[29px] font-bold tracking-tight">EduCluster</h1>
-              <span className="rounded-lg border border-[#99f6e4] bg-[#f0fdfa] px-2.5 py-1 text-[11px] font-semibold text-[#0f766e]">
-                Perfis latentes
-              </span>
+              <h1 className="text-display text-ink">EduCluster</h1>
+              <span className={badge.info}>Perfis latentes</span>
             </div>
-            <p className="mt-2 max-w-3xl text-sm text-[#5f7393]">
+            <p className="mt-2 max-w-3xl text-body text-ink-muted">
               Descoberta e interpretação de perfis acadêmicos latentes nos microdados do ENADE 2021,
               cruzando desempenho medido na prova e qualidade do curso percebida pelos estudantes.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-[#5f7393]">
-            <Database className="size-4 text-[#89a1c5]" aria-hidden />
-            Edição: <strong className="text-[#2d4263]">ENADE 2021</strong> · base nacional
+          <div className="flex items-center gap-2 text-small text-ink-muted">
+            <Database className="size-4 text-ink-muted" aria-hidden />
+            Edição: <strong className="font-medium text-ink">ENADE 2021</strong> · base nacional
           </div>
         </section>
 
         <div className="mt-8 space-y-6">{children}</div>
       </div>
 
-      <footer className="border-t border-[#dfe5ee] bg-white px-4 py-4 text-xs text-[#5f7393] sm:px-6 lg:px-10">
+      <footer className="border-t border-border bg-surface-card px-4 py-4 text-small text-ink-muted sm:px-6 lg:px-10">
         Subprojeto do ecossistema EnadeX · microdados INEP/ENADE 2021 (versão LGPD), agregados por curso
       </footer>
     </main>

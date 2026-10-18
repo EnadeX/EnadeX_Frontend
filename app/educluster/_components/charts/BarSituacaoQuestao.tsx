@@ -19,10 +19,10 @@ import type { SituacaoDiscursiva, SituacaoPorQuestao } from '@/lib/educluster/ty
 const ORDEM: SituacaoDiscursiva[] = ['em_branco', 'divergente_do_tema', 'resposta_nula']
 
 const COR: Record<SituacaoDiscursiva, string> = {
-  em_branco: '#2a78d6',
-  divergente_do_tema: '#eb6834',
-  resposta_nula: '#4a3aa7',
-  valida: '#cbd5e1',
+  em_branco: 'var(--series-1)',
+  divergente_do_tema: 'var(--series-4)',
+  resposta_nula: 'var(--series-3)',
+  valida: 'var(--border)',
 }
 
 export function BarSituacaoQuestao({ dados }: { dados: SituacaoPorQuestao[] }) {
@@ -49,7 +49,7 @@ export function BarSituacaoQuestao({ dados }: { dados: SituacaoPorQuestao[] }) {
             name={ROTULO_SITUACAO[situacao]}
             stackId="abandono"
             fill={COR[situacao]}
-            stroke="#ffffff"
+            stroke="var(--surface-card)"
             strokeWidth={1}
             radius={i === ORDEM.length - 1 ? [4, 4, 0, 0] : 0}
             isAnimationActive={false}
