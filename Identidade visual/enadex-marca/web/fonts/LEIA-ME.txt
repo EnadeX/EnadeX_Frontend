@@ -1,0 +1,6 @@
+Poppins (Regular 400 e Medium 500)
+Copyright 2020 The Poppins Project Authors (https://github.com/itfoundry/Poppins)
+
+Esta fonte é distribuída sob a SIL Open Font License, versão 1.1.
+Texto da licença: https://openfontlicense.org
+Os arquivos WOFF trazem o aviso de copyright e a licença nos próprios metadados.
