@@ -64,8 +64,26 @@ export function getOpcoes(): Promise<OpcoesResponse> {
 
 // ── GET /dataset/resumo ──────────────────────────────────────────────────────
 
+// Funil de cursos do ETL (modules/etl.py + loader.py): quantos cursos restam a
+// cada etapa. As chaves cursos_apos_* só aparecem quando o filtro foi aplicado.
+export interface FunilCursos {
+  cursos_recorte?: number
+  cursos_com_nota?: number
+  cursos_excluidos_categad?: number
+  motivo_exclusao_categad?: string
+  cursos_final?: number
+  cursos_apos_ies?: number
+  cursos_apos_min_alunos?: number
+  cursos_disponiveis?: number
+}
+
 export interface DatasetResumoResponse {
   n_cursos: number
+  // Cursos retirados da base por CO_CATEGAD = 7 ("Especial", sem classificação
+  // pública/privada no dicionário do INEP) e o motivo.
+  n_cursos_excluidos: number
+  motivo_exclusao: string | null
+  funil_cursos: FunilCursos
   n_estudantes_representados: number | null
   media_nota_geral: number | null
   desvio_padrao_nota_geral: number | null
@@ -74,12 +92,14 @@ export interface DatasetResumoResponse {
 export interface DatasetResumoParams {
   grupos?: number[] | null
   ies?: number[] | null
+  min_alunos?: number | null
 }
 
 export function getDatasetResumo(params?: DatasetResumoParams): Promise<DatasetResumoResponse> {
   const search = new URLSearchParams()
   params?.grupos?.forEach((g) => search.append('grupos', String(g)))
   params?.ies?.forEach((i) => search.append('ies', String(i)))
+  if (params?.min_alunos) search.append('min_alunos', String(params.min_alunos))
   const query = search.toString()
   return request<DatasetResumoResponse>(`/dataset/resumo${query ? `?${query}` : ''}`)
 }
@@ -92,6 +112,8 @@ export interface HipoteseRequest {
   interactions?: [string, string][]
   grupos?: number[] | null
   ies_filter?: number[] | null
+  // Corte opcional: só cursos com pelo menos N alunos presentes (QT_ALUNOS).
+  min_alunos?: number | null
 }
 
 export interface ModelMetrics {
@@ -112,6 +134,52 @@ export interface CoefRow {
   p_valor: number
   ic_inf_95: number
   ic_sup_95: number
+  // Mesmo WLS com erros-padrão robustos (tipo em HipoteseResponse.cov_type).
+  erro_padrao_robusto: number
+  p_valor_robusto: number
+}
+
+// Uma linha por termo: o mesmo modelo ajustado como WLS e como OLS sem pesos,
+// cada um com erro-padrão clássico e robusto.
+export interface ComparisonRow {
+  variavel: string
+  coef_wls: number
+  ep_wls: number
+  p_wls: number
+  coef_wls_robust: number
+  ep_wls_robust: number
+  p_wls_robust: number
+  coef_ols: number
+  ep_ols: number
+  p_ols: number
+  coef_ols_robust: number
+  ep_ols_robust: number
+  p_ols_robust: number
+  sinal_diverge: boolean
+  signif_diverge: boolean
+}
+
+// Diagnóstico do OLS sem pesos — o que justifica (ou não) ponderar por QT_ALUNOS.
+export interface DiagnosticsOls {
+  bp_stat: number
+  bp_pvalue: number
+  bp_homocedastic: boolean
+  spearman_rho: number
+  spearman_pvalue: number
+  erro_cai_com_tamanho: boolean
+}
+
+export interface Reprodutibilidade {
+  fonte_dados: string
+  filtros: { grupos: number[] | null; ies_filter: number[] | null; min_alunos: number | null }
+  funil_cursos: FunilCursos
+  n_cursos_base: number
+  n_obs_modelo: number
+  hash_base_sha256: string
+  cov_type: string
+  medias_centragem: Record<string, number>
+  aleatoriedade: string
+  versoes: Record<string, string>
 }
 
 export interface VifRow {
@@ -153,15 +221,23 @@ export interface HipoteseResponse {
   y_label: string
   model_metrics: ModelMetrics
   coef_table: CoefRow[]
+  comparison_table: ComparisonRow[]
+  cov_type: string
   vif_table: VifRow[]
   residuals_diag: ResidualsDiag
+  diagnostics_ols: DiagnosticsOls
   shap_summary: ShapRow[]
   residuals_plot: ResidualPoint[]
   qqplot: QqPoint[]
+  // Médias usadas para centrar as variáveis das interações ({} sem interação).
+  medias_centragem: Record<string, number>
+  reprodutibilidade: Reprodutibilidade
   interpretacao_modelo: string
   interpretacao_vif: string
   interpretacao_residuos: string
   interpretacao_shap: string
+  interpretacao_sensibilidade: string
+  interpretacao_ponderacao: string
 }
 
 export function postHipotese(body: HipoteseRequest): Promise<HipoteseResponse> {

@@ -6,7 +6,9 @@ import {
   CheckCircle2,
   Download,
   Filter,
+  Info,
   Play,
+  Scale,
   Sparkles,
   Wand2,
   XCircle,
@@ -43,8 +45,24 @@ import {
 // Horas de Estudo por Semana, o trio mais testado nas sessões de validação.
 const DEFAULT_X = ['Renda Familiar', 'Escolaridade da Mãe', 'Horas de Estudo por Semana']
 
-function formatP(p: number): string {
+function formatP(p: number | null | undefined): string {
+  if (p === null || p === undefined) return '—'
   return p < 0.001 ? '< 0,001' : p.toFixed(3).replace('.', ',')
+}
+
+function formatCoef(c: number): string {
+  return `${c >= 0 ? '+' : ''}${c.toFixed(2)}`
+}
+
+// Os textos de interpretação da API usam **negrito** no estilo markdown —
+// renderiza só esse marcador (o resto é texto puro).
+function TextoInterpretacao({ texto, className }: { texto: string; className?: string }) {
+  const partes = texto.split(/\*\*(.+?)\*\*/g)
+  return (
+    <p className={`whitespace-pre-line ${className ?? ''}`}>
+      {partes.map((parte, i) => (i % 2 === 1 ? <strong key={i}>{parte}</strong> : parte))}
+    </p>
+  )
 }
 
 // recharts tipa o valor do tooltip como `ValueType | undefined` (pode ser
@@ -72,6 +90,12 @@ export default function EXplainEnadePage() {
   // Pares de rótulos (não códigos) selecionados para termos de interação —
   // só faz sentido testar interação entre variáveis já selecionadas como X.
   const [interacoesSel, setInteracoesSel] = useState<string[][]>([])
+  // Corte opcional de nº mínimo de presentes por curso — vazio = sem corte.
+  const [minAlunosTxt, setMinAlunosTxt] = useState<string>('')
+  const minAlunos = useMemo(() => {
+    const n = Number.parseInt(minAlunosTxt, 10)
+    return Number.isFinite(n) && n >= 1 ? n : null
+  }, [minAlunosTxt])
 
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
@@ -89,14 +113,25 @@ export default function EXplainEnadePage() {
         setXSel(defaults.length > 0 ? defaults : Object.keys(data.x).slice(0, 1))
       })
       .catch((e) => setOpcoesErro(e instanceof Error ? e.message : String(e)))
+  }, [])
 
-    getDatasetResumo()
+  // Resumo da base com os mesmos filtros do formulário (curso, IES, mínimo de
+  // presentes), para o nº de cursos da capa bater com o que o modelo vai usar.
+  useEffect(() => {
+    // Espera /opcoes: sem ele não há como traduzir os filtros, e disparar antes
+    // geraria duas cargas frias simultâneas do Supabase no backend.
+    if (!opcoes) return
+    getDatasetResumo({
+      grupos: opcoes.curso[cursoSel] ?? null,
+      ies: opcoes.ies[iesSel] ?? null,
+      min_alunos: minAlunos,
+    })
       .then(setResumo)
       .catch(() => {
         // silencioso — o resumo é só um indicador na capa; o erro real aparece
         // com destaque quando o usuário tentar rodar uma hipótese de verdade
       })
-  }, [])
+  }, [opcoes, cursoSel, iesSel, minAlunos])
 
   // code -> rótulo amigável, para exibir os nomes das variáveis nos resultados
   // (a API devolve os códigos crus, ex: "QE_RENDA", nas tabelas de coeficientes/VIF)
@@ -173,6 +208,7 @@ export default function EXplainEnadePage() {
       interactions: interacoesValidas.map(([a, b]) => [opcoes.x[a], opcoes.x[b]]),
       grupos: opcoes.curso[cursoSel] ?? null,
       ies_filter: opcoes.ies[iesSel] ?? null,
+      min_alunos: minAlunos,
     }
   }
 
@@ -297,10 +333,18 @@ export default function EXplainEnadePage() {
               multicolinearidade (VIF), diagnóstico de resíduos e explicabilidade (SHAP).
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-[#607494]">
-            Base: <strong className="text-[#2d4263]">
-              {resumo ? `${resumo.n_cursos.toLocaleString('pt-BR')} cursos (CC + SI, 2021)` : '—'}
-            </strong>
+          <div className="text-right text-xs text-[#607494]">
+            <div className="flex items-center justify-end gap-2">
+              Base: <strong className="text-[#2d4263]">
+                {resumo ? `${resumo.n_cursos.toLocaleString('pt-BR')} cursos (CC + SI, 2021)` : '—'}
+              </strong>
+            </div>
+            {resumo && resumo.n_cursos_excluidos > 0 && (
+              <p className="mt-1 max-w-[340px] text-[10px] text-[#8aa0c1]" title={resumo.motivo_exclusao ?? undefined}>
+                {resumo.n_cursos_excluidos} curso(s) excluído(s): IES de categoria &ldquo;Especial&rdquo;
+                (CO_CATEGAD = 7), sem classificação pública/privada no dicionário do INEP.
+              </p>
+            )}
           </div>
         </section>
 
@@ -343,6 +387,24 @@ export default function EXplainEnadePage() {
               >
                 {opcoes && Object.keys(opcoes.ies).map((label) => <option key={label}>{label}</option>)}
               </select>
+            </label>
+
+            <label className="mt-5 block text-xs font-semibold text-[#536987]">
+              Mínimo de presentes por curso
+              <input
+                type="number"
+                min={1}
+                step={1}
+                inputMode="numeric"
+                placeholder="Sem corte"
+                value={minAlunosTxt}
+                onChange={(e) => setMinAlunosTxt(e.target.value)}
+                disabled={!opcoes}
+                className="mt-2 w-full rounded-xl border border-[#dfe5ee] bg-white px-3 py-3 text-sm font-normal outline-none focus:border-[#7c3aed]"
+              />
+              <span className="mt-1 block text-[10px] font-normal text-[#8aa0c1]">
+                Opcional. Cursos com menos alunos presentes ficam fora do modelo.
+              </span>
             </label>
 
             <label className="mt-5 block text-xs font-semibold text-[#536987]">
@@ -464,8 +526,29 @@ export default function EXplainEnadePage() {
                   </div>
                 </div>
 
+                {resultado.model_metrics.n_obs < resultado.reprodutibilidade.n_cursos_base && (
+                  <div className="mt-4 flex items-start gap-2 rounded-xl border border-[#fde68a] bg-[#fffbeb] px-4 py-3 text-xs text-[#b45309]">
+                    <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
+                    O modelo usou {resultado.model_metrics.n_obs.toLocaleString('pt-BR')} dos{' '}
+                    {resultado.reprodutibilidade.n_cursos_base.toLocaleString('pt-BR')} cursos da base: os demais
+                    têm valor ausente em alguma variável da hipótese.
+                  </div>
+                )}
+
                 <div className="mt-5 rounded-2xl border border-[#dfe5ee] bg-white p-5 shadow-sm">
                   <h3 className="text-sm font-bold">Efeito de cada fator</h3>
+                  {Object.keys(resultado.medias_centragem).length > 0 && (
+                    <div className="mt-3 flex items-start gap-2 rounded-xl border border-[#dbe6f7] bg-[#f6f9ff] px-3 py-2.5 text-[11px] leading-5 text-[#2d4263]">
+                      <Info className="mt-0.5 size-3.5 shrink-0 text-[#2962a8]" />
+                      <span>
+                        <strong>Variáveis centradas na média</strong> (por causa das interações):{' '}
+                        {Object.entries(resultado.medias_centragem)
+                          .map(([code, m]) => `${labelFor(code)} = ${m.toFixed(2).replace('.', ',')}`)
+                          .join(' · ')}
+                        . O β de cada efeito principal é o efeito quando a outra variável está na média dos cursos.
+                      </span>
+                    </div>
+                  )}
                   <div className="mt-3 overflow-x-auto">
                     <table className="w-full text-left text-xs">
                       <thead>
@@ -473,6 +556,12 @@ export default function EXplainEnadePage() {
                           <th className="pb-2 pr-4 font-semibold">Fator</th>
                           <th className="pb-2 pr-4 font-semibold">β</th>
                           <th className="pb-2 pr-4 font-semibold">p-valor</th>
+                          <th className="pb-2 pr-4 font-semibold" title={`Erro-padrão robusto a heterocedasticidade (${resultado.cov_type})`}>
+                            EP robusto ({resultado.cov_type})
+                          </th>
+                          <th className="pb-2 pr-4 font-semibold" title={`p-valor com erro-padrão ${resultado.cov_type}`}>
+                            p robusto ({resultado.cov_type})
+                          </th>
                           <th className="pb-2 pr-4 font-semibold">IC 95%</th>
                           <th className="pb-2 font-semibold">Confiável?</th>
                         </tr>
@@ -481,8 +570,10 @@ export default function EXplainEnadePage() {
                         {resultado.coef_table.map((row) => (
                           <tr key={row.variavel} className="border-t border-[#edf1f6]">
                             <td className="py-2 pr-4 font-medium text-[#2d4263]">{labelFor(row.variavel)}</td>
-                            <td className="py-2 pr-4">{row.coeficiente >= 0 ? '+' : ''}{row.coeficiente.toFixed(2)}</td>
+                            <td className="py-2 pr-4">{formatCoef(row.coeficiente)}</td>
                             <td className="py-2 pr-4">{formatP(row.p_valor)}</td>
+                            <td className="py-2 pr-4">{row.erro_padrao_robusto?.toFixed(3).replace('.', ',') ?? '—'}</td>
+                            <td className="py-2 pr-4">{formatP(row.p_valor_robusto)}</td>
                             <td className="py-2 pr-4 text-[#8aa0c1]">[{row.ic_inf_95.toFixed(2)} ; {row.ic_sup_95.toFixed(2)}]</td>
                             <td className="py-2">
                               {row.p_valor < 0.05 ? (
@@ -496,7 +587,100 @@ export default function EXplainEnadePage() {
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-4 text-xs leading-6 text-[#536987]">{resultado.interpretacao_modelo}</p>
+                  <TextoInterpretacao texto={resultado.interpretacao_modelo} className="mt-4 text-xs leading-6 text-[#536987]" />
+                </div>
+
+                <div className="mt-5 rounded-2xl border border-[#dfe5ee] bg-white p-5 shadow-sm">
+                  <h3 className="flex items-center gap-2 text-sm font-bold">
+                    <Scale className="size-4 text-[#7c3aed]" /> Sensibilidade à ponderação
+                  </h3>
+                  <p className="mt-1 text-xs text-[#8aa0c1]">
+                    O mesmo modelo como WLS (principal, peso = alunos presentes) e como OLS sem pesos, cada um com
+                    erro-padrão clássico e robusto ({resultado.cov_type}). Linhas em amarelo mudam de sinal ou de
+                    significância (p &lt; 0,05) conforme o ajuste.
+                  </p>
+                  <div className="mt-3 overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead>
+                        <tr className="text-[#8aa0c1]">
+                          <th className="pb-2 pr-4 font-semibold">Fator</th>
+                          <th className="pb-2 pr-4 font-semibold">β WLS</th>
+                          <th className="pb-2 pr-4 font-semibold">p WLS</th>
+                          <th className="pb-2 pr-4 font-semibold">p WLS {resultado.cov_type}</th>
+                          <th className="pb-2 pr-4 font-semibold">β OLS</th>
+                          <th className="pb-2 pr-4 font-semibold">p OLS</th>
+                          <th className="pb-2 pr-4 font-semibold">p OLS {resultado.cov_type}</th>
+                          <th className="pb-2 font-semibold">Diverge?</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {resultado.comparison_table
+                          .filter((row) => row.variavel !== 'Intercept')
+                          .map((row) => {
+                            const diverge = row.sinal_diverge || row.signif_diverge
+                            return (
+                              <tr
+                                key={row.variavel}
+                                className={`border-t border-[#edf1f6] ${diverge ? 'bg-[#fffbeb]' : ''}`}
+                              >
+                                <td className="py-2 pr-4 font-medium text-[#2d4263]">{labelFor(row.variavel)}</td>
+                                <td className="py-2 pr-4">{formatCoef(row.coef_wls)}</td>
+                                <td className="py-2 pr-4">{formatP(row.p_wls)}</td>
+                                <td className="py-2 pr-4">{formatP(row.p_wls_robust)}</td>
+                                <td className="py-2 pr-4">{formatCoef(row.coef_ols)}</td>
+                                <td className="py-2 pr-4">{formatP(row.p_ols)}</td>
+                                <td className="py-2 pr-4">{formatP(row.p_ols_robust)}</td>
+                                <td className="py-2">
+                                  {diverge ? (
+                                    <span className="inline-flex items-center gap-1 text-[#b45309]">
+                                      <AlertTriangle className="size-3.5" />
+                                      {[row.sinal_diverge && 'sinal', row.signif_diverge && 'significância']
+                                        .filter(Boolean)
+                                        .join(' e ')}
+                                    </span>
+                                  ) : (
+                                    <span className="text-[#8aa0c1]">Não</span>
+                                  )}
+                                </td>
+                              </tr>
+                            )
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <TextoInterpretacao texto={resultado.interpretacao_sensibilidade} className="mt-4 text-xs leading-6 text-[#536987]" />
+
+                  <div className="mt-4 rounded-xl border border-[#edf1f6] bg-[#f9fafc] p-4">
+                    <p className="text-xs font-semibold text-[#2d4263]">Por que ponderar? Diagnóstico do OLS sem pesos</p>
+                    <div className="mt-3 flex flex-col gap-2 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#536987]">Breusch-Pagan (OLS sem pesos)</span>
+                        <span className="flex items-center gap-2">
+                          <span className="text-[#8aa0c1]">p {formatP(resultado.diagnostics_ols.bp_pvalue)}</span>
+                          {resultado.diagnostics_ols.bp_homocedastic ? (
+                            <span className="inline-flex items-center gap-1 text-[#009b67]"><CheckCircle2 className="size-3.5" /> Homocedástico</span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-[#b45309]"><AlertTriangle className="size-3.5" /> Heterocedástico</span>
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#536987]">Spearman |resíduo| × alunos presentes</span>
+                        <span className="flex items-center gap-2">
+                          <span className="text-[#8aa0c1]">
+                            ρ = {resultado.diagnostics_ols.spearman_rho.toFixed(3).replace('.', ',')} · p{' '}
+                            {formatP(resultado.diagnostics_ols.spearman_pvalue)}
+                          </span>
+                          {resultado.diagnostics_ols.erro_cai_com_tamanho ? (
+                            <span className="inline-flex items-center gap-1 text-[#b45309]"><AlertTriangle className="size-3.5" /> Cursos pequenos erram mais</span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-[#009b67]"><CheckCircle2 className="size-3.5" /> Sem relação</span>
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                    <TextoInterpretacao texto={resultado.interpretacao_ponderacao} className="mt-3 text-xs leading-6 text-[#536987]" />
+                  </div>
                 </div>
 
                 <div className="mt-5 grid gap-5 lg:grid-cols-2">
@@ -521,7 +705,7 @@ export default function EXplainEnadePage() {
                         )
                       })}
                     </div>
-                    <p className="mt-4 text-xs leading-6 text-[#536987]">{resultado.interpretacao_vif}</p>
+                    <TextoInterpretacao texto={resultado.interpretacao_vif} className="mt-4 text-xs leading-6 text-[#536987]" />
                     {resultado.vif_table.some((row) => row.alerta !== 'ok') && xSel.length > 1 && (
                       <button
                         onClick={removerVariavelProblematica}
@@ -553,7 +737,7 @@ export default function EXplainEnadePage() {
                         )}
                       </div>
                     </div>
-                    <p className="mt-4 text-xs leading-6 text-[#536987]">{resultado.interpretacao_residuos}</p>
+                    <TextoInterpretacao texto={resultado.interpretacao_residuos} className="mt-4 text-xs leading-6 text-[#536987]" />
                   </div>
                 </div>
 
@@ -622,8 +806,52 @@ export default function EXplainEnadePage() {
                       ))}
                     </Bar>
                   </BarChart>
-                  <p className="mt-3 text-xs leading-6 text-[#5b21b6]">{resultado.interpretacao_shap}</p>
+                  <TextoInterpretacao texto={resultado.interpretacao_shap} className="mt-3 text-xs leading-6 text-[#5b21b6]" />
+                  <p className="mt-2 text-[10px] text-[#7c5fc2]">
+                    Linha de base: média dos cursos ponderada pelo nº de alunos presentes (mesmo peso do WLS).
+                  </p>
                 </div>
+
+                <details className="mt-5 rounded-2xl border border-[#dfe5ee] bg-white p-5 text-xs shadow-sm">
+                  <summary className="cursor-pointer text-sm font-bold">Reprodutibilidade desta execução</summary>
+                  <dl className="mt-3 grid grid-cols-[180px_minmax(0,1fr)] gap-x-4 gap-y-2 text-[#536987]">
+                    <dt className="font-semibold text-[#2d4263]">Base (SHA-256)</dt>
+                    <dd className="break-all font-mono text-[11px]">{resultado.reprodutibilidade.hash_base_sha256}</dd>
+                    <dt className="font-semibold text-[#2d4263]">Funil de cursos</dt>
+                    <dd>
+                      {[
+                        ['recorte', resultado.reprodutibilidade.funil_cursos.cursos_recorte],
+                        ['com nota', resultado.reprodutibilidade.funil_cursos.cursos_com_nota],
+                        ['excluídos CO_CATEGAD = 7', resultado.reprodutibilidade.funil_cursos.cursos_excluidos_categad],
+                        ['após tipo de IES', resultado.reprodutibilidade.funil_cursos.cursos_apos_ies],
+                        ['após mínimo de presentes', resultado.reprodutibilidade.funil_cursos.cursos_apos_min_alunos],
+                        ['base', resultado.reprodutibilidade.n_cursos_base],
+                        ['no modelo', resultado.reprodutibilidade.n_obs_modelo],
+                      ]
+                        .filter(([, n]) => n !== undefined && n !== null)
+                        .map(([etapa, n]) => `${etapa}: ${n}`)
+                        .join(' → ')}
+                    </dd>
+                    <dt className="font-semibold text-[#2d4263]">Filtros</dt>
+                    <dd>
+                      grupos = {JSON.stringify(resultado.reprodutibilidade.filtros.grupos)} · IES ={' '}
+                      {JSON.stringify(resultado.reprodutibilidade.filtros.ies_filter)} · mínimo de presentes ={' '}
+                      {resultado.reprodutibilidade.filtros.min_alunos ?? 'sem corte'}
+                    </dd>
+                    <dt className="font-semibold text-[#2d4263]">Erro-padrão robusto</dt>
+                    <dd>{resultado.reprodutibilidade.cov_type}</dd>
+                    <dt className="font-semibold text-[#2d4263]">Aleatoriedade</dt>
+                    <dd>{resultado.reprodutibilidade.aleatoriedade}</dd>
+                    <dt className="font-semibold text-[#2d4263]">Versões</dt>
+                    <dd>
+                      {Object.entries(resultado.reprodutibilidade.versoes)
+                        .map(([lib, v]) => `${lib} ${v}`)
+                        .join(' · ')}
+                    </dd>
+                    <dt className="font-semibold text-[#2d4263]">Fonte</dt>
+                    <dd>{resultado.reprodutibilidade.fonte_dados}</dd>
+                  </dl>
+                </details>
               </>
             )}
           </section>
