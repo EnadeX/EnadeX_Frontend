@@ -1,6 +1,7 @@
-// Cliente HTTP para a API do E-XplainENADE (FastAPI, modules/e_xplainenade_rotas.py).
-// URL base configurável via NEXT_PUBLIC_EXPLAIN_API_URL — em dev, o backend roda
-// standalone na porta 8003 (python e_xplainenade_rotas.py).
+// Cliente HTTP para a API do E-XplainENADE (FastAPI, e_xplainenade/e_xplainenade_rotas.py).
+// URL base configurável via NEXT_PUBLIC_EXPLAIN_API_URL. O padrão (8003) é o backend rodando
+// sozinho (`python e_xplainenade_rotas.py`, dentro de e_xplainenade/). Com a API central do
+// grupo (`api_main.py`, porta 8000), defina NEXT_PUBLIC_EXPLAIN_API_URL=http://localhost:8000.
 
 const API_BASE =
   process.env.NEXT_PUBLIC_EXPLAIN_API_URL ?? 'http://localhost:8003'
@@ -32,8 +33,47 @@ async function extractErrorMessage(response: Response): Promise<string> {
   return `Erro ${response.status} ao consultar a API do E-XplainENADE.`
 }
 
+// Tempos-limite: a primeira chamada depois de o backend subir carrega as 13 tabelas do Supabase
+// (~10-15 s); o PDF refaz todo o cálculo. Sem limite, uma API travada deixava o botão em
+// "Calculando..." para sempre.
+const TIMEOUT_MS = 120_000
+const TIMEOUT_PDF_MS = 180_000
+
+// `fetch` com tempo-limite e cancelamento externo (`signal`). Erros de rede e de tempo viram
+// ExplainApiError com status 0 e mensagem em português; um cancelamento pedido pelo próprio
+// chamador (AbortError) é repassado como está, para ele poder ignorá-lo.
+async function fetchApi(
+  path: string,
+  init: RequestInit & { timeoutMs?: number } = {},
+): Promise<Response> {
+  const { timeoutMs = TIMEOUT_MS, signal: externo, ...resto } = init
+  const controller = new AbortController()
+  let estourou = false
+  const timer = setTimeout(() => {
+    estourou = true
+    controller.abort()
+  }, timeoutMs)
+  const aoCancelar = () => controller.abort()
+  if (externo) {
+    if (externo.aborted) controller.abort()
+    else externo.addEventListener('abort', aoCancelar, { once: true })
+  }
+  try {
+    return await fetch(`${API_BASE}${BASE_PATH}${path}`, { ...resto, signal: controller.signal })
+  } catch (e) {
+    if (estourou) {
+      throw new ExplainApiError(0, `A API demorou mais de ${Math.round(timeoutMs / 1000)} s para responder. Tente novamente.`)
+    }
+    if (e instanceof DOMException && e.name === 'AbortError') throw e // cancelado pelo chamador
+    throw new ExplainApiError(0, `Não foi possível conectar à API do E-XplainENADE (${API_BASE}). Confira se o backend está rodando.`)
+  } finally {
+    clearTimeout(timer)
+    externo?.removeEventListener('abort', aoCancelar)
+  }
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_BASE}${BASE_PATH}${path}`, {
+  const response = await fetchApi(path, {
     headers: { 'Content-Type': 'application/json' },
     ...init,
   })
@@ -95,13 +135,16 @@ export interface DatasetResumoParams {
   min_alunos?: number | null
 }
 
-export function getDatasetResumo(params?: DatasetResumoParams): Promise<DatasetResumoResponse> {
+export function getDatasetResumo(
+  params?: DatasetResumoParams,
+  signal?: AbortSignal,
+): Promise<DatasetResumoResponse> {
   const search = new URLSearchParams()
   params?.grupos?.forEach((g) => search.append('grupos', String(g)))
   params?.ies?.forEach((i) => search.append('ies', String(i)))
   if (params?.min_alunos) search.append('min_alunos', String(params.min_alunos))
   const query = search.toString()
-  return request<DatasetResumoResponse>(`/dataset/resumo${query ? `?${query}` : ''}`)
+  return request<DatasetResumoResponse>(`/dataset/resumo${query ? `?${query}` : ''}`, { signal })
 }
 
 // ── POST /hipotese ───────────────────────────────────────────────────────────
@@ -238,6 +281,9 @@ export interface HipoteseResponse {
   interpretacao_shap: string
   interpretacao_sensibilidade: string
   interpretacao_ponderacao: string
+  // Avisos que NÃO bloqueiam o resultado: repetições removidas da hipótese e amostra pequena pela
+  // regra de Green (1991). Lista vazia = nada a avisar.
+  avisos: string[]
 }
 
 export function postHipotese(body: HipoteseRequest): Promise<HipoteseResponse> {
@@ -257,10 +303,11 @@ export interface RelatorioResult {
 }
 
 export async function postRelatorio(body: HipoteseRequest): Promise<RelatorioResult> {
-  const response = await fetch(`${API_BASE}${BASE_PATH}/relatorio`, {
+  const response = await fetchApi('/relatorio', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    timeoutMs: TIMEOUT_PDF_MS,
   })
   if (!response.ok) {
     throw new ExplainApiError(response.status, await extractErrorMessage(response))

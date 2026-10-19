@@ -103,6 +103,10 @@ export default function EXplainEnadePage() {
   const [erro, setErro] = useState<string | null>(null)
   const [resultado, setResultado] = useState<HipoteseResponse | null>(null)
 
+  // A requisição que GEROU o `resultado` exibido. O PDF usa esta, não o formulário atual: antes,
+  // mexer no formulário depois de rodar fazia o PDF sair com outra hipótese que a da tela.
+  const [requisicaoExibida, setRequisicaoExibida] = useState<HipoteseRequest | null>(null)
+
   const [gerandoPdf, setGerandoPdf] = useState(false)
   const [pdfErro, setPdfErro] = useState<string | null>(null)
 
@@ -123,16 +127,31 @@ export default function EXplainEnadePage() {
     // Espera /opcoes: sem ele não há como traduzir os filtros, e disparar antes
     // geraria duas cargas frias simultâneas do Supabase no backend.
     if (!opcoes) return
-    getDatasetResumo({
-      grupos: opcoes.curso[cursoSel] ?? null,
-      ies: opcoes.ies[iesSel] ?? null,
-      min_alunos: minAlunos,
-    })
-      .then(setResumo)
-      .catch(() => {
-        // silencioso — o resumo é só um indicador na capa; o erro real aparece
-        // com destaque quando o usuário tentar rodar uma hipótese de verdade
-      })
+    // Debounce (digitar "100" no mínimo de presentes disparava 3 chamadas) + cancelamento da
+    // chamada anterior: sem isso, uma resposta antiga que chegasse depois da nova sobrescrevia
+    // o número de cursos da capa com o de um filtro que já não era o atual.
+    const controller = new AbortController()
+    const timer = setTimeout(() => {
+      getDatasetResumo(
+        {
+          grupos: opcoes.curso[cursoSel] ?? null,
+          ies: opcoes.ies[iesSel] ?? null,
+          min_alunos: minAlunos,
+        },
+        controller.signal,
+      )
+        .then((r) => {
+          if (!controller.signal.aborted) setResumo(r)
+        })
+        .catch(() => {
+          // silencioso — o resumo é só um indicador na capa; o erro real aparece
+          // com destaque quando o usuário tentar rodar uma hipótese de verdade
+        })
+    }, 400)
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
   }, [opcoes, cursoSel, iesSel, minAlunos])
 
   // code -> rótulo amigável, para exibir os nomes das variáveis nos resultados
@@ -222,10 +241,12 @@ export default function EXplainEnadePage() {
     try {
       const resposta = await postHipotese(body)
       setResultado(resposta)
+      setRequisicaoExibida(body)
       if (overrides?.xVars) setXSel(overrides.xVars)
       if (overrides?.interacoes) setInteracoesSel(overrides.interacoes)
     } catch (e) {
       setResultado(null)
+      setRequisicaoExibida(null)
       setErro(e instanceof ExplainApiError ? e.message : 'Falha inesperada ao consultar a API.')
     } finally {
       setLoading(false)
@@ -261,7 +282,9 @@ export default function EXplainEnadePage() {
   }
 
   async function baixarRelatorio() {
-    const body = montarRequest()
+    // A mesma requisição que gerou o resultado na tela — não o formulário atual, que pode ter
+    // sido alterado desde a última execução.
+    const body = requisicaoExibida
     if (!body) return
     setGerandoPdf(true)
     setPdfErro(null)
@@ -283,6 +306,15 @@ export default function EXplainEnadePage() {
   }
 
   const conectado = opcoes !== null && opcoesErro === null
+
+  // O formulário mudou depois da última execução? Então o resultado na tela (e o PDF) é da
+  // hipótese anterior, e o usuário precisa saber disso.
+  const requisicaoAtual = montarRequest()
+  const formularioAlterado =
+    resultado !== null &&
+    requisicaoExibida !== null &&
+    requisicaoAtual !== null &&
+    JSON.stringify(requisicaoAtual) !== JSON.stringify(requisicaoExibida)
 
   return (
     <main className="min-h-screen bg-surface-page font-marca text-body text-ink">
@@ -496,6 +528,18 @@ export default function EXplainEnadePage() {
                 {pdfErro && (
                   <p className="mb-4 text-small text-danger">Falha ao gerar o PDF: {pdfErro}</p>
                 )}
+                {formularioAlterado && (
+                  <div
+                    role="status"
+                    className="mb-4 flex items-start gap-2 rounded-marca-md border border-warning bg-surface-card px-4 py-3 text-small text-warning"
+                  >
+                    <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
+                    <span>
+                      O formulário foi alterado depois desta execução: os resultados abaixo e o PDF são da
+                      hipótese mostrada acima. Clique em &ldquo;Executar hipótese&rdquo; para atualizar.
+                    </span>
+                  </div>
+                )}
 
                 <div className="grid gap-3 md:grid-cols-3">
                   <div className="rounded-marca-md border border-border bg-surface-card p-4 shadow-marca">
@@ -514,6 +558,23 @@ export default function EXplainEnadePage() {
                     <p className="mt-1 text-caption text-ink-muted">F = {resultado.model_metrics.f_stat.toFixed(2)}</p>
                   </div>
                 </div>
+
+                {resultado.avisos?.length > 0 && (
+                  <div
+                    role="status"
+                    className="mt-4 flex items-start gap-2 rounded-marca-md border border-warning bg-surface-card px-4 py-3 text-small text-warning"
+                  >
+                    <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />
+                    <div>
+                      <p className="font-semibold">Avisos sobre este modelo</p>
+                      <ul className="mt-1 list-disc pl-4">
+                        {resultado.avisos.map((aviso) => (
+                          <li key={aviso}>{aviso}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
 
                 {resultado.model_metrics.n_obs < resultado.reprodutibilidade.n_cursos_base && (
                   <div className="mt-4 flex items-start gap-2 rounded-marca-md border border-warning bg-surface-card px-4 py-3 text-small text-warning">
@@ -552,7 +613,9 @@ export default function EXplainEnadePage() {
                             p robusto ({resultado.cov_type})
                           </th>
                           <th className="pb-2 pr-4 font-medium">IC 95%</th>
-                          <th className="pb-2 font-medium">Confiável?</th>
+                          <th className="pb-2 font-medium" title="Sim = coeficiente estatisticamente distinguível de zero (p < 0,05)">
+                            p &lt; 0,05?
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
