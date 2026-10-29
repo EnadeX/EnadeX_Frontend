@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   CheckCircle2,
   Download,
+  FileBraces,
   Filter,
   Info,
   Play,
@@ -285,11 +286,12 @@ export default function EXplainEnadePage() {
     // A mesma requisição que gerou o resultado na tela — não o formulário atual, que pode ter
     // sido alterado desde a última execução.
     const body = requisicaoExibida
-    if (!body) return
+    if (!body || !resultado) return
     setGerandoPdf(true)
     setPdfErro(null)
     try {
-      const { blob, filename } = await postRelatorio(body)
+      // Com o mesmo Exec-ID da execução exibida: o PDF e o JSON de configuração dela se ligam.
+      const { blob, filename } = await postRelatorio({ ...body, exec_id: resultado.exec_id })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
@@ -303,6 +305,21 @@ export default function EXplainEnadePage() {
     } finally {
       setGerandoPdf(false)
     }
+  }
+
+  // Registro formal da execução exibida (requisito 2.3 do artigo): o JSON vem pronto da API — o mesmo
+  // dicionário que o PDF imprime na rastreabilidade — e o nome segue o do Streamlit: config_<id8>.json.
+  function baixarConfiguracao() {
+    if (!resultado) return
+    const blob = new Blob([JSON.stringify(resultado.configuracao, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `config_${resultado.exec_id.slice(0, 8)}.json`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
   }
 
   const conectado = opcoes !== null && opcoesErro === null
@@ -517,13 +534,22 @@ export default function EXplainEnadePage() {
                   <p className="rounded-marca-md border border-border bg-surface-card px-4 py-2 font-mono text-small text-ink">
                     {resultado.formula}
                   </p>
-                  <button
-                    onClick={baixarRelatorio}
-                    disabled={gerandoPdf}
-                    className={`${botao} h-9 px-3 text-small`}
-                  >
-                    <Download className="size-3.5" /> {gerandoPdf ? 'Gerando PDF...' : 'Baixar relatório PDF'}
-                  </button>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <button
+                      onClick={baixarConfiguracao}
+                      className={`${botao} h-9 px-3 text-small`}
+                      title="Registro da execução (Exec-ID, hipótese, filtros, hash da base, versões) em JSON"
+                    >
+                      <FileBraces className="size-3.5" /> Baixar configuração (JSON)
+                    </button>
+                    <button
+                      onClick={baixarRelatorio}
+                      disabled={gerandoPdf}
+                      className={`${botao} h-9 px-3 text-small`}
+                    >
+                      <Download className="size-3.5" /> {gerandoPdf ? 'Gerando PDF...' : 'Baixar relatório PDF'}
+                    </button>
+                  </div>
                 </div>
                 {pdfErro && (
                   <p className="mb-4 text-small text-danger">Falha ao gerar o PDF: {pdfErro}</p>
@@ -761,7 +787,10 @@ export default function EXplainEnadePage() {
                     {resultado.vif_table.some((row) => row.alerta !== 'ok') && xSel.length > 1 && (
                       <button
                         onClick={removerVariavelProblematica}
-                        disabled={loading}
+                        // O botão age sobre o resultado EXIBIDO; se o formulário mudou depois da execução, ele
+                        // removeria a variável da hipótese errada — primeiro é preciso executar de novo.
+                        disabled={loading || formularioAlterado}
+                        title={formularioAlterado ? 'O formulário foi alterado: execute a hipótese de novo antes de remover variáveis.' : undefined}
                         className={`${botao} mt-4 w-full border-warning text-small text-warning`}
                       >
                         <Wand2 className="size-3.5" /> Remover variável de maior VIF e reexecutar

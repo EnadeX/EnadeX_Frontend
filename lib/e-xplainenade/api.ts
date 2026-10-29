@@ -157,6 +157,9 @@ export interface HipoteseRequest {
   ies_filter?: number[] | null
   // Corte opcional: só cursos com pelo menos N alunos presentes (QT_ALUNOS).
   min_alunos?: number | null
+  // Exec-ID devolvido por /hipotese. Enviado em /relatorio, faz o PDF levar o MESMO identificador
+  // do JSON de configuração da execução exibida.
+  exec_id?: string
 }
 
 export interface ModelMetrics {
@@ -259,7 +262,14 @@ export interface QqPoint {
   line_y: number
 }
 
+// Registro formal da execução (requisito do artigo: decisões e configurações em JSON): Exec-ID, data,
+// hipótese (Y, X, interações), filtros, funil de cursos, hash da base, versões das bibliotecas…
+// É o mesmo conteúdo que o PDF imprime na rastreabilidade.
+export type Configuracao = Record<string, unknown>
+
 export interface HipoteseResponse {
+  exec_id: string
+  configuracao: Configuracao
   formula: string
   y_label: string
   model_metrics: ModelMetrics
