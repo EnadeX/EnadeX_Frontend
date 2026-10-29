@@ -5,7 +5,6 @@ import {
   BookOpen,
   BrainCircuit,
   Check,
-  ChevronDown,
   CircleHelp,
   Database,
   GitBranch,
@@ -18,10 +17,11 @@ import {
   Table2,
   Waypoints,
 } from 'lucide-react'
-import { useState } from 'react'
+import Link from 'next/link'
 import { CabecalhoSite } from '@/components/brand/layout/CabecalhoSite'
 import { RodapeSite } from '@/components/brand/layout/RodapeSite'
-import { badge, botao, botaoPrimario, campo, card, kpiRotulo, kpiValor, link, navItem, navItemAtivo } from '@/lib/brand/classes'
+import { badge, botao, botaoPrimario, card, kpiRotulo, kpiValor, link, navItem, navItemAtivo, skeleton } from '@/lib/brand/classes'
+import { useKpisHome } from '@/lib/home/kpis'
 import { cn } from '@/lib/utils'
 
 const projects = [
@@ -63,17 +63,66 @@ const projects = [
   },
 ]
 
+// Um KPI por subprojeto; os valores vêm das APIs de cada módulo (lib/home/kpis.ts).
 const kpis = [
-  { label: 'Estudantes processados', value: '1,2M', detail: '+18,4% vs. 2020', icon: GraduationCap },
-  { label: 'Cursos analisados', value: '8.436', detail: '27 áreas de avaliação', icon: BookOpen },
-  { label: 'Edições harmonizadas', value: '05', detail: '2017 até 2021', icon: Layers3 },
+  { chave: 'multiEnade', projeto: 'MultiENADE', label: 'Regras de associação', icon: Waypoints },
+  { chave: 'explain', projeto: 'E-XplainENADE', label: 'Estudantes representados', icon: GraduationCap },
+  { chave: 'eduCluster', projeto: 'EduCluster', label: 'Cursos agrupados', icon: BookOpen },
+  { chave: 'enadeTime', projeto: 'ENADE-Time', label: 'Edições harmonizadas', icon: Layers3 },
+] as const
+
+// Metodologia e documentação: textos de EnadeX_Documentacao (README geral e "Fases do projeto ENADEX.pdf").
+const DSR_PROPOSTA = [
+  'Identificar problemas concretos na exploração dos microdados.',
+  'Construir artefatos analíticos justificáveis e reprodutíveis.',
+  'Avaliar empiricamente estabilidade, utilidade e interpretabilidade.',
+  'Produzir contribuição científica teórica e prática para Ciência de Dados e Sistemas Analíticos na educação.',
+]
+
+const FASES_DSR = [
+  'Identificação do problema',
+  'Definição dos objetivos da solução',
+  'Revisão sistemática ou mapeamento',
+  'Definição do artefato',
+  'Construção do artefato',
+  'Avaliação',
+  'Contribuição científica',
+  'Generalização e limitações',
+]
+
+const PROTOCOLO = [
+  'Mesma lógica de avaliação: tradicional vs artefato.',
+  'Mesma estratégia de validação por especialistas.',
+  'Mesma preocupação com interpretabilidade e utilidade.',
+]
+
+const INFRAESTRUTURA = [
+  'Ingestão e versionamento',
+  'ETL padronizado',
+  'Harmonização longitudinal',
+  'Dataset curado consolidado',
+  'Feature Store / views analíticas',
+  'Orquestração e reprodutibilidade',
+  'Camada de serviços analíticos (API)',
+]
+
+const DOCS_REPO = 'https://github.com/EnadeX/EnadeX_Documentacao'
+
+const documentos = [
+  { pasta: '00_EnadeX_Geral', titulo: 'Visão geral do ecossistema', descricao: 'Proposta, fases DSR de cada subprojeto, entregáveis, marca, referências e microdados do INEP.', icon: Layers3 },
+  { pasta: '01_MultiENADE', titulo: 'MultiENADE', descricao: 'Mapeamento Multidimensional de Fatores Associados ao Desempenho no ENADE.', autor: 'Danilo Fernandes Araujo Gama', icon: BrainCircuit },
+  { pasta: '02_E-XplainENADE', titulo: 'E-XplainENADE', descricao: 'Uma Arquitetura Computacional para Modelagem Explicável de Fatores Associados ao Desempenho Acadêmico.', autor: 'João Pedro Ribeiro Batista Araujo', icon: Sparkles },
+  { pasta: '03_EduCluster', titulo: 'EduCluster', descricao: 'Painel Interativo para Descoberta de Perfis Acadêmicos Latentes no ENADE.', autor: 'Paulo Gosik Mascarenhas Moita', icon: Network },
+  { pasta: '04_ENADE-Time', titulo: 'ENADE-Time', descricao: 'Análise Temporal Interativa de Indicadores Acadêmicos com Base em Microdados do ENADE.', autor: 'Lucas Eduardo Tavares Costa', icon: LineChart },
 ]
 
 // Barras do cartão "Status da plataforma": escala sequencial da marca, da mais clara à mais escura.
 const SEQ = ['bg-seq-1', 'bg-seq-2', 'bg-seq-3', 'bg-seq-4', 'bg-seq-5']
 
 export default function Home() {
-  const [year, setYear] = useState('2021')
+  const indicadores = useKpisHome()
+  const { serie } = indicadores
+  const maiorAno = serie.status === 'ok' ? Math.max(...serie.anos.map((a) => a.total_registros)) : 0
 
   return (
     <main className="min-h-screen bg-surface-page font-marca text-body text-ink">
@@ -88,23 +137,16 @@ export default function Home() {
           <a href="#documentation" className={navItem}>Documentação</a>
         </nav>
 
-        <label className="relative hidden sm:block">
-          <span className="sr-only">Selecionar edição</span>
-          <select value={year} onChange={(event) => setYear(event.target.value)} className={cn(campo, 'w-auto cursor-pointer appearance-none pr-9 num')}>
-            <option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option>
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-3 top-3 size-4 text-ink-muted" />
-        </label>
-        <a href="https://github.com" target="_blank" rel="noreferrer" className={cn(botao, 'px-3')}>
+        <Link href="/repositorios" className={cn(botao, 'px-3')}>
           <GitBranch className="size-4" /> Repositório
-        </a>
+        </Link>
       </CabecalhoSite>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <section id="overview" className="grid gap-12 border-b border-border py-16 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:py-20">
           <div>
             <div className={cn(badge.info, 'mb-6 gap-2 px-3 py-1 text-small')}>
-              <span className="size-1.5 rounded-full bg-accent" /> Base ENADE {year}
+              <span className="size-1.5 rounded-full bg-accent" /> Base ENADE 2021
             </div>
             <h1 className="max-w-3xl text-display text-ink">
               Mapeamento multidimensional e <span className="text-accent">explicável</span> dos microdados do ENADE.
@@ -125,16 +167,33 @@ export default function Home() {
               </div>
               <span className="flex size-9 items-center justify-center rounded-full border border-success text-success"><Check className="size-4" /></span>
             </div>
-            <div className="mt-8 flex items-end gap-1.5">
-              {[42, 58, 47, 66, 61, 78, 72, 88, 81, 94, 89, 100].map((height, index) => <span key={index} className={cn('flex-1 rounded-t-sm', SEQ[Math.floor((index * SEQ.length) / 12)])} style={{ height: `${height / 1.8}px` }} />)}
+            {/* Inscrições por edição na série histórica do ENADE-Time. */}
+            <div className="mt-8 flex h-14 items-end gap-1.5">
+              {serie.status === 'ok'
+                ? serie.anos.map((a, index) => <span key={a.nu_ano} title={`${a.nu_ano}: ${a.total_registros.toLocaleString('pt-BR')} inscrições`} className={cn('flex-1 rounded-t-sm', SEQ[Math.floor((index * SEQ.length) / serie.anos.length)])} style={{ height: `${Math.max(8, (a.total_registros / maiorAno) * 100)}%` }} />)
+                : <span className={cn(skeleton, 'h-full flex-1', serie.status === 'erro' && 'animate-none')} />}
             </div>
-            <div className="mt-3 flex justify-between text-caption text-ink-muted num"><span>2017</span><span>2019</span><span>2021</span></div>
+            <div className="mt-3 flex justify-between text-caption text-ink-muted num">
+              {serie.status === 'ok' ? serie.anos.map((a) => <span key={a.nu_ano} className="flex-1 text-center">{a.nu_ano}</span>) : <span>{serie.status === 'erro' ? 'Série histórica indisponível' : 'Carregando série histórica…'}</span>}
+            </div>
           </div>
         </section>
 
         <section className="grid gap-4 border-b border-border py-8 sm:grid-cols-2 lg:grid-cols-4">
-          {kpis.map(({ label, value, detail, icon: Icon }) => <div key={label} className={cn(card, 'flex items-start gap-3 p-4')}><Icon className="mt-0.5 size-4 shrink-0 text-ink-muted" /><div><p className={kpiRotulo}>{label}</p><p className={kpiValor}>{value}</p><p className="mt-1 text-caption text-ink-muted">{detail}</p></div></div>)}
-          <a href="https://github.com" target="_blank" rel="noreferrer" className="group flex items-start gap-3 rounded-marca-md border border-dashed border-border-control p-4 transition-colors hover:bg-surface-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-focus-ring"><GitBranch className="mt-0.5 size-4 shrink-0 text-ink-muted" /><div><p className={kpiRotulo}>Repositório do projeto</p><p className="mt-1 text-h3 text-ink">Código aberto no GitHub</p><p className="mt-1 flex items-center gap-1 text-small font-medium text-accent">Ver projeto <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></p></div></a>
+          {kpis.map(({ chave, projeto, label, icon: Icon }) => {
+            const kpi = indicadores[chave]
+            return (
+              <div key={chave} className={cn(card, 'flex items-start gap-3 p-4')} aria-busy={kpi.status === 'carregando'}>
+                <Icon className="mt-0.5 size-4 shrink-0 text-ink-muted" />
+                <div className="min-w-0 flex-1">
+                  <p className={kpiRotulo}>{label}</p>
+                  {kpi.status === 'carregando' ? <span className={cn(skeleton, 'mt-2 block h-8 w-24')} /> : <p className={cn(kpiValor, 'num')}>{kpi.status === 'ok' ? kpi.valor : '—'}</p>}
+                  <p className="mt-1 text-caption text-ink-muted">{kpi.status === 'ok' ? kpi.detalhe : kpi.status === 'erro' ? 'Dados indisponíveis' : '\u00a0'}</p>
+                  <p className="mt-2 text-caption font-medium text-accent">{projeto}</p>
+                </div>
+              </div>
+            )
+          })}
         </section>
 
         <section id="projects" className="py-16 lg:py-20">
@@ -144,10 +203,83 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="methodology" className="grid gap-6 border-t border-border py-16 lg:grid-cols-[0.8fr_1.2fr] lg:py-20"><div><p className="text-small font-medium text-accent">Método</p><h2 className="mt-2 max-w-sm text-h1 text-ink">Ciência orientada a dados, com contexto.</h2><p className="mt-4 max-w-sm text-body text-ink-muted">O EnadeX combina rigor metodológico, transparência e ferramentas abertas para tornar a pesquisa educacional mais reprodutível.</p></div><div className="grid gap-3 sm:grid-cols-3"><div className={cn(card, 'p-5')}><Database className="size-5 text-ink-muted" /><p className="mt-8 text-h3 text-ink">Dados harmonizados</p><p className="mt-2 text-small text-ink-muted">Variáveis organizadas para comparação entre edições.</p></div><div className={cn(card, 'p-5')}><Waypoints className="size-5 text-ink-muted" /><p className="mt-8 text-h3 text-ink">Análise integrada</p><p className="mt-2 text-small text-ink-muted">Múltiplos métodos, uma visão conectada.</p></div><div className={cn(card, 'p-5')}><ShieldCheck className="size-5 text-ink-muted" /><p className="mt-8 text-h3 text-ink">Explicabilidade</p><p className="mt-2 text-small text-ink-muted">Resultados claros, auditáveis e úteis.</p></div></div></section>
+        <section id="methodology" className="border-t border-border py-16 lg:py-20">
+          <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-small font-medium text-accent">Método</p>
+              <h2 className="mt-2 max-w-sm text-h1 text-ink">Ciência orientada a dados, com contexto.</h2>
+              <p className="mt-4 max-w-sm text-body text-ink-muted">O EnadeX combina rigor metodológico, transparência e ferramentas abertas para tornar a pesquisa educacional mais reprodutível.</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3"><div className={cn(card, 'p-5')}><Database className="size-5 text-ink-muted" /><p className="mt-8 text-h3 text-ink">Dados harmonizados</p><p className="mt-2 text-small text-ink-muted">Variáveis organizadas para comparação entre edições.</p></div><div className={cn(card, 'p-5')}><Waypoints className="size-5 text-ink-muted" /><p className="mt-8 text-h3 text-ink">Análise integrada</p><p className="mt-2 text-small text-ink-muted">Múltiplos métodos, uma visão conectada.</p></div><div className={cn(card, 'p-5')}><ShieldCheck className="size-5 text-ink-muted" /><p className="mt-8 text-h3 text-ink">Explicabilidade</p><p className="mt-2 text-small text-ink-muted">Resultados claros, auditáveis e úteis.</p></div></div>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <h3 className="text-h2 text-ink">Design Science Research</h3>
+              <p className="mt-3 max-w-sm text-body text-ink-muted">A DSR orienta a construção de conhecimento científico por meio da criação, implementação e avaliação de artefatos que resolvem problemas reais e relevantes. Em vez de apenas aplicar técnicas existentes, o projeto propõe:</p>
+              <ul className="mt-4 flex max-w-sm flex-col gap-2">
+                {DSR_PROPOSTA.map((item) => <li key={item} className="flex gap-2 text-small text-ink"><Check className="mt-0.5 size-4 shrink-0 text-accent" />{item}</li>)}
+              </ul>
+            </div>
+            <div>
+              <p className={kpiRotulo}>Cada subprojeto percorre as oito fases com o seu próprio artefato</p>
+              <ol className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                {FASES_DSR.map((fase, index) => (
+                  <li key={fase} className={cn(card, 'p-4')}>
+                    <span className="text-caption text-ink-muted num">Fase {String(index + 1).padStart(2, '0')}</span>
+                    <p className="mt-2 text-h3 text-ink">{fase}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-3 lg:grid-cols-2">
+            <div className={cn(card, 'p-5')}>
+              <ShieldCheck className="size-5 text-ink-muted" />
+              <h3 className="mt-6 text-h3 text-ink">Protocolo metodológico compartilhado</h3>
+              <ul className="mt-3 flex flex-col gap-2">
+                {PROTOCOLO.map((item) => <li key={item} className="flex gap-2 text-small text-ink-muted"><Check className="mt-0.5 size-4 shrink-0 text-accent" />{item}</li>)}
+              </ul>
+            </div>
+            <div className={cn(card, 'p-5')}>
+              <Database className="size-5 text-ink-muted" />
+              <h3 className="mt-6 text-h3 text-ink">Infraestrutura compartilhada</h3>
+              <p className="mt-2 text-small text-ink-muted">Uma camada comum padroniza ingestão, harmonização, versionamento e disponibilização dos microdados para todos os módulos.</p>
+              <ol className="mt-4 flex flex-wrap gap-2">
+                {INFRAESTRUTURA.map((bloco, index) => <li key={bloco} className={badge.neutro}><span className="num text-ink-muted">{index + 1}.</span>&nbsp;{bloco}</li>)}
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section id="documentation" className="border-t border-border py-16 lg:py-20">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-small font-medium text-accent">Documentação</p>
+              <h2 className="mt-2 text-h1 text-ink">Material de cada subprojeto</h2>
+              <p className="mt-3 max-w-2xl text-body text-ink-muted">O repositório de documentação reúne o material comum a todos e uma pasta para cada um dos quatro subprojetos (TCCs).</p>
+            </div>
+            <a href={DOCS_REPO} target="_blank" rel="noreferrer" className={botao}><BookOpen className="size-4" /> Documentação completa <ArrowUpRight className="size-4" /></a>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {documentos.map(({ pasta, titulo, descricao, autor, icon: Icon }) => (
+              <a key={pasta} href={`${DOCS_REPO}/tree/main/${pasta}`} target="_blank" rel="noreferrer" className={cn(card, 'group flex flex-col transition-colors hover:border-border-control focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid focus-visible:outline-focus-ring')}>
+                <Icon className="size-5 text-ink-muted" />
+                <p className={cn(kpiRotulo, 'mt-6 num')}>{pasta}</p>
+                <h3 className="mt-1 text-h2 text-ink">{titulo}</h3>
+                <p className="mt-2 text-small text-ink-muted">{descricao}</p>
+                <div className="mt-auto flex items-center justify-between gap-4 pt-5">
+                  <span className="text-caption text-ink-muted">{autor ?? 'Todos os subprojetos'}</span>
+                  <span className="flex shrink-0 items-center gap-1 text-small font-medium text-accent">Abrir <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
       </div>
 
-      <RodapeSite id="documentation">
+      <RodapeSite>
         <div className="flex flex-col gap-4 text-small text-ink-on-nav sm:flex-row sm:items-center sm:justify-between"><p>EnadeX · Pesquisa aplicada ao ensino superior</p><div className="flex flex-wrap gap-5"><span>Licença aberta</span><span>Conformidade LGPD</span><span>Referências ABNT / INEP</span></div></div>
       </RodapeSite>
     </main>
