@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 import {
+  fetchDescritiva,
   fetchRegistros,
   fetchResumoAnual,
   fetchResumoIES,
@@ -17,6 +18,14 @@ export function useResumoAnual(filtros: FiltrosAnalise) {
   return useQuery({
     queryKey: ['enade-time', 'analises', 'resumo-anual', filtros],
     queryFn: ({ signal }) => fetchResumoAnual(filtros, signal),
+    staleTime: STALE,
+  })
+}
+
+export function useDescritiva(filtros: FiltrosAnalise) {
+  return useQuery({
+    queryKey: ['enade-time', 'analises', 'descritiva', filtros],
+    queryFn: ({ signal }) => fetchDescritiva(filtros, signal),
     staleTime: STALE,
   })
 }

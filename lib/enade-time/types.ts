@@ -58,6 +58,31 @@ export interface ResumoAnual {
   media_geral_ce: number | null
 }
 
+// GET /analises/descritiva: estatística descritiva por edição. A unidade de análise é o curso-ano (uma
+// observação por par nu_ano × co_curso), não a inscrição: a média de cada curso se repete nas linhas dos alunos.
+export type NotaChave = 'nt_ger' | 'nt_fg' | 'nt_ce'
+
+export interface EstatisticaNota {
+  n: number // curso-ano com a nota válida
+  media: number | null // média simples das médias de curso
+  desvio_padrao: number | null // amostral (n-1); nulo com n < 2
+  variancia: number | null
+  coef_variacao: number | null // em %
+  minimo: number | null
+  q1: number | null
+  mediana: number | null
+  q3: number | null
+  maximo: number | null
+}
+
+export interface DescritivaAnual {
+  nu_ano: number
+  cursos: number // pares curso-ano no recorte, com ou sem nota
+  nt_ger: EstatisticaNota
+  nt_fg: EstatisticaNota
+  nt_ce: EstatisticaNota
+}
+
 export interface ResumoRegiao {
   co_regiao: number
   nome: string
@@ -69,6 +94,9 @@ export interface ResumoRegiao {
   desvio_padrao: number | null
   media_geral_ger: number | null
   media_geral_ce: number | null
+  desvio_padrao_ger_curso_ano?: number | null // desvio-padrão entre as médias de curso (unidade: curso-ano);
+  desvio_padrao_fg_curso_ano?: number | null // ausente em versões antigas da API
+  desvio_padrao_ce_curso_ano?: number | null
 }
 
 export interface ResumoUF {
@@ -84,6 +112,9 @@ export interface ResumoUF {
   desvio_padrao: number | null
   media_geral_ger: number | null
   media_geral_ce: number | null
+  desvio_padrao_ger_curso_ano?: number | null // desvio-padrão entre as médias de curso (unidade: curso-ano);
+  desvio_padrao_fg_curso_ano?: number | null // ausente em versões antigas da API
+  desvio_padrao_ce_curso_ano?: number | null
 }
 
 export interface ResumoIES {

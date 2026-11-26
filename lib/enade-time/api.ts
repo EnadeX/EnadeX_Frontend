@@ -12,6 +12,7 @@ import type {
   BenchmarkMetrica,
   CargaResposta,
   CategoriaAdm,
+  DescritivaAnual,
   FiltrosAnalise,
   Grupo,
   HealthStatus,
@@ -153,6 +154,15 @@ export function fetchResumoAnual(
   signal?: AbortSignal,
 ): Promise<ResumoAnual[]> {
   return request<ResumoAnual[]>('/analises/resumo-anual', filtros, signal)
+}
+
+// Estatística descritiva por edição, com o curso-ano como unidade (n, média, DP, variância, CV, mín, Q1,
+// mediana, Q3, máx de NT GER, NT FG e NT CE). Aceita os mesmos filtros de /analises/resumo-anual.
+export function fetchDescritiva(
+  filtros: FiltrosAnalise,
+  signal?: AbortSignal,
+): Promise<DescritivaAnual[]> {
+  return request<DescritivaAnual[]>('/analises/descritiva', filtros, signal)
 }
 
 export function fetchResumoRegiao(

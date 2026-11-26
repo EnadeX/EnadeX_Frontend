@@ -15,6 +15,7 @@ import type {
 
 import anos from './enade-time/dim-anos.json'
 import categoriasAdm from './enade-time/dim-categorias-adm.json'
+import descritiva from './enade-time/descritiva.json'
 import grupos from './enade-time/dim-grupos.json'
 import modalidades from './enade-time/dim-modalidades.json'
 import organizacoes from './enade-time/dim-organizacoes-academicas.json'
@@ -29,7 +30,7 @@ import resumoUf from './enade-time/resumo-uf.json'
 
 export const health = healthReal as HealthStatus
 export const dim = { anos, categoriasAdm, grupos, modalidades, organizacoes, regioes, ufs }
-export { registros, resumoAnual, resumoIes, resumoRegiao, resumoUf }
+export { descritiva, registros, resumoAnual, resumoIes, resumoRegiao, resumoUf }
 
 // ---------- benchmark simulado ----------
 const MAQUINA = { cpu_count_maquina: 8, cpu_modelo: 'CPU de teste 8 núcleos', cpu_fisicos: 4, cpu_logicos: 8, cache_quente: true }
@@ -215,6 +216,7 @@ export function respostaPorCaminho(caminho: string): unknown {
     '/dim/categorias-adm': dim.categoriasAdm,
     '/dim/organizacoes-academicas': dim.organizacoes,
     '/analises/resumo-anual': resumoAnual,
+    '/analises/descritiva': descritiva,
     '/analises/resumo-regiao': resumoRegiao,
     '/analises/resumo-uf': resumoUf,
     '/analises/resumo-ies': resumoIes,

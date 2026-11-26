@@ -2,6 +2,10 @@
 // migração visual. Este teste NUNCA é atualizado para acompanhar a migração: se ele precisar mudar, a migração
 // mexeu em texto, campo, link, dados de gráfico, chamadas à API, exportações ou lógica.
 //
+// Exceção deliberada (25/11/2026, correção estatística, não é migração visual): "Por Ano" perdeu os indicadores
+// "Média NT GER" e "Melhor ano" (agregavam/ordenavam edições) e ganhou a tabela descritiva por curso-ano; "Por Região" e
+// "Por UF" trocaram o desvio-padrão por inscrição pelo desvio-padrão por curso-ano. Os retratos dessas telas foram regravados.
+//
 // O cabeçalho é conferido item a item (a logo é a única parte que o plano permite trocar). Os gráficos do Recharts
 // viram <div> com as props em JSON, sem as de cor e fonte, que podem mudar.
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -90,6 +94,7 @@ vi.mock('@/lib/enade-time/api', async (original) => {
     fetchCategoriasAdm: vi.fn(async () => fx.dim.categoriasAdm),
     fetchOrganizacoesAcademicas: vi.fn(async () => fx.dim.organizacoes),
     fetchResumoAnual: vi.fn(async () => fx.resumoAnual),
+    fetchDescritiva: vi.fn(async () => fx.descritiva),
     fetchResumoRegiao: vi.fn(async () => fx.resumoRegiao),
     fetchResumoUF: vi.fn(async () => fx.resumoUf),
     fetchResumoIES: vi.fn(async () => fx.resumoIes),
@@ -129,7 +134,7 @@ import Etapas from '@/app/enade-time/spd/etapas/[execucaoId]/page'
 
 const FUNCOES = [
   'fetchHealth', 'fetchRegioes', 'fetchUFs', 'fetchAnos', 'fetchGrupos', 'fetchModalidades', 'fetchCategoriasAdm',
-  'fetchOrganizacoesAcademicas', 'fetchResumoAnual', 'fetchResumoRegiao', 'fetchResumoUF', 'fetchResumoIES',
+  'fetchOrganizacoesAcademicas', 'fetchResumoAnual', 'fetchDescritiva', 'fetchResumoRegiao', 'fetchResumoUF', 'fetchResumoIES',
   'fetchRegistros', 'fetchExecucoes', 'fetchExecucao', 'fetchEtapas', 'fetchMetricas', 'fetchComparativo', 'fetchCarga',
 ] as const
 
