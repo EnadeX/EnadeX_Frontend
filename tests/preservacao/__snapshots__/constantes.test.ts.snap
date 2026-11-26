@@ -99,7 +99,7 @@ exports[`lib/multienade/constants.ts > constantes de lógica iguais às de hoje 
         },
         {
           "coluna": "NT_GER",
-          "descricao": "Nota geral média do curso, escala 0–100. Não entra no agrupamento: só serve para nomear os grupos depois de formados.",
+          "descricao": "Nota geral média do curso, escala 0–100. Não entra no agrupamento: só serve para descrever os grupos depois de formados.",
         },
         {
           "coluna": "QE_I63_1 … QE_I63_6",
@@ -119,7 +119,7 @@ exports[`lib/multienade/constants.ts > constantes de lógica iguais às de hoje 
         },
         {
           "coluna": "Cluster_Nome",
-          "descricao": "Nome do grupo pelo ranking de nota média: Desempenho Alto, Médio ou Baixo.",
+          "descricao": "Nome do grupo pelo perfil de financiamento (QE_I11): Públicas gratuitas, Privadas pagas ou com FIES ou Privadas com ProUni parcial.",
         },
         {
           "coluna": "PCA_X / PCA_Y",

@@ -32,7 +32,7 @@ export type ClusterRow = {
   CO_CURSO: number
   NT_GER: number
   Cluster_ID: number
-  /** Nome pelo ranking de NT_GER médio do grupo (Desempenho Alto/Médio/Baixo), calculado pelo endpoint. */
+  /** Nome pelo perfil de financiamento do grupo (QE_I11), calculado pelo endpoint. */
   Cluster_Nome: string
   PCA_X: number
   PCA_Y: number

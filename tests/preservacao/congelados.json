@@ -1,7 +1,7 @@
 {
-  "lib/multienade/api.ts": "6d869c116027fa9ec224cc2e4c1bad1d23d3affb216f6e63a83cf416d59cae0b",
+  "lib/multienade/api.ts": "360ea29b694f49af7ed1dbcc08f26b40180391aed099d261c317893ca8d2ba5c",
   "lib/multienade/utils.ts": "bc47e5b431de89a817a6d6f5eed70191ef76e136a807cb8155df7fe3045ba24f",
-  "lib/multienade/metodologia.ts": "4f4ef901f6d71394e6194f9ea687048afc690b4321af9f0004f8090b5316d424",
+  "lib/multienade/metodologia.ts": "e7c88dcab9fe5e5aaae7d73e9782bfbf3b13fb2a76943d20c8eac26a2f0d3c0f",
   "lib/e-xplainenade/api.ts": "83a8c0e83245112ae24413cbb37d7f106ab77ba6b41507723bf271c940fe0b90",
   "lib/enade-time/api.ts": "6d8994c0222896b86cd65719107d4bb4f0ddefacdc0281420fea105fd58e364a",
   "lib/enade-time/amostra.ts": "1f4cad41e12c4e5d462cb78d08a72797aa7401e0cf60d7100d0efb0ae53e69e4",

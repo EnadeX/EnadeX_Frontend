@@ -18,7 +18,7 @@ export interface MetodologiaTopico {
 export const METODOLOGIA: Record<Topico, MetodologiaTopico> = {
   regressao: {
     titulo: 'Modelagem supervisionada',
-    resumo: 'Mede o peso de fatores socioeconômicos e acadêmicos sobre a nota dos cursos de Computação do Norte e do Nordeste, usando um modelo preditivo (Random Forest) e explicando suas decisões com SHAP. No conjunto de teste, o modelo explica cerca de metade da variação da nota (R² = 0,498).',
+    resumo: 'Mede o peso de fatores socioeconômicos e acadêmicos sobre a nota dos cursos de Computação do Norte e do Nordeste, usando um modelo preditivo (Random Forest) e explicando suas decisões com SHAP. Na validação cruzada repetida, o modelo explica cerca de metade da variação da nota (R² = 0,49 ± 0,14).',
     fontes: [
       'tbl_arq3_2021 (notas)',
       'tbl_arq4_2021 (percepções)',
@@ -36,7 +36,7 @@ export const METODOLOGIA: Record<Topico, MetodologiaTopico> = {
       },
       {
         titulo: 'Índice socioeconômico (PCA)',
-        descricao: 'Renda familiar (QE_I08), situação financeira (QE_I09) e intensidade de trabalho (QE_I10) medem o mesmo fundo socioeconômico e já eram fortes isoladamente. Um PCA condensa as três em dois eixos, PCA_ECON_1 e PCA_ECON_2 (94,7% da variação). O 1º eixo sozinho explica 71%.',
+        descricao: 'Renda familiar (QE_I08), situação financeira (QE_I09) e intensidade de trabalho (QE_I10) medem o mesmo fundo socioeconômico e já eram fortes isoladamente. Um PCA condensa as três em dois eixos, PCA_ECON_1 e PCA_ECON_2 (94,7% da variação). O 1º eixo sozinho explica 71%. O PCA faz parte do modelo e é ajustado só com os cursos de treino.',
       },
       {
         titulo: 'Seleção de variáveis',
@@ -44,7 +44,7 @@ export const METODOLOGIA: Record<Topico, MetodologiaTopico> = {
       },
       {
         titulo: 'Treino e avaliação (Random Forest)',
-        descricao: 'Um Random Forest de 200 árvores (profundidade máxima 5) prevê a nota geral. Cursos com mais alunos pesam mais (sample_weight = QT_ALUNOS). O modelo é avaliado em 20% dos cursos, nunca vistos no treino: R² = 0,498, MAE = 3,03 e RMSE = 3,82. Depois é reajustado com 100% dos cursos para publicar.',
+        descricao: 'Um Random Forest de 200 árvores (profundidade máxima 5) prevê a nota do curso centrada pela média nacional da área (Ciência da Computação ou Sistemas de Informação), porque as provas das duas áreas são diferentes. Cursos com mais alunos pesam mais (sample_weight = QT_ALUNOS). A avaliação principal é a validação cruzada repetida (5 partes, 10 repetições): R² = 0,49 ± 0,14 e erro médio de 3,4 pontos. Depois o modelo é reajustado com 100% dos cursos para publicar, e a nota prevista volta para a escala original.',
       },
       {
         titulo: 'Explicabilidade (SHAP)',
@@ -58,12 +58,12 @@ export const METODOLOGIA: Record<Topico, MetodologiaTopico> = {
   },
   clusters: {
     titulo: 'Agrupamento de perfis',
-    resumo: 'Segmenta os cursos em 3 grupos com perfil semelhante de infraestrutura, ingresso por cotas e bolsa ou financiamento — sem usar a nota para formar os grupos, só para nomeá-los depois.',
+    resumo: 'Segmenta os cursos em 3 grupos com perfil semelhante de infraestrutura, ingresso por cotas e bolsa ou financiamento — sem usar a nota para formar os grupos. Os grupos são nomeados pelo perfil de financiamento, que é o que os separa.',
     fontes: ['tbl_arq3_2021 (notas)', 'tbl_arq4_2021 (infraestrutura)', 'tbl_arq21_2021 (cotas)', 'tbl_arq17_2021 (bolsa/financiamento)'],
     passos: [
       {
         titulo: 'Tratamento por fonte',
-        descricao: 'Infraestrutura das aulas práticas (QE_I63), forma de ingresso (QE_I15) e bolsa ou financiamento (QE_I11) são categóricas: cada resposta vira uma coluna (one-hot) e calcula-se a proporção de alunos do curso em cada uma. Em QE_I63, "não sei" (7) e "não se aplica" (8) são excluídos. Cursos com menos de 5 alunos saem.',
+        descricao: 'Infraestrutura das aulas práticas (QE_I63), forma de ingresso (QE_I15) e bolsa ou financiamento (QE_I11) são categóricas: cada resposta vira uma coluna (one-hot) e calcula-se a proporção de alunos do curso em cada uma. Em QE_I63, "não sei" (7) e "não se aplica" (8) são excluídos. Notas (NT_GER) nulas ou zeradas são descartadas, como na regressão. Cursos com menos de 5 alunos saem.',
       },
       {
         titulo: 'Junção (inner join)',
@@ -75,11 +75,11 @@ export const METODOLOGIA: Record<Topico, MetodologiaTopico> = {
       },
       {
         titulo: 'Agrupamento (K-Means, 3 grupos)',
-        descricao: 'O K-Means agrupa os cursos em 3 grupos, minimizando a distância entre cursos do mesmo grupo. A nota (NT_GER) fica fora: usá-la para formar os grupos e depois nomeá-los por ela seria circular. A bolsa ou financiamento (QE_I11) entrou porque separa cursos gratuitos de pagos e deixou os grupos mais coesos (silhouette de 0,142 para 0,211).',
+        descricao: 'O K-Means agrupa os cursos em 3 grupos, minimizando a distância entre cursos do mesmo grupo. A nota (NT_GER) fica fora: usá-la para formar os grupos e depois nomeá-los por ela seria circular. A bolsa ou financiamento (QE_I11) entrou porque separa cursos gratuitos de pagos e deixou os grupos mais coesos (silhouette de 0,142 para 0,212). O K-Means roda com 50 inicializações e fica a solução mais coesa; com menos, o resultado podia mudar conforme a semente.',
       },
       {
         titulo: 'Nomeação pelos resultados',
-        descricao: 'Depois de formados, os grupos são nomeados pelo ranking de nota média: Desempenho Alto (73 cursos, quase todos gratuitos), Médio (16) e Baixo (72). O número do cluster (Cluster_ID) é arbitrário e pode mudar entre retreinos; o nome não.',
+        descricao: 'Depois de formados, os grupos são nomeados pelo perfil de financiamento (QE_I11), que é o que os separa: Públicas gratuitas (74 cursos), Privadas pagas ou com FIES (79) e Privadas com ProUni parcial (8). O número do cluster (Cluster_ID) é arbitrário e pode mudar entre retreinos; o nome não.',
       },
       {
         titulo: 'Redução para 2D (PCA)',

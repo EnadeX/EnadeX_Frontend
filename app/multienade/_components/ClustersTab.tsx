@@ -7,7 +7,7 @@ import { amostrar, scalePca } from '@/lib/multienade/utils'
 import { VariaveisInfo } from './VariaveisInfo'
 
 export function ClustersTab({ clusters }: { clusters: ClusterRow[] }) {
-  // Um item de legenda por cluster, com o nome calculado pelo backend (ranking de nota média).
+  // Um item de legenda por cluster, com o nome calculado pelo backend (perfil de financiamento).
   const grupos = useMemo(() => {
     const porId = new Map<number, { id: number; nome: string; n: number }>()
     for (const c of clusters) {
