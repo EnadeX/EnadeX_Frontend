@@ -5,6 +5,7 @@ import { QueryBoundary } from '@/app/enade-time/_components/feedback/QueryBounda
 import { Card, CardHeader } from '@/app/enade-time/_components/ui/Card'
 import { formatDecimal, formatInt } from '@/lib/enade-time/format'
 import { useResumoRegiao } from '@/lib/enade-time/hooks/useAnalises'
+import { NOTA_DESVIO } from '@/lib/enade-time/descritiva'
 import { useFiltrosUrl } from '@/lib/enade-time/hooks/useFiltrosUrl'
 import { tabela, tabelaHead, td, th, trLinha } from '@/lib/enade-time/ui'
 
@@ -36,7 +37,9 @@ export default function EnadeRegional() {
                     <th className={`${th} text-right`}>Máxima FG</th>
                     <th className={`${th} text-right`}>Desvio-padrão FG</th>
                     <th className={`${th} text-right`}>Média CE</th>
+                    <th className={`${th} text-right`}>Desvio-padrão CE</th>
                     <th className={`${th} text-right`}>Média GER</th>
+                    <th className={`${th} text-right`}>Desvio-padrão GER</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -47,14 +50,23 @@ export default function EnadeRegional() {
                       <td className={`${td} text-right`}>{formatDecimal(r.media_geral, 2)}</td>
                       <td className={`${td} text-right`}>{formatDecimal(r.media_min, 2)}</td>
                       <td className={`${td} text-right`}>{formatDecimal(r.media_max, 2)}</td>
-                      <td className={`${td} text-right`}>{formatDecimal(r.desvio_padrao, 2)}</td>
+                      <td className={`${td} text-right`}>
+                        {formatDecimal(r.desvio_padrao_fg_curso_ano, 2)}
+                      </td>
                       <td className={`${td} text-right`}>{formatDecimal(r.media_geral_ce, 2)}</td>
+                      <td className={`${td} text-right`}>
+                        {formatDecimal(r.desvio_padrao_ce_curso_ano, 2)}
+                      </td>
                       <td className={`${td} text-right`}>{formatDecimal(r.media_geral_ger, 2)}</td>
+                      <td className={`${td} text-right`}>
+                        {formatDecimal(r.desvio_padrao_ger_curso_ano, 2)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+            <p className="mt-3 text-small text-ink-muted">{NOTA_DESVIO}</p>
           </Card>
         </>
       )}
