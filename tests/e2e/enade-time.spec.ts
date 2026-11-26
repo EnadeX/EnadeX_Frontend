@@ -88,4 +88,26 @@ test.describe('ENADE-Time', () => {
       expect(Math.max(...pesos)).toBeLessThanOrEqual(500)
     })
   }
+
+  // Correção estatística (25/11/2026): "Por Ano" não agrega nem ordena edições e traz a estatística descritiva por
+  // curso-ano. Valores conferidos contra tests/fixtures/enade-time/descritiva.json (modo simulado).
+  test('anual: sem "Média NT GER" nem "Melhor ano"; tabela descritiva por edição (curso-ano)', async ({ page }) => {
+    test.skip(!SIMULADO, 'valores conferidos contra a fixture')
+    await abrir(page, '/enade-time/enade/anual')
+    const main = page.locator('main')
+    await expect(main.getByText('Melhor ano')).toHaveCount(0)
+    await expect(main.getByText('Média NT GER', { exact: true })).toHaveCount(0)
+    for (const rotulo of ['Registros (filtro)', 'Cursos (curso-ano)', 'Edições no recorte', 'Desvio-padrão entre cursos (NT GER)'])
+      await expect(main.getByText(rotulo, { exact: true })).toBeVisible()
+    await expect(main.getByText('Por edição', { exact: true })).toBeVisible()
+    await expect(main.getByRole('heading', { name: 'Estatística descritiva por edição (unidade curso-ano)' })).toBeVisible()
+    const tabela = main.getByRole('table')
+    await expect(tabela.getByRole('columnheader')).toHaveText(['Ano', 'Cursos', 'Média', 'DP', 'Variância', 'CV (%)', 'Mín', 'Q1', 'Mediana', 'Q3', 'Máx'])
+    await expect(tabela.getByRole('rowheader')).toHaveText(['2005', '2008', '2011', '2014', '2017', '2021'])
+    const l2005 = tabela.getByRole('row').filter({ has: page.getByRole('rowheader', { name: '2005' }) })
+    await expect(l2005.getByRole('cell')).toHaveText(['110', '33,11', '6,93', '48,08', '20,9', '0,99', '29,09', '33,03', '37,87', '49,25'])
+    await page.getByLabel('Nota').selectOption('nt_fg')
+    await expect(l2005.getByRole('cell')).toHaveText(['110', '54,85', '8,73', '76,15', '15,9', '4,06', '50,62', '55,73', '59,69', '70,61'])
+    await expect(main.getByText('As edições não são diretamente comparáveis; 2005 e 2008 incluem ingressantes.')).toBeVisible()
+  })
 })
